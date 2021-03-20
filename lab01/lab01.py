@@ -1,24 +1,14 @@
-from graph_representation.Graph import Graph
-import sys
+import os, sys
+currentdir = os.path.dirname(os.path.realpath(__file__))
+parentdir = os.path.dirname(currentdir)
+sys.path.append(parentdir)
+from graph.representations.GraphRepresentation import GraphRepresentation
 
 if __name__ == "__main__":
-    G = Graph() 
-
-    filename = input("Nazwa pliku\n") 
-    file = open(filename, 'r')
-    content = file.read().split('\n')
-
-    mode = int(input('[1] - macierz sąsiedztwa\n[2] - lista sąsiedztwa\n[3] - macierz incydencji\n'))
-    if mode == 1:
-        G.create_adjacency_matrix(content)
-    elif mode == 2:
-        G.create_adjacency_list(content)
-    elif mode == 3:
-        G.create_incidence_matrix(content)
-
-    print(G)
-    
-
+    G = GraphRepresentation()
+    G.create_adjacency_matrix(os.path.dirname(__file__) + '/files/adjmat.txt')
+    G.create_incidence_matrix(os.path.dirname(__file__) + '/files/incmat.txt')
+    G.create_adjacency_list(os.path.dirname(__file__) + '/files/adjlist.txt')
 
     
     
