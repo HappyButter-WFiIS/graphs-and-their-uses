@@ -43,9 +43,11 @@ class GraphRepresentation:
 
     def __create(self, content: str):
         self.repr.clear()
+
         for line in content:
             row = list()
             line = line.split(' ')
+
             if self.repr_type == RepresentationType.ADJACENCY_LIST:
                 line = line[1:]
             for elem in line:
@@ -84,7 +86,17 @@ class GraphRepresentation:
     To Adjacency Matrix
     """
     def __from_adjlist_to_adjmat(self):
-        pass
+        adjmat_repr = list()
+        count_nodes = len(self.repr)
+
+        for i, row in enumerate(self.repr):
+            adjmat_repr.append(list([0] * count_nodes))
+            
+            for value in row:
+                adjmat_repr[i][value-1] = 1
+
+        self.repr = adjmat_repr
+        self.repr_type = RepresentationType.ADJACENCY_MATRIX
     
     def __from_incmat_to_adjmat(self):
         pass
@@ -94,7 +106,19 @@ class GraphRepresentation:
     To Adjacency List
     """
     def __from_adjmat_to_adjlist(self):
-        pass
+        adjlist_repr = list()
+    
+        for i, row in enumerate(self.repr):
+            adjlist_repr_row = list()
+
+            for j, element in enumerate(row):
+                if(element == 1):
+                    adjlist_repr_row.append(j+1)
+
+            adjlist_repr.append(adjlist_repr_row)
+
+        self.repr = adjlist_repr
+        self.repr_type = RepresentationType.ADJACENCY_LIST
 
     def __from_incmat_to_adjlist(self):
         pass
@@ -104,7 +128,28 @@ class GraphRepresentation:
     To Incidence Matrix
     """
     def __from_adjmat_to_incmat(self):
-        pass
+        incmat_repr = list()
+
+        count_edges = self.__count_edges()
+        count_nodes = len(self.repr)
+
+        # prepare matrix filled with zeros
+        for i in range(count_nodes):
+            incmat_repr.append(list([0] * count_edges))
+            
+        # fill matrix with apropriate values
+        current_edge = 0
+
+        for i, row in enumerate(self.repr):
+            for j in range(i):
+                if(row[j] == 1):
+                    incmat_repr[i][current_edge] = 1
+                    incmat_repr[j][current_edge] = 1
+                    current_edge += 1 
+
+        self.repr = incmat_repr
+        self.repr_type = RepresentationType.INCIDENCE_MATRIX
+
 
     def __from_adjlist_to_incmat(self):
         pass
@@ -113,7 +158,7 @@ class GraphRepresentation:
     """
     Helper methods
     """
-    def count_edges(self) -> int:
+    def __count_edges(self) -> int:
         sum_edges = 0
 
         if self.repr_type == RepresentationType.ADJACENCY_LIST:

@@ -7,7 +7,5 @@ from graph.representations.GraphRepresentation import GraphRepresentation, Repre
 if __name__ == "__main__":
     G = GraphRepresentation()
     G.create_representation(os.path.dirname(__file__) + '/files/adjmat.txt', RepresentationType.ADJACENCY_MATRIX)
-    print(G.count_edges())
-
-    # G.create_representation(os.path.dirname(__file__) + '/files/incmat.txt', RepresentationType.INCIDENCE_MATRIX)
-    # G.create_representation(os.path.dirname(__file__) + '/files/adjlist.txt', RepresentationType.ADJACENCY_LIST)
+    G.create_representation(os.path.dirname(__file__) + '/files/incmat.txt', RepresentationType.INCIDENCE_MATRIX)
+    G.create_representation(os.path.dirname(__file__) + '/files/adjlist.txt', RepresentationType.ADJACENCY_LIST)
