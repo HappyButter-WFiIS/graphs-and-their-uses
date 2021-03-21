@@ -6,7 +6,7 @@
 - random graph generation
 - visualization
 
-###To be continued...
-###lab02
-###lab03
-###lab04
+### To be continued...
+### lab02
+### lab03
+### lab04
