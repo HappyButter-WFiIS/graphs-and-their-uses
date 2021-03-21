@@ -32,7 +32,7 @@ class GraphRepresentation:
         print(self)
 
 
-    def __read_file(self, filename: str): 
+    def __read_file(self, filename: str) -> str: 
         try:
             file = open(filename, 'r')
             return file.read().split('\n')
@@ -135,6 +135,7 @@ class GraphRepresentation:
         self.repr = adjlist_repr
         self.repr_type = RepresentationType.ADJACENCY_LIST
 
+
     def __from_incmat_to_adjlist(self):
         count_edges = self.__count_edges()
         count_nodes = len(self.repr)
@@ -153,6 +154,7 @@ class GraphRepresentation:
 
         self.repr = adjlist_repr
         self.repr_type = RepresentationType.ADJACENCY_LIST
+
 
     """
     To Incidence Matrix
@@ -224,4 +226,5 @@ class GraphRepresentation:
             sum_edges = len(self.repr[0])
        
         return int(sum_edges)
+        
     
