@@ -99,9 +99,24 @@ class GraphRepresentation:
         self.repr_type = RepresentationType.ADJACENCY_MATRIX
     
     def __from_incmat_to_adjmat(self):
-        pass
+        count_edges = self.__count_edges()
+        count_nodes = len(self.repr)
+        adjmat_repr = list()
 
-
+        for i, row in enumerate(self.repr):
+            adjmat_repr.append(list([0] * count_nodes))
+        
+        for edge_index in range(count_edges):
+            edge = list()
+            for vertex_index in range(count_nodes):
+                if self.repr[vertex_index][edge_index] == 1:
+                    edge.append(vertex_index)
+            adjmat_repr[edge[0]][edge[1]] = 1
+            adjmat_repr[edge[1]][edge[0]] = 1
+        
+        self.repr = adjmat_repr
+        self.repr_type = RepresentationType.ADJACENCY_MATRIX
+    
     """
     To Adjacency List
     """
@@ -121,8 +136,23 @@ class GraphRepresentation:
         self.repr_type = RepresentationType.ADJACENCY_LIST
 
     def __from_incmat_to_adjlist(self):
-        pass
+        count_edges = self.__count_edges()
+        count_nodes = len(self.repr)
+        adjlist_repr = list()
 
+        for index in range(count_nodes):
+            adjlist_repr.append(list())
+
+        for edge_index in range(count_edges):
+            edge = list()
+            for vertex_index in range(count_nodes):
+                if self.repr[vertex_index][edge_index] == 1:
+                    edge.append(vertex_index)
+            adjlist_repr[edge[0]].append(edge[1] + 1)
+            adjlist_repr[edge[1]].append(edge[0] + 1)
+
+        self.repr = adjlist_repr
+        self.repr_type = RepresentationType.ADJACENCY_LIST
 
     """
     To Incidence Matrix
@@ -152,8 +182,27 @@ class GraphRepresentation:
 
 
     def __from_adjlist_to_incmat(self):
-        pass
-    
+        count_edges = self.__count_edges()
+        count_nodes = len(self.repr)
+        edges_list = list()
+        incmat_repr = list()
+
+        for index, row in enumerate(self.repr):
+            for vertex in row:
+                edge = (index, vertex - 1)
+                if edge not in edges_list and (vertex - 1, index) not in edges_list:
+                    edges_list.append(edge)
+
+        for i in range(count_nodes):
+            incmat_repr.append(list([0] * count_edges))
+        
+        for edge_index, edge in enumerate(edges_list):
+            incmat_repr[edge[0]][edge_index] = 1
+            incmat_repr[edge[1]][edge_index] = 1
+
+        self.repr = incmat_repr
+        self.repr_type = RepresentationType.INCIDENCE_MATRIX
+
     
     """
     Helper methods
