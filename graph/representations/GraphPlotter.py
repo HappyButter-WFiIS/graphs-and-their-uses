@@ -3,7 +3,7 @@ import numpy as np
 
 
 def plot_graph(source_matrix):
-    num_of_nodes = source_matrix.shape[0]
+    num_of_nodes = len(source_matrix)
     ax = prepare_plot()
     draw_edges(num_of_nodes, source_matrix)
     draw_nodes(num_of_nodes, ax)
@@ -34,7 +34,7 @@ def draw_nodes(num_of_nodes, ax):
 def draw_edges(num_of_nodes, source_matrix):
     for row in range(num_of_nodes):
         for col in range(row):
-            if source_matrix[row, col] == 0:
+            if source_matrix[row][col] == 0:
                 continue
             xx = [np.sin(2 * np.pi / num_of_nodes * col),
                   np.sin(2 * np.pi / num_of_nodes * row)]
