@@ -31,7 +31,6 @@ class GraphRepresentation:
     def create_representation(self, filename: str, representation_type: RepresentationType):
         self.repr_type = representation_type
         self.__create(self.__read_file(filename))
-        print(self)
 
     def __read_file(self, filename: str) -> str:
         try:
@@ -66,21 +65,18 @@ class GraphRepresentation:
             self.__from_adjlist_to_adjmat()
         elif self.repr_type == RepresentationType.INCIDENCE_MATRIX:
             self.__from_incmat_to_adjmat()
-        print(self)
 
     def to_adjacency_list(self):
         if self.repr_type == RepresentationType.ADJACENCY_MATRIX:
             self.__from_adjmat_to_adjlist()
         elif self.repr_type == RepresentationType.INCIDENCE_MATRIX:
             self.__from_incmat_to_adjlist()
-        print(self)
 
     def to_incidence_matrix(self):
         if self.repr_type == RepresentationType.ADJACENCY_LIST:
             self.__from_adjlist_to_incmat()
         elif self.repr_type == RepresentationType.ADJACENCY_MATRIX:
             self.__from_adjmat_to_incmat()
-        print(self)
 
     """
     To Adjacency Matrix

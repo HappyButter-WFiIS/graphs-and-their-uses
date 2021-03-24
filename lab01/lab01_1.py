@@ -10,13 +10,22 @@ from utils.GraphPlotter import plot_graph
 if __name__ == "__main__":
     G = GraphRepresentation()
     G.create_representation(os.path.dirname(__file__) + '/inputs/adjmat.txt', RepresentationType.ADJACENCY_MATRIX)
+    print(G)
     G.to_adjacency_list()
+    print(G)
     G.to_incidence_matrix()
+    print(G)
 
     G.create_representation(os.path.dirname(__file__) + '/inputs/incmat.txt', RepresentationType.INCIDENCE_MATRIX)
+    print(G)
     G.to_adjacency_list()
+    print(G)
     G.to_adjacency_matrix()
+    print(G)
     
     G.create_representation(os.path.dirname(__file__) + '/inputs/adjlist.txt', RepresentationType.ADJACENCY_LIST)
+    print(G)
     G.to_adjacency_matrix()
+    print(G)
     G.to_incidence_matrix()
+    print(G)
