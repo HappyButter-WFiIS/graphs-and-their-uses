@@ -24,4 +24,9 @@ def get_graph_with_probability(num_of_nodes: int, probability: float) -> np.ndar
 
     for i in range(num_of_nodes):
         graph[i][i] = False
+
+    for i in range(num_of_nodes):
+        for j in range(i+1):
+            graph[i][j] = graph[j][i]
+
     return np.asarray(graph, dtype=int)
