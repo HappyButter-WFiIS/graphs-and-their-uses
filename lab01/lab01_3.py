@@ -1,10 +1,13 @@
-import os
+import os, sys
 import numpy as np
+
+currentdir = os.path.dirname(os.path.realpath(__file__))
+parentdir = os.path.dirname(currentdir)
+sys.path.append(parentdir)
 
 from utils.GraphRepresentation import GraphRepresentation, RepresentationType
 from utils.GraphPlotter import plot_graph
-from utils.graph_generators import get_graph_with_probability
-from utils.graph_generators import get_graph_by_vertices_and_edges
+from utils.graph_generators import get_graph_with_probability, get_graph_by_vertices_and_edges
 
 
 if __name__ == "__main__":
