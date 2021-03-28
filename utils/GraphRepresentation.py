@@ -6,6 +6,7 @@ class RepresentationType(Enum):
     ADJACENCY_MATRIX = 1
     ADJACENCY_LIST = 2
     INCIDENCE_MATRIX = 3
+    GRAPH_SEQUENCE = 4
 
 
 class GraphRepresentation:
@@ -31,6 +32,10 @@ class GraphRepresentation:
     def create_representation(self, filename: str, representation_type: RepresentationType):
         self.repr_type = representation_type
         self.__create(self.__read_file(filename))
+
+    def load_data(self, data: list, representation_type: RepresentationType):
+        self.repr_type = representation_type
+        self.repr = data
 
     def __read_file(self, filename: str) -> str:
         try:
@@ -71,6 +76,8 @@ class GraphRepresentation:
             self.__from_adjmat_to_adjlist()
         elif self.repr_type == RepresentationType.INCIDENCE_MATRIX:
             self.__from_incmat_to_adjlist()
+        elif self.repr_type == RepresentationType.GRAPH_SEQUENCE:
+            self.__from_sequence_to_adjlist()
 
     def to_incidence_matrix(self):
         if self.repr_type == RepresentationType.ADJACENCY_LIST:
@@ -201,6 +208,22 @@ class GraphRepresentation:
         self.repr = incmat_repr
         self.repr_type = RepresentationType.INCIDENCE_MATRIX
 
+    def __from_sequence_to_adjlist(self):
+        enumerated_data = [[idx, conn] for idx, conn in enumerate(self.repr)]
+        adjacency_list = [[] for _ in range(len(enumerated_data))]
+        for _ in range(len(enumerated_data)):
+            enumerated_data.sort(reverse=True, key=lambda x: x[1])
+            i = 0
+            j = 1
+            while enumerated_data[i][1] > 0 and j < len(enumerated_data):
+                adjacency_list[enumerated_data[i][0]].append(enumerated_data[j][0]+1)
+                adjacency_list[enumerated_data[j][0]].append(enumerated_data[i][0]+1)
+                enumerated_data[i][1] -= 1
+                enumerated_data[j][1] -= 1
+                j += 1
+
+        self.repr = adjacency_list
+        self.repr_type = RepresentationType.ADJACENCY_LIST
     """
     Helper methods
     """
