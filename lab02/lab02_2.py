@@ -8,13 +8,6 @@ sys.path.append(parentdir)
 from utils.GraphRepresentation import GraphRepresentation, RepresentationType
 from utils.GraphPlotter import plot_graph
 
-G = GraphRepresentation()
-G.load_data([4, 2, 2, 3, 2, 1, 4, 2, 2, 2, 2], RepresentationType.GRAPH_SEQUENCE)
-
-G.to_adjacency_list()
-G.to_adjacency_matrix()
-
-
 def randomize(G):
     edges = []
     for i in range(len(G.repr)):
@@ -36,8 +29,12 @@ def randomize(G):
         G.repr[a][d] = G.repr[d][a] = 1
         G.repr[c][b] = G.repr[b][c] = 1
 
+if __name__ == "__main__":
+    G = GraphRepresentation()
+    G.load_data([4, 2, 2, 3, 2, 1, 4, 2, 2, 2, 2], RepresentationType.GRAPH_SEQUENCE)
+    G.to_adjacency_matrix()
 
-plot_graph(G.repr)
-for _ in range(1000):
-    randomize(G)
-plot_graph(G.repr)
+    plot_graph(G.repr)
+    for _ in range(1000):
+        randomize(G)
+    plot_graph(G.repr)

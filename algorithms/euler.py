@@ -1,3 +1,4 @@
+from random import randint
 
 def dfs(graph: list, vertex: int) -> list:
     path = list()
@@ -15,3 +16,6 @@ def euler_cycle(graph: list) -> str:
     cycle = dfs(graph, 1)
     cycle.reverse()
     return '[' + ' - '.join(cycle) + ']'
+
+def generate_euler_graph_degrees(vertices: int) -> list:
+    return [2 * (randint(2, vertices-1) // 2) for _ in range(vertices)]

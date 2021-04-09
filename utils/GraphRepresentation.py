@@ -70,6 +70,9 @@ class GraphRepresentation:
             self.__from_adjlist_to_adjmat()
         elif self.repr_type == RepresentationType.INCIDENCE_MATRIX:
             self.__from_incmat_to_adjmat()
+        elif self.repr_type == RepresentationType.GRAPH_SEQUENCE:
+            self.__from_sequence_to_adjlist()
+            self.__from_adjlist_to_adjmat()
 
     def to_adjacency_list(self):
         if self.repr_type == RepresentationType.ADJACENCY_MATRIX:
@@ -84,6 +87,9 @@ class GraphRepresentation:
             self.__from_adjlist_to_incmat()
         elif self.repr_type == RepresentationType.ADJACENCY_MATRIX:
             self.__from_adjmat_to_incmat()
+        elif self.repr_type == RepresentationType.GRAPH_SEQUENCE:
+            self.__from_sequence_to_adjlist()
+            self.__from_adjlist_to_incmat()
 
     """
     To Adjacency Matrix
