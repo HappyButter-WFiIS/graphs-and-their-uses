@@ -6,15 +6,16 @@ sys.path.append(parentdir)
 
 from utils.GraphRepresentation import GraphRepresentation, RepresentationType
 from utils.GraphPlotter import plot_graph
-from algorithms.euler import euler_cycle, generate_euler_graph_degrees
+from algorithms.euler import euler_cycle, generate_euler_graph_sequence
 from lab02_2 import randomize
 
 randomizations = 100
 
 if __name__ == "__main__":
-    v = int(input('Number of vertices: '))
+    v = int(input('Number of vertices: ')) # 10-50 should be fine
     G = GraphRepresentation()
-    G.load_data([4, 2, 6, 2, 6, 2, 4, 2], RepresentationType.GRAPH_SEQUENCE)
+    G.load_data(generate_euler_graph_sequence(v), RepresentationType.GRAPH_SEQUENCE)
+    print(G.repr)
     G.to_adjacency_matrix()
 
     for _ in range(randomizations):
@@ -24,3 +25,4 @@ if __name__ == "__main__":
     print(euler_cycle(copy.deepcopy(G.repr)))
     G.to_adjacency_matrix()
     plot_graph(G.repr)
+    

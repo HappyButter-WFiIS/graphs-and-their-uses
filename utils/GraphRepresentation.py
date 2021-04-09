@@ -90,6 +90,14 @@ class GraphRepresentation:
         elif self.repr_type == RepresentationType.GRAPH_SEQUENCE:
             self.__from_sequence_to_adjlist()
             self.__from_adjlist_to_incmat()
+        
+    def to_graphical_sequence(self):
+        if self.repr_type == RepresentationType.ADJACENCY_LIST:
+            self.__from_adjlist_to_sequence()
+        elif self.repr_type == RepresentationType.ADJACENCY_MATRIX:
+            self.__from_adjmat_to_sequence()
+        elif self.repr_type == RepresentationType.INCIDENCE_MATRIX:
+            self.__from_incmat_to_sequence()
 
     """
     To Adjacency Matrix
@@ -231,6 +239,28 @@ class GraphRepresentation:
         self.repr = adjacency_list
         self.repr_type = RepresentationType.ADJACENCY_LIST
     """
+    To Graphical Sequence
+    """
+
+    def __from_adjmat_to_sequence(self):
+        graphical_sequence = [sum(x) for x in self.repr]
+
+        self.repr = graphical_sequence
+        self.repr_type = RepresentationType.GRAPH_SEQUENCE
+
+    def __from_adjlist_to_sequence(self):
+        graphical_sequence = [len(x) for x in self.repr]
+
+        self.repr = graphical_sequence
+        self.repr_type = RepresentationType.GRAPH_SEQUENCE
+    
+    def __from_incmat_to_sequence(self):
+        graphical_sequence = [sum(x) for x in self.repr]
+
+        self.repr = graphical_sequence
+        self.repr_type = RepresentationType.GRAPH_SEQUENCE
+
+    """
     Helper methods
     """
 
@@ -249,5 +279,8 @@ class GraphRepresentation:
 
         elif self.repr_type == RepresentationType.INCIDENCE_MATRIX:
             sum_edges = len(self.repr[0])
+        
+        elif self.repr_type == RepresentationType.GRAPH_SEQUENCE:
+            sum_edges = sum(self.repr) / 2
 
         return int(sum_edges)
