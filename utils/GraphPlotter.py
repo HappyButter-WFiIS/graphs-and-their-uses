@@ -1,18 +1,35 @@
 import matplotlib.pyplot as plot
 import numpy as np
 
+colors = [
+    'blue',
+    'red',
+    'green',
+    'yellow',
+    'gray',
+    'pink',
+    'orange',
+    'purple'
+]
 
-def plot_graph(source_matrix):
+
+def plot_graph(source_matrix, groups=None):
     num_of_nodes = len(source_matrix)
+    if groups is None:
+        groups = [0] * num_of_nodes
+    for i in range(len(groups)):
+        if(groups[i] > len(colors)-1):
+            groups[i] = 0
     ax = prepare_plot()
     draw_edges(num_of_nodes, source_matrix)
-    draw_nodes(num_of_nodes, ax)
+    draw_nodes(num_of_nodes, ax, groups)
 
     plot.show()
 
 
 def prepare_plot():
-    circle = plot.Circle((0, 0), 1, color='gray', fill=False, linestyle="--", clip_on=False)
+    circle = plot.Circle((0, 0), 1, color='gray', fill=False,
+                         linestyle="--", clip_on=False)
     fig, ax = plot.subplots()
     plot.axis('off')
     ax.add_patch(circle)
@@ -22,12 +39,14 @@ def prepare_plot():
     return ax
 
 
-def draw_nodes(num_of_nodes, ax):
+def draw_nodes(num_of_nodes, ax, groups):
     for i in range(num_of_nodes):
         x = np.sin(2 * np.pi / num_of_nodes * i)
         y = np.cos(2 * np.pi / num_of_nodes * i)
-        node = plot.Circle((x, y), 0.1, clip_on=False, zorder=3)
-        ax.annotate(str(i + 1), xy=(x, y), fontsize=15, ha="center", va="center")
+        node = plot.Circle((x, y), 0.1, clip_on=False, zorder=3,
+                           color=colors[groups[i]])
+        ax.annotate(str(i + 1), xy=(x, y), fontsize=15,
+                    ha="center", va="center")
         ax.add_patch(node)
 
 
