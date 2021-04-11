@@ -24,7 +24,6 @@ def gen_random_conn_graph_weighted(size): # size is num of vertices
     while flag == 1:
         G = [[0] * size for i in range(size)]
         p = random.randint(1,10) # more or less roll graph density here
-        print(p)
         for i in range(size):
             for j in range(size):
                 if random.randint(1,10) <= p:
