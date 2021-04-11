@@ -284,3 +284,16 @@ class GraphRepresentation:
             sum_edges = sum(self.repr) / 2
 
         return int(sum_edges)
+
+    def is_k_regular(self, k: int) -> bool:
+        if self.repr_type == RepresentationType.ADJACENCY_MATRIX:
+            for line in self.repr:
+                current_k = len(line) - line.count(0)
+                
+                if current_k != k:
+                    return False
+            
+            return True
+        
+        print("Transform to ADJACENCY_MATRIX first.")
+        return False

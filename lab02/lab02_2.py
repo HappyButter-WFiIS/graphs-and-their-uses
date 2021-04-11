@@ -34,7 +34,7 @@ if __name__ == "__main__":
     G.load_data([4, 2, 2, 3, 2, 1, 4, 2, 2, 2, 2], RepresentationType.GRAPH_SEQUENCE)
     G.to_adjacency_matrix()
 
-    plot_graph(G.repr)
+    # plot_graph(G.repr)
     for _ in range(1000):
         randomize(G)
     plot_graph(G.repr)

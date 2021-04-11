@@ -11,7 +11,7 @@ from utils.GraphPlotter import plot_graph
 G = GraphRepresentation()
 G.load_data([4, 2, 2, 3, 2, 1, 4, 2, 2, 2, 2], RepresentationType.GRAPH_SEQUENCE)
 
-G.to_adjacency_list()
+# G.to_adjacency_list()
 G.to_adjacency_matrix()
 
 plot_graph(G.repr)
