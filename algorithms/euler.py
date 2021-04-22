@@ -1,4 +1,4 @@
-from random import random
+from random import randint
 from utils.graph_generators import get_graph_with_probability
 
 def dfs(graph: list, vertex: int) -> list:
@@ -19,7 +19,5 @@ def euler_cycle(graph: list) -> str:
     return '[' + ' - '.join(cycle) + ']'
 
 def generate_euler_graph_sequence(vertices: int) -> list:
-    data = get_graph_with_probability(vertices, 0.5)
-    graphical_sequence = [sum(x) for x in data]
-    graphical_sequence = [x - 1 if x % 2 == 1 else x for x in graphical_sequence]
+    graphical_sequence = [(randint(2, vertices-1) // 2) * 2 for _ in range(vertices)]
     return graphical_sequence

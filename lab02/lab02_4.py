@@ -14,7 +14,10 @@ randomizations = 100
 if __name__ == "__main__":
     v = int(input('Number of vertices: ')) # 10-50 should be fine
     G = GraphRepresentation()
-    G.load_data(generate_euler_graph_sequence(v), RepresentationType.GRAPH_SEQUENCE)
+    while(True):
+        if G.load_data(generate_euler_graph_sequence(v), RepresentationType.GRAPH_SEQUENCE):
+            break
+
     print(G.repr)
     G.to_adjacency_matrix()
 

@@ -1,5 +1,5 @@
 from enum import Enum
-
+from copy import deepcopy
 
 class RepresentationType(Enum):
     EMPTY = 0
@@ -33,9 +33,12 @@ class GraphRepresentation:
         self.repr_type = representation_type
         self.__create(self.__read_file(filename))
 
-    def load_data(self, data: list, representation_type: RepresentationType):
+    def load_data(self, data: list, representation_type: RepresentationType) -> bool:
         self.repr_type = representation_type
         self.repr = data
+        if self.repr_type == RepresentationType.GRAPH_SEQUENCE and self.__isGraphical() == False:
+            return False
+        return True
 
     def __read_file(self, filename: str) -> str:
         try:
@@ -284,6 +287,19 @@ class GraphRepresentation:
             sum_edges = sum(self.repr) / 2
 
         return int(sum_edges)
+
+    def __isGraphical(self) -> bool:
+        data = deepcopy(self.repr)
+        for _ in range(len(data)):
+            data.sort(reverse = True)
+            item = data[0]
+            data[0] = 0
+            for i in range(1, item + 1):
+                data[i] -= 1
+                if data[i] == -1:
+                    return False
+
+        return True 
 
     def is_k_regular(self, k: int) -> bool:
         if self.repr_type == RepresentationType.ADJACENCY_MATRIX:
