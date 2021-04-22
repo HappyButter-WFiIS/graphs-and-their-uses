@@ -36,7 +36,7 @@ class GraphRepresentation:
     def load_data(self, data: list, representation_type: RepresentationType) -> bool:
         self.repr_type = representation_type
         self.repr = data
-        if self.repr_type == RepresentationType.GRAPH_SEQUENCE and self.__isGraphical() == False:
+        if self.repr_type == RepresentationType.GRAPH_SEQUENCE and self.__is_graphical() == False:
             return False
         return True
 
@@ -288,7 +288,7 @@ class GraphRepresentation:
 
         return int(sum_edges)
 
-    def __isGraphical(self) -> bool:
+    def __is_graphical(self) -> bool:
         data = deepcopy(self.repr)
         for _ in range(len(data)):
             data.sort(reverse = True)
