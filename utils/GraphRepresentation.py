@@ -7,6 +7,8 @@ class RepresentationType(Enum):
     ADJACENCY_LIST = 2
     INCIDENCE_MATRIX = 3
     GRAPH_SEQUENCE = 4
+    ADJACENCY_MATRIX_WITH_WEIGHTS = 5
+    ADJACENCY_LIST_WITH_WEIGHTS = 6
 
 
 class GraphRepresentation:
@@ -313,3 +315,19 @@ class GraphRepresentation:
         
         print("Transform to ADJACENCY_MATRIX first.")
         return False
+
+
+    def get_weighted_adjacency_list(self) -> dict:
+        if self.repr_type == RepresentationType.ADJACENCY_MATRIX_WITH_WEIGHTS:    
+            adjlist_repr = {}
+
+            for i, row in enumerate(self.repr):
+                adjlist_repr_row = {}
+
+                for j, element in enumerate(row):
+                    if (element != 0):
+                        adjlist_repr_row[j+1] = element
+
+                adjlist_repr[i+1] = (adjlist_repr_row)
+            return adjlist_repr
+        return {}
