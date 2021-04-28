@@ -5,7 +5,6 @@ parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
 
 from utils.GraphRepresentation import GraphRepresentation, RepresentationType
-from utils.GraphPlotter import plot_graph
 
 if __name__ == "__main__":
     G = GraphRepresentation()

@@ -5,15 +5,16 @@ parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
 
 from utils.GraphRepresentation import GraphRepresentation, RepresentationType
-from utils.GraphPlotter import plot_graph
+from utils.graph_plotter import plot_graph
+from utils.graph_generators import randomize
 from algorithms.euler import euler_cycle, generate_euler_graph_sequence
-from lab02_2 import randomize
 
-randomizations = 100
 
 if __name__ == "__main__":
+    randomizations = 100
     v = int(input('Number of vertices: ')) # 10-50 should be fine
     G = GraphRepresentation()
+
     while(True):
         if G.load_data(generate_euler_graph_sequence(v), RepresentationType.GRAPH_SEQUENCE):
             break

@@ -1,13 +1,12 @@
-import os, sys, copy
+import os, sys
 
 currentdir = os.path.dirname(os.path.realpath(__file__))
 parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
 
-from utils.graph_generators import gen_random_conn_graph_weighted
 from utils.GraphRepresentation import GraphRepresentation, RepresentationType
-from utils.GraphPlotter import plot_graph
-
+from utils.graph_generators import gen_random_conn_graph_weighted
+from utils.graph_plotter import plot_graph
 from algorithms.dijkstra import find_shortest_path
 
 

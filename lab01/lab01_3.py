@@ -6,7 +6,7 @@ parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
 
 from utils.GraphRepresentation import GraphRepresentation, RepresentationType
-from utils.GraphPlotter import plot_graph
+from utils.graph_plotter import plot_graph
 from utils.graph_generators import get_graph_with_probability, get_graph_by_vertices_and_edges
 
 
