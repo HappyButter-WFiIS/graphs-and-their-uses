@@ -3,16 +3,21 @@ import random
 from array import *
 
 
-def get_graph_by_vertices_and_edges(num_of_vertices: int, num_of_edges: int):
-    vertices_list = list(range(0, num_of_vertices))
-    edges_list = [(a, b) for idx, a in enumerate(vertices_list) for b in
-                  vertices_list[idx + 1:]]  # at the beginning all possible edges
+def get_graph_by_vertices_and_edges(num_of_nodes: int, num_of_edges: int):
+    """
+    Return graph, represented by an incidence matrix, with nodes,
+    which amount is passed by 'num_of_nodes' parameter. These nodes,
+    are linked with randomly chosen edges in a number of 'num_of_edges'.
+    """
+    nodes_list = list(range(0, num_of_nodes))
+    edges_list = [(a, b) for idx, a in enumerate(nodes_list) for b in
+                  nodes_list[idx + 1:]]  # at the beginning all possible edges
 
     while len(edges_list) > num_of_edges:
         random_item_from_edges_list = random.choice(edges_list)  # randomly remove edges to match required number
         edges_list.remove(random_item_from_edges_list)
 
-    graph = [[0] * num_of_edges for i in range(num_of_vertices)]
+    graph = [[0] * num_of_edges for i in range(num_of_nodes)]
     for i in range(num_of_edges):
         graph[edges_list[i][0]][i] = 1  # create graph as incidence matrix
         graph[edges_list[i][1]][i] = 1
@@ -20,6 +25,11 @@ def get_graph_by_vertices_and_edges(num_of_vertices: int, num_of_edges: int):
 
 
 def get_graph_with_probability(num_of_nodes: int, probability: float) -> np.ndarray:
+    """
+    Return graph, represented by 'num_of_nodes' x 'num_of_nodes'
+    adjacency matrix, with connections between nodes, that
+    depend on the 'probability' parameter.
+    """
     graph = np.random.random((num_of_nodes, num_of_nodes))
     graph = graph >= 1 - probability
 
@@ -82,18 +92,22 @@ def randomize(G):
             if G.repr[i][j]:
                 edges.append((i, j))
 
-    first_edge = edges[np.random.randint(len(edges))]
-    second_edge = edges[np.random.randint(len(edges))]
+    if edges:
+        first_edge = edges[np.random.randint(len(edges))]
+        second_edge = edges[np.random.randint(len(edges))]
 
-    a, b = first_edge
-    c, d = second_edge
+        a, b = first_edge
+        c, d = second_edge
 
-    if G.repr[a][d] or G.repr[c][b] or a == d or b == c:
-        randomize(G)
-    else:
-        G.repr[a][b] = G.repr[b][a] = 0
-        G.repr[c][d] = G.repr[d][c] = 0
-        G.repr[a][d] = G.repr[d][a] = 1
-        G.repr[c][b] = G.repr[b][c] = 1
+        if G.repr[a][d] or G.repr[c][b] or a == d or b == c:
+            try:
+                randomize(G)
+            except RecursionError:
+                return
+        else:
+            G.repr[a][b] = G.repr[b][a] = 0
+            G.repr[c][d] = G.repr[d][c] = 0
+            G.repr[a][d] = G.repr[d][a] = 1
+            G.repr[c][b] = G.repr[b][c] = 1
 
 
