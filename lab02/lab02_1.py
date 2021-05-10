@@ -15,4 +15,4 @@ if __name__ == '__main__':
     # G.to_adjacency_list()
     G.to_adjacency_matrix()
 
-    plot_graph(G.repr)
+    plot_graph(G)

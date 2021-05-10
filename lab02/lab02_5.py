@@ -19,5 +19,5 @@ if __name__ == "__main__":
         if G.is_k_regular(2):
             break
     
-    plot_graph(G.repr)
+    plot_graph(G)
 

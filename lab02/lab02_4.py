@@ -12,9 +12,9 @@ from algorithms.euler import euler_cycle, generate_euler_graph_sequence
 
 if __name__ == "__main__":
     randomizations = 100
-    v = int(input('Number of vertices: ')) # 10-50 should be fine
     G = GraphRepresentation()
-
+    v = int(input('Number of vertices: ')) # 10-50 should be fine
+    
     while(True):
         if G.load_data(generate_euler_graph_sequence(v), RepresentationType.GRAPH_SEQUENCE):
             break
@@ -22,11 +22,10 @@ if __name__ == "__main__":
     print(G.repr)
     G.to_adjacency_matrix()
 
-    for _ in range(randomizations):
-        randomize(G)
+    randomize(G, randomizations)
 
     G.to_adjacency_list()
     print(euler_cycle(copy.deepcopy(G.repr)))
     G.to_adjacency_matrix()
-    plot_graph(G.repr)
+    plot_graph(G)
     

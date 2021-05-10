@@ -1,5 +1,6 @@
 import numpy as np
 import random
+from utils.GraphRepresentation import RepresentationType, GraphRepresentation
 from array import *
 
 
@@ -18,7 +19,7 @@ def get_graph_by_vertices_and_edges(num_of_vertices: int, num_of_edges: int) -> 
         random_item_from_edges_list = random.choice(edges_list)
         edges_list.remove(random_item_from_edges_list)
 
-    graph = [[0] * num_of_edges for i in range(num_of_nodes)]
+    graph = [[0] * num_of_edges for i in range(num_of_vertices)]
     for i in range(num_of_edges):
         graph[edges_list[i][0]][i] = 1  # create graph as incidence matrix
         graph[edges_list[i][1]][i] = 1
@@ -86,27 +87,36 @@ def gen_random_conn_graph_weighted(size: int) -> list:
             return G
 
 
-def randomize(G):
-    edges = []
-    for i in range(len(G.repr)):
-        for j in range(i):
-            if G.repr[i][j]:
-                edges.append((i, j))
+def randomize(G : GraphRepresentation, randomizations: int):
+    completed_randomizations = 0
+    iterations = 0
 
-    if edges:
-        first_edge = edges[np.random.randint(len(edges))]
-        second_edge = edges[np.random.randint(len(edges))]
+    while completed_randomizations < randomizations:
+        edges = []
+        iterations += 1
+        if iterations < 10*randomizations:
+            return
 
-        a, b = first_edge
-        c, d = second_edge
+        for i in range(len(G.repr)):
+            for j in range(i):
+                if G.repr[i][j]:
+                    edges.append((i, j))
 
-        if G.repr[a][d] or G.repr[c][b] or a == d or b == c:
-            try:
-                randomize(G)
-            except RecursionError:
-                return
-        else:
-            G.repr[a][b] = G.repr[b][a] = 0
-            G.repr[c][d] = G.repr[d][c] = 0
-            G.repr[a][d] = G.repr[d][a] = 1
-            G.repr[c][b] = G.repr[b][c] = 1
+        if edges:
+            first_edge = edges[np.random.randint(len(edges))]
+            second_edge = edges[np.random.randint(len(edges))]
+
+            a, b = first_edge
+            c, d = second_edge
+
+            if G.repr[a][d] or G.repr[c][b] or a == d or b == c:
+                continue
+            else:
+                G.repr[a][b] = G.repr[b][a] = 0
+                G.repr[c][d] = G.repr[d][c] = 0
+                G.repr[a][d] = G.repr[d][a] = 1
+                G.repr[c][b] = G.repr[b][c] = 1
+                completed_randomizations += 1
+    
+    print(iterations)
+    

@@ -19,4 +19,4 @@ if __name__ == '__main__':
 
     sort_groups(G, groups)
     G.to_adjacency_matrix()
-    plot_graph(G.repr, groups)
+    plot_graph(G, groups)
