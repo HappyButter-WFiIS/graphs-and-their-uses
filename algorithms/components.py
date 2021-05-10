@@ -1,10 +1,6 @@
 
-def max_len(lst):
-    max = 0
-    for i in range(len(lst)):
-        if len(lst[i]) > len(lst[max]):
-            max = i
-    return max
+def get_index_of_max_value(values: list):
+    return values.index(max(values))    
 
 
 def search(G):
@@ -49,4 +45,4 @@ def sort_groups(G, groups):
             separator = ''
         print()
     print("Najwieksza wspolna skladowa ma numer %d." %
-          (max_len(sorted_groups) + 1))
+          (get_index_of_max_value(sorted_groups) + 1))

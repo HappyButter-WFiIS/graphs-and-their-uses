@@ -3,13 +3,14 @@ import random
 from array import *
 
 
-def get_graph_by_vertices_and_edges(num_of_vertices: int, num_of_edges: int):
+def get_graph_by_vertices_and_edges(num_of_vertices: int, num_of_edges: int) -> list:
     vertices_list = list(range(0, num_of_vertices))
     edges_list = [(a, b) for idx, a in enumerate(vertices_list) for b in
                   vertices_list[idx + 1:]]  # at the beginning all possible edges
 
     while len(edges_list) > num_of_edges:
-        random_item_from_edges_list = random.choice(edges_list)  # randomly remove edges to match required number
+        # randomly remove edges to match required number
+        random_item_from_edges_list = random.choice(edges_list)
         edges_list.remove(random_item_from_edges_list)
 
     graph = [[0] * num_of_edges for i in range(num_of_vertices)]
@@ -19,7 +20,7 @@ def get_graph_by_vertices_and_edges(num_of_vertices: int, num_of_edges: int):
     return graph
 
 
-def get_graph_with_probability(num_of_nodes: int, probability: float) -> np.ndarray:
+def get_graph_with_probability(num_of_nodes: int, probability: float) -> list:
     graph = np.random.random((num_of_nodes, num_of_nodes))
     graph = graph >= 1 - probability
 
@@ -30,8 +31,7 @@ def get_graph_with_probability(num_of_nodes: int, probability: float) -> np.ndar
         for j in range(i+1):
             graph[i][j] = graph[j][i]
 
-    return np.asarray(graph, dtype=int)
-
+    return np.asarray(graph, dtype=int).tolist()
 
 
 def traverse(u: int, visited: list, G: list):
@@ -54,17 +54,18 @@ def isConnected(G: list) -> bool:
     return 1
 
 
-def gen_random_conn_graph_weighted(size: int) -> list:  # size is num of vertices
+# size is num of vertices
+def gen_random_conn_graph_weighted(size: int) -> list:
     flag = 1
     while flag == 1:
         G = [[0] * size for i in range(size)]
         p = random.randint(1, 10)  # more or less roll graph density here
-        
+
         for i in range(size):
             for j in range(size):
                 if random.randint(1, 10) <= p:
                     G[i][j] = random.randint(1, 10)
-        
+
         for i in range(size):               #
             for j in range(size):           # making matrix
                 if (j == i):
@@ -95,5 +96,3 @@ def randomize(G):
         G.repr[c][d] = G.repr[d][c] = 0
         G.repr[a][d] = G.repr[d][a] = 1
         G.repr[c][b] = G.repr[b][c] = 1
-
-
