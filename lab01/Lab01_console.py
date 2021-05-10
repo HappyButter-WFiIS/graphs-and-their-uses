@@ -4,7 +4,7 @@ currentdir = os.path.dirname(os.path.realpath(__file__))
 parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
 
-from utils.GraphRepresentation import GraphRepresentation, RepresentationType
+from utils.Graph import Graph, RepresentationType
 from utils.graph_plotter import plot_graph
 from utils.graph_generators import get_graph_with_probability, get_graph_by_vertices_and_edges
 
@@ -18,7 +18,7 @@ def display_welcome():
 	print("Welcome to graph destroyer 3000")
 	print(50*'-' + '\n')	
 
-def display_submenu(G: GraphRepresentation):
+def display_submenu(G: Graph):
 	operations_choice = ''
 
 	while operations_choice != 'q':
@@ -59,7 +59,7 @@ if __name__ == "__main__":
 	main_choice = ''
 	representation_type = ''
 	file_name = ''
-	G = GraphRepresentation()
+	G = Graph()
 
 
 	while main_choice != 'q':

@@ -1,6 +1,6 @@
 import numpy as np
 import random
-from utils.GraphRepresentation import RepresentationType, GraphRepresentation
+from utils.Graph import RepresentationType, Graph
 from array import *
 
 
@@ -87,14 +87,19 @@ def gen_random_conn_graph_weighted(size: int) -> list:
             return G
 
 
-def randomize(G : GraphRepresentation, randomizations: int):
+def randomize(G: Graph, randomizations: int):
+    """
+    Swap connections between randomly chosen nodes.
+    The amount of replacements made is determined by the 'randomizations' argument.
+    """
+
     completed_randomizations = 0
     iterations = 0
 
     while completed_randomizations < randomizations:
         edges = []
         iterations += 1
-        if iterations < 10*randomizations:
+        if iterations > 10*randomizations:
             return
 
         for i in range(len(G.repr)):

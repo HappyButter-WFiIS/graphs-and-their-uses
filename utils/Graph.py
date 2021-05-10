@@ -1,6 +1,7 @@
 from enum import Enum
 from copy import deepcopy
 
+
 class RepresentationType(Enum):
     EMPTY = 0
     ADJACENCY_MATRIX = 1
@@ -11,7 +12,7 @@ class RepresentationType(Enum):
     ADJACENCY_LIST_WITH_WEIGHTS = 6
 
 
-class GraphRepresentation:
+class Graph:
 
     def __init__(self):
         self.repr = list()
@@ -36,6 +37,9 @@ class GraphRepresentation:
         self.__create(self.__read_file(filename))
 
     def load_data(self, data: list, representation_type: RepresentationType) -> bool:
+        """
+        Load data into graph. Data is passed as a 2d list.
+        """
         self.repr_type = representation_type
         self.repr = data
         if self.repr_type == RepresentationType.GRAPH_SEQUENCE and self.__is_graphical() == False:
@@ -95,7 +99,7 @@ class GraphRepresentation:
         elif self.repr_type == RepresentationType.GRAPH_SEQUENCE:
             self.__from_sequence_to_adjlist()
             self.__from_adjlist_to_incmat()
-        
+
     def to_graphical_sequence(self):
         if self.repr_type == RepresentationType.ADJACENCY_LIST:
             self.__from_adjlist_to_sequence()
@@ -235,14 +239,15 @@ class GraphRepresentation:
             i = 0
             j = 1
             while enumerated_data[i][1] > 0 and j < len(enumerated_data):
-                adjacency_list[enumerated_data[i][0]].append(enumerated_data[j][0]+1)
-                adjacency_list[enumerated_data[j][0]].append(enumerated_data[i][0]+1)
+                adjacency_list[enumerated_data[i][0]].append(enumerated_data[j][0] + 1)
+                adjacency_list[enumerated_data[j][0]].append(enumerated_data[i][0] + 1)
                 enumerated_data[i][1] -= 1
                 enumerated_data[j][1] -= 1
                 j += 1
 
         self.repr = adjacency_list
         self.repr_type = RepresentationType.ADJACENCY_LIST
+
     """
     To Graphical Sequence
     """
@@ -258,7 +263,7 @@ class GraphRepresentation:
 
         self.repr = graphical_sequence
         self.repr_type = RepresentationType.GRAPH_SEQUENCE
-    
+
     def __from_incmat_to_sequence(self):
         graphical_sequence = [sum(x) for x in self.repr]
 
@@ -284,7 +289,7 @@ class GraphRepresentation:
 
         elif self.repr_type == RepresentationType.INCIDENCE_MATRIX:
             sum_edges = len(self.repr[0])
-        
+
         elif self.repr_type == RepresentationType.GRAPH_SEQUENCE:
             sum_edges = sum(self.repr) / 2
 
@@ -293,7 +298,7 @@ class GraphRepresentation:
     def __is_graphical(self) -> bool:
         data = deepcopy(self.repr)
         for _ in range(len(data)):
-            data.sort(reverse = True)
+            data.sort(reverse=True)
             item = data[0]
             data[0] = 0
             for i in range(1, item + 1):
@@ -301,24 +306,23 @@ class GraphRepresentation:
                 if data[i] == -1:
                     return False
 
-        return True 
+        return True
 
     def is_k_regular(self, k: int) -> bool:
         if self.repr_type == RepresentationType.ADJACENCY_MATRIX:
             for line in self.repr:
                 current_k = len(line) - line.count(0)
-                
+
                 if current_k != k:
                     return False
-            
+
             return True
-        
+
         print("Transform to ADJACENCY_MATRIX first.")
         return False
 
-
     def get_weighted_adjacency_list(self) -> dict:
-        if self.repr_type == RepresentationType.ADJACENCY_MATRIX_WITH_WEIGHTS:    
+        if self.repr_type == RepresentationType.ADJACENCY_MATRIX_WITH_WEIGHTS:
             adjlist_repr = {}
 
             for i, row in enumerate(self.repr):
@@ -326,8 +330,8 @@ class GraphRepresentation:
 
                 for j, element in enumerate(row):
                     if (element != 0):
-                        adjlist_repr_row[j+1] = element
+                        adjlist_repr_row[j + 1] = element
 
-                adjlist_repr[i+1] = (adjlist_repr_row)
+                adjlist_repr[i + 1] = (adjlist_repr_row)
             return adjlist_repr
         return {}
