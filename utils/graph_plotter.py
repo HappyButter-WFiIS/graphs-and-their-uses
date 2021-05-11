@@ -24,7 +24,7 @@ class GraphPlotter:
     Plots graph using Matplotlib. If color modes are not passed, the color of each node will be the same.
     """
     @staticmethod
-    def plot_graph(graph: Graph, nodes_color_modes: list = None):
+    def plot_graph(graph: Graph, nodes_color_modes: list = None) -> None:
         current_repr_type = graph.repr_type
         if current_repr_type == RepresentationType.ADJACENCY_LIST \
                 or current_repr_type == RepresentationType.ADJACENCY_MATRIX \
@@ -66,7 +66,7 @@ class GraphPlotter:
         return ax
 
     @staticmethod
-    def __draw_nodes(num_of_nodes, ax, groups):
+    def __draw_nodes(num_of_nodes, ax, groups) -> None:
         for i in range(num_of_nodes):
             x = np.sin(2 * np.pi / num_of_nodes * i)
             y = np.cos(2 * np.pi / num_of_nodes * i)
@@ -78,7 +78,7 @@ class GraphPlotter:
             ax.add_patch(node)
 
     @staticmethod
-    def __draw_edges(num_of_nodes, source_matrix):
+    def __draw_edges(num_of_nodes, source_matrix) -> None:
         for row in range(num_of_nodes):
             for col in range(row):
                 if source_matrix[row][col] == 0:
