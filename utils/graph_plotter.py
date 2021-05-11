@@ -2,24 +2,26 @@ import matplotlib.pyplot as plot
 import numpy as np
 from utils.Graph import RepresentationType, Graph
 
-colors = [
-    'blue',
-    'red',
-    'green',
-    'yellow',
-    'gray',
-    'pink',
-    'orange',
-    'purple'
+node_color_modes = [
+    {'bg': 'blue', 'text': 'white'},
+    {'bg': 'red', 'text': 'white'},
+    {'bg': 'green', 'text': 'white'},
+    {'bg': 'gray', 'text': 'white'},
+    {'bg': 'pink', 'text': 'black'},
+    {'bg': 'orange', 'text': 'black'},
+    {'bg': 'purple', 'text': 'white'},
+    {'bg': 'black', 'text': 'white'},
+    {'bg': 'lightblue', 'text': 'black'},
+    {'bg': 'brown', 'text': 'white'},
 ]
 
 
 def plot_graph(G: Graph, groups: list = None):
-    current_repr_type = G.repr_type 
-    if current_repr_type == RepresentationType.ADJACENCY_LIST\
-        or current_repr_type == RepresentationType.ADJACENCY_MATRIX\
-        or current_repr_type == RepresentationType.INCIDENCE_MATRIX\
-        or current_repr_type == RepresentationType.GRAPH_SEQUENCE:
+    current_repr_type = G.repr_type
+    if current_repr_type == RepresentationType.ADJACENCY_LIST \
+            or current_repr_type == RepresentationType.ADJACENCY_MATRIX \
+            or current_repr_type == RepresentationType.INCIDENCE_MATRIX \
+            or current_repr_type == RepresentationType.GRAPH_SEQUENCE:
         G.to_adjacency_matrix()
 
         source_matrix = G.repr
@@ -28,7 +30,7 @@ def plot_graph(G: Graph, groups: list = None):
         if groups is None:
             groups = [0] * num_of_nodes
         for i in range(len(groups)):
-            if(groups[i] > len(colors)-1):
+            if groups[i] > len(node_color_modes) - 1:
                 groups[i] = 0
         ax = prepare_plot()
         draw_edges(num_of_nodes, source_matrix)
@@ -40,7 +42,7 @@ def plot_graph(G: Graph, groups: list = None):
         elif current_repr_type == RepresentationType.ADJACENCY_LIST:
             G.to_adjacency_list()
 
-    else: 
+    else:
         print("Incorrect graph type.")
 
 
@@ -61,9 +63,10 @@ def draw_nodes(num_of_nodes, ax, groups):
         x = np.sin(2 * np.pi / num_of_nodes * i)
         y = np.cos(2 * np.pi / num_of_nodes * i)
         node = plot.Circle((x, y), 0.1, clip_on=False, zorder=3,
-                           color=colors[groups[i]])
+                           color=node_color_modes[groups[i]]["bg"])
         ax.annotate(str(i + 1), xy=(x, y), fontsize=15,
-                    ha="center", va="center")
+                    ha="center", va="center",
+                    color=node_color_modes[groups[i]]["text"])
         ax.add_patch(node)
 
 
