@@ -14,7 +14,7 @@ colors = [
 ]
 
 
-def plot_graph(G: Graph, groups: list = None):
+def plot_graph(G: Graph, groups: list = None) -> None:
     current_repr_type = G.repr_type 
     if current_repr_type == RepresentationType.ADJACENCY_LIST\
         or current_repr_type == RepresentationType.ADJACENCY_MATRIX\

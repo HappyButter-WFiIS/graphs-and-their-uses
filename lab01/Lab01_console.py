@@ -1,6 +1,3 @@
-from utils.graph_generators import get_graph_with_probability, get_graph_by_vertices_and_edges
-from utils.graph_plotter import plot_graph
-from utils.Graph import Graph, RepresentationType
 import os
 import sys
 
@@ -8,6 +5,9 @@ currentdir = os.path.dirname(os.path.realpath(__file__))
 parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
 
+from utils.graph_generators import get_graph_with_probability, get_graph_by_vertices_and_edges
+from utils.graph_plotter import plot_graph
+from utils.Graph import Graph, RepresentationType
 
 def print_graph(G: Graph) -> None:
     """
@@ -71,7 +71,7 @@ def handle_convert(G: Graph) -> None:
 
 
 def display_submenu(G: Graph) -> None:
-	"""
+    """
 	Submenu of main menu. Let user to go to convert handler or
 	plot graph or print current graph or go back to main menu.
 	"""
@@ -88,7 +88,7 @@ def display_submenu(G: Graph) -> None:
         operations_choice = input("Pick the option:\n")
 
         if operations_choice == 'b':
-            break
+            return
 
         if operations_choice == '1':
             handle_convert(G)
@@ -99,8 +99,8 @@ def display_submenu(G: Graph) -> None:
 
 
 def load_graph_from_file_menu(G: Graph) -> None:
-	"""
-	Loading graph from file. 
+    """
+	Loading graph from file.
 	"""
     print("What representation type is in the file?")
     print("\n[1] Adjancency matrix")
