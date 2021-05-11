@@ -1,7 +1,15 @@
 from utils.Graph import Graph
 
+
 def get_index_of_max_value(values: list) -> int:
-    return values.index(max(values))    
+    max_len = 0
+    idx_of_biggest = 1
+    for i in range(len(values)):
+        curr_len = len(values[i])
+        if curr_len > max_len:
+            max_len = curr_len
+            idx_of_biggest = i
+    return idx_of_biggest
 
 
 def search(G: Graph):
