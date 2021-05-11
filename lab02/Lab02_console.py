@@ -13,7 +13,7 @@ from algorithms.hamilton import isHamiltonian
 
 def display_welcome():
     """
-    Displaying welcome information 
+    Displaying welcome information
     """
     print(50*'-')
     print("Welcome to graph destroyer 3000 vol.2")
@@ -24,7 +24,8 @@ def display_menu():
     """
     Displaying main menu
     """
-    print('\n[1] Graphical sequence')
+    display_welcome()
+    print('[1] Graphical sequence')
     print('[2] Graph randomization')
     print('[3] Graph components')
     print('[4] Eulerian graphs')
@@ -144,7 +145,7 @@ def present_hamiltonian_graphs() -> None:
         print('Graph is not Hamiltonian')
 
     GraphPlotter.plot_graph(G)
-        
+
 
 if __name__ == '__main__':
     main_choice = ''
@@ -169,7 +170,5 @@ if __name__ == '__main__':
             present_hamiltonian_graphs()
 
         #except:
-        #   print("Something went wrong. Try again!") 
-
+        #   print("Something went wrong. Try again!")
     print("\nThanks for playing. Bye.")
-

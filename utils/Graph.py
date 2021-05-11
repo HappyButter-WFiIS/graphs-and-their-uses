@@ -355,7 +355,7 @@ class Graph:
                 adjlist_repr_row = {}
 
                 for j, element in enumerate(row):
-                    if (element != 0):
+                    if element != 0:
                         adjlist_repr_row[j + 1] = element
 
                 adjlist_repr[i + 1] = (adjlist_repr_row)

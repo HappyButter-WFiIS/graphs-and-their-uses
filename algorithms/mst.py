@@ -84,7 +84,3 @@ def push_edges(vertex: int, row: list, Q: list):
             Q.append([row[i], vertex, i])
     
     heapq.heapify(Q)
-
-
-
-    
