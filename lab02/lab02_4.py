@@ -1,10 +1,10 @@
-import os, sys, copy
+import os, sys
 
 currentdir = os.path.dirname(os.path.realpath(__file__))
 parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
 
-from utils.GraphRepresentation import GraphRepresentation, RepresentationType
+from utils.Graph import Graph, RepresentationType
 from utils.graph_plotter import plot_graph
 from utils.graph_generators import randomize
 from algorithms.euler import euler_cycle, generate_euler_graph_sequence
@@ -12,20 +12,19 @@ from algorithms.euler import euler_cycle, generate_euler_graph_sequence
 
 if __name__ == "__main__":
     randomizations = 100
-    G = GraphRepresentation()
-    v = int(input('Number of vertices: ')) # 10-50 should be fine
+    G = Graph()
+    v = int(input('Number of vertices: '))
     
-    while(True):
-        if G.load_data(generate_euler_graph_sequence(v), RepresentationType.GRAPH_SEQUENCE):
-            break
-
-    print(G.repr)
+    if generate_euler_graph_sequence(G, v):
+        print(G.repr)
+    else:
+        print("Error while generating euler graph sequence")
+        exit()
+        
     G.to_adjacency_matrix()
-
     randomize(G, randomizations)
-
-    G.to_adjacency_list()
-    print(euler_cycle(copy.deepcopy(G.repr)))
-    G.to_adjacency_matrix()
+    print(euler_cycle(G))
     plot_graph(G)
     
+# minimal input: 3
+# maximal input: 100-500 ~up to 62500 edges (without drawing)

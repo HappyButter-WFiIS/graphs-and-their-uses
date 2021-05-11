@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plot
 import numpy as np
-from utils.GraphRepresentation import RepresentationType, GraphRepresentation
+from utils.Graph import RepresentationType, Graph
 
 colors = [
     'blue',
@@ -14,11 +14,12 @@ colors = [
 ]
 
 
-def plot_graph(G: GraphRepresentation, groups: list = None):
+def plot_graph(G: Graph, groups: list = None):
     current_repr_type = G.repr_type 
     if current_repr_type == RepresentationType.ADJACENCY_LIST\
         or current_repr_type == RepresentationType.ADJACENCY_MATRIX\
-        or current_repr_type == RepresentationType.INCIDENCE_MATRIX:
+        or current_repr_type == RepresentationType.INCIDENCE_MATRIX\
+        or current_repr_type == RepresentationType.GRAPH_SEQUENCE:
         G.to_adjacency_matrix()
 
         source_matrix = G.repr
