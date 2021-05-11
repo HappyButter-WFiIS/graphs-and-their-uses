@@ -91,7 +91,7 @@ class Graph:
     """
     Transform representations
     """
-
+    
     def to_adjacency_matrix(self) -> None:
         if self.repr_type == RepresentationType.ADJACENCY_LIST:
             self.__from_adjlist_to_adjmat()
@@ -117,7 +117,7 @@ class Graph:
         elif self.repr_type == RepresentationType.GRAPH_SEQUENCE:
             self.__from_sequence_to_adjlist()
             self.__from_adjlist_to_incmat()
-        
+
     def to_graphical_sequence(self) -> None:
         if self.repr_type == RepresentationType.ADJACENCY_LIST:
             self.__from_adjlist_to_sequence()
@@ -186,7 +186,7 @@ class Graph:
         count_nodes = len(self.repr)
         adjlist_repr = list()
 
-        for index in range(count_nodes):
+        for _ in range(count_nodes):
             adjlist_repr.append(list())
 
         for edge_index in range(count_edges):
@@ -257,8 +257,10 @@ class Graph:
             i = 0
             j = 1
             while enumerated_data[i][1] > 0 and j < len(enumerated_data):
-                adjacency_list[enumerated_data[i][0]].append(enumerated_data[j][0] + 1)
-                adjacency_list[enumerated_data[j][0]].append(enumerated_data[i][0] + 1)
+                adjacency_list[enumerated_data[i][0]].append(
+                    enumerated_data[j][0] + 1)
+                adjacency_list[enumerated_data[j][0]].append(
+                    enumerated_data[i][0] + 1)
                 enumerated_data[i][1] -= 1
                 enumerated_data[j][1] -= 1
                 j += 1
@@ -281,7 +283,7 @@ class Graph:
 
         self.repr = graphical_sequence
         self.repr_type = RepresentationType.GRAPH_SEQUENCE
-    
+
     def __from_incmat_to_sequence(self) -> None:
         graphical_sequence = [sum(x) for x in self.repr]
 
@@ -353,5 +355,3 @@ class Graph:
                 adjlist_repr[i + 1] = (adjlist_repr_row)
             return adjlist_repr
         return {}
-
-        

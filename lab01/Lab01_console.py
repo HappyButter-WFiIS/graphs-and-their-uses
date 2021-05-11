@@ -1,4 +1,5 @@
-import os, sys
+import os
+import sys
 
 currentdir = os.path.dirname(os.path.realpath(__file__))
 parentdir = os.path.dirname(currentdir)
@@ -70,49 +71,49 @@ def handle_convert(G: Graph) -> None:
 
 
 def display_submenu(G: Graph) -> None:
-	"""
+    """
 	Submenu of main menu. Let user to go to convert handler or
 	plot graph or print current graph or go back to main menu.
 	"""
-	operations_choice = ''
+    operations_choice = ''
 
-	while operations_choice != 'q':
-		print()
-		print(50*'-')
-		print("[1] Convert")
-		print("[2] Plot")
-		print("[3] Print current graph")
-		print("[b] Go back to menu")
+    while operations_choice != 'q':
+        print()
+        print(50*'-')
+        print("[1] Convert")
+        print("[2] Plot")
+        print("[3] Print current graph")
+        print("[b] Go back to menu")
+        
+        operations_choice = input("Pick the option:\n")
 
-		operations_choice = input("Pick the option:\n")
-
-		if operations_choice == 'b':
-			break
-
-		if operations_choice == '1':
-			handle_convert(G)
-		elif operations_choice == '2':
-			plot_graph(G)
-		elif operations_choice == '3':
-			print_graph(G)
+        if operations_choice == 'b':
+            return
+        
+        if operations_choice == '1':
+            handle_convert(G)
+        elif operations_choice == '2':
+            plot_graph(G)
+        elif operations_choice == '3':
+            print_graph(G)
 
 
 def load_graph_from_file_menu(G: Graph) -> None:
+    """
+	Loading graph from file.
 	"""
-	Loading graph from file. 
-	"""
-	print("What representation type is in the file?")
-	print("\n[1] Adjancency matrix")
-	print("[2] Adjacency list")
-	print("[3] Incidence matrix")
+    print("What representation type is in the file?")
+    print("\n[1] Adjancency matrix")
+    print("[2] Adjacency list")
+    print("[3] Incidence matrix")
+    
+    representation_type = input("Pick the type:\n")
+    
+    print("Ok. Now put the file name.")
+    file_name = input("File name:\n")
 
-	representation_type = input("Pick the type:\n")
-
-	print("Ok. Now put the file name.")
-	file_name = input("File name:\n")
-
-	if representation_type and file_name:
-		handle_read_from_file(G, int(representation_type), file_name)
+    if representation_type and file_name:
+        handle_read_from_file(G, int(representation_type), file_name)
 
 	display_submenu(G)
 
