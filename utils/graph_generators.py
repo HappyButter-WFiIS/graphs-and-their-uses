@@ -124,4 +124,3 @@ def randomize(G: Graph, randomizations: int):
                 completed_randomizations += 1
     
     print(iterations)
-    

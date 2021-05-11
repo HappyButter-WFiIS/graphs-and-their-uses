@@ -3,6 +3,9 @@ from copy import deepcopy
 
 
 class RepresentationType(Enum):
+    """
+    Enumeration class denoting diffrent types of graph representations.
+    """
     EMPTY = 0
     ADJACENCY_MATRIX = 1
     ADJACENCY_LIST = 2
@@ -15,30 +18,45 @@ class RepresentationType(Enum):
 class Graph:
 
     def __init__(self):
+        """
+        Simple class constructor
+        self.repr - list for graph representation
+        self.repr_type - type of graph representation 
+        """
         self.repr = list()
         self.repr_type = RepresentationType.EMPTY
 
     def __str__(self):
+        """
+        Returns string containing current graph representation.
+        """
         result = ''
-        for index, row in enumerate(self.repr):
-            if self.repr_type == RepresentationType.ADJACENCY_LIST:
-                result += str(index + 1) + '. '
-            for elem in row:
-                result += str(elem) + ' '
-            result += '\n'
+        if self.repr_type == RepresentationType.GRAPH_SEQUENCE:
+            result = str(self.repr)
+        else:
+            for index, row in enumerate(self.repr):
+                if self.repr_type == RepresentationType.ADJACENCY_LIST:
+                    result += str(index + 1) + '. '
+                for elem in row:
+                    result += str(elem) + ' '
+                result += '\n'
         return result
 
     """
-    Creating various representations from file
+    Creating various representations
     """
 
-    def create_representation(self, filename: str, representation_type: RepresentationType):
+    def create_representation(self, filename: str, representation_type: RepresentationType) -> None:
+        """
+        Creates graph from file in given representation. 
+        """
         self.repr_type = representation_type
         self.__create(self.__read_file(filename))
 
     def load_data(self, data: list, representation_type: RepresentationType) -> bool:
         """
-        Load data into graph. Data is passed as a 2d list.
+        Loads graph from data in given representation.
+        Returns False in case when given data is not graphical sequence, otherwise True.  
         """
         self.repr_type = representation_type
         self.repr = data
@@ -54,7 +72,7 @@ class Graph:
             print("Wrong filename")
             return ''
 
-    def __create(self, content: str):
+    def __create(self, content: str) -> None:
         self.repr.clear()
 
         for line in content:
@@ -74,7 +92,7 @@ class Graph:
     Transform representations
     """
 
-    def to_adjacency_matrix(self):
+    def to_adjacency_matrix(self) -> None:
         if self.repr_type == RepresentationType.ADJACENCY_LIST:
             self.__from_adjlist_to_adjmat()
         elif self.repr_type == RepresentationType.INCIDENCE_MATRIX:
@@ -83,7 +101,7 @@ class Graph:
             self.__from_sequence_to_adjlist()
             self.__from_adjlist_to_adjmat()
 
-    def to_adjacency_list(self):
+    def to_adjacency_list(self) -> None:
         if self.repr_type == RepresentationType.ADJACENCY_MATRIX:
             self.__from_adjmat_to_adjlist()
         elif self.repr_type == RepresentationType.INCIDENCE_MATRIX:
@@ -91,7 +109,7 @@ class Graph:
         elif self.repr_type == RepresentationType.GRAPH_SEQUENCE:
             self.__from_sequence_to_adjlist()
 
-    def to_incidence_matrix(self):
+    def to_incidence_matrix(self) -> None:
         if self.repr_type == RepresentationType.ADJACENCY_LIST:
             self.__from_adjlist_to_incmat()
         elif self.repr_type == RepresentationType.ADJACENCY_MATRIX:
@@ -99,8 +117,8 @@ class Graph:
         elif self.repr_type == RepresentationType.GRAPH_SEQUENCE:
             self.__from_sequence_to_adjlist()
             self.__from_adjlist_to_incmat()
-
-    def to_graphical_sequence(self):
+        
+    def to_graphical_sequence(self) -> None:
         if self.repr_type == RepresentationType.ADJACENCY_LIST:
             self.__from_adjlist_to_sequence()
         elif self.repr_type == RepresentationType.ADJACENCY_MATRIX:
@@ -112,7 +130,7 @@ class Graph:
     To Adjacency Matrix
     """
 
-    def __from_adjlist_to_adjmat(self):
+    def __from_adjlist_to_adjmat(self) -> None:
         adjmat_repr = list()
         count_nodes = len(self.repr)
 
@@ -125,7 +143,7 @@ class Graph:
         self.repr = adjmat_repr
         self.repr_type = RepresentationType.ADJACENCY_MATRIX
 
-    def __from_incmat_to_adjmat(self):
+    def __from_incmat_to_adjmat(self) -> None:
         count_edges = self.__count_edges()
         count_nodes = len(self.repr)
         adjmat_repr = list()
@@ -148,7 +166,7 @@ class Graph:
     To Adjacency List
     """
 
-    def __from_adjmat_to_adjlist(self):
+    def __from_adjmat_to_adjlist(self) -> None:
         adjlist_repr = list()
 
         for i, row in enumerate(self.repr):
@@ -163,7 +181,7 @@ class Graph:
         self.repr = adjlist_repr
         self.repr_type = RepresentationType.ADJACENCY_LIST
 
-    def __from_incmat_to_adjlist(self):
+    def __from_incmat_to_adjlist(self) -> None:
         count_edges = self.__count_edges()
         count_nodes = len(self.repr)
         adjlist_repr = list()
@@ -186,7 +204,7 @@ class Graph:
     To Incidence Matrix
     """
 
-    def __from_adjmat_to_incmat(self):
+    def __from_adjmat_to_incmat(self) -> None:
         incmat_repr = list()
 
         count_edges = self.__count_edges()
@@ -209,7 +227,7 @@ class Graph:
         self.repr = incmat_repr
         self.repr_type = RepresentationType.INCIDENCE_MATRIX
 
-    def __from_adjlist_to_incmat(self):
+    def __from_adjlist_to_incmat(self) -> None:
         count_edges = self.__count_edges()
         count_nodes = len(self.repr)
         edges_list = list()
@@ -231,7 +249,7 @@ class Graph:
         self.repr = incmat_repr
         self.repr_type = RepresentationType.INCIDENCE_MATRIX
 
-    def __from_sequence_to_adjlist(self):
+    def __from_sequence_to_adjlist(self) -> None:
         enumerated_data = [[idx, conn] for idx, conn in enumerate(self.repr)]
         adjacency_list = [[] for _ in range(len(enumerated_data))]
         for _ in range(len(enumerated_data)):
@@ -252,19 +270,19 @@ class Graph:
     To Graphical Sequence
     """
 
-    def __from_adjmat_to_sequence(self):
+    def __from_adjmat_to_sequence(self) -> None:
         graphical_sequence = [sum(x) for x in self.repr]
 
         self.repr = graphical_sequence
         self.repr_type = RepresentationType.GRAPH_SEQUENCE
 
-    def __from_adjlist_to_sequence(self):
+    def __from_adjlist_to_sequence(self) -> None:
         graphical_sequence = [len(x) for x in self.repr]
 
         self.repr = graphical_sequence
         self.repr_type = RepresentationType.GRAPH_SEQUENCE
-
-    def __from_incmat_to_sequence(self):
+    
+    def __from_incmat_to_sequence(self) -> None:
         graphical_sequence = [sum(x) for x in self.repr]
 
         self.repr = graphical_sequence
@@ -335,3 +353,5 @@ class Graph:
                 adjlist_repr[i + 1] = (adjlist_repr_row)
             return adjlist_repr
         return {}
+
+        

@@ -1,6 +1,7 @@
 import numpy as np
 import heapq
 
+
 def kruskal(matrix: list) -> list:
     edges = matrix_to_edges_list(matrix)
     result = np.zeros(shape = (len(matrix), len(matrix)), dtype = int)
@@ -20,6 +21,7 @@ def kruskal(matrix: list) -> list:
     print("Kruskal tree sum = ", tree_sum)
     return result
 
+
 def matrix_to_edges_list(matrix: list) -> list:
     result = []
     for i in range(len(matrix)):
@@ -30,10 +32,12 @@ def matrix_to_edges_list(matrix: list) -> list:
     result.sort()
     return result
 
+
 def find_parent(x: int, parent: list) -> int:
     if parent[x] != x:
         parent[x] = find_parent(parent[x], parent)
     return parent[x]
+
 
 def union(a: int, b: int, parent: list, rank: list) -> bool:
     a = find_parent(a, parent)
@@ -50,6 +54,7 @@ def union(a: int, b: int, parent: list, rank: list) -> bool:
         parent[b] = a
 
     return True
+
 
 def prim(matrix: list) -> list:
     visited = [False for _ in range(len(matrix))]
@@ -71,7 +76,8 @@ def prim(matrix: list) -> list:
     
     print("Prim tree sum = ", tree_sum)
     return result
-        
+
+
 def push_edges(vertex: int, row: list, Q: list):
     for i in range(len(row)):
         if row[i] > 0:
