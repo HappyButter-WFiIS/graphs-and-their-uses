@@ -1,9 +1,10 @@
+from utils.Graph import Graph
 
 def get_index_of_max_value(values: list) -> int:
     return values.index(max(values))    
 
 
-def search(G: GraphRepresentation):
+def search(G: Graph):
 
     def visit_node(i):
         visited[i] = True

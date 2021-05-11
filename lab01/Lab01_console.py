@@ -84,12 +84,12 @@ def display_submenu(G: Graph) -> None:
         print("[2] Plot")
         print("[3] Print current graph")
         print("[b] Go back to menu")
-
+        
         operations_choice = input("Pick the option:\n")
 
         if operations_choice == 'b':
             return
-
+        
         if operations_choice == '1':
             handle_convert(G)
         elif operations_choice == '2':
@@ -106,17 +106,16 @@ def load_graph_from_file_menu(G: Graph) -> None:
     print("\n[1] Adjancency matrix")
     print("[2] Adjacency list")
     print("[3] Incidence matrix")
-
+    
     representation_type = input("Pick the type:\n")
-
+    
     print("Ok. Now put the file name.")
     file_name = input("File name:\n")
 
     if representation_type and file_name:
         handle_read_from_file(G, int(representation_type), file_name)
 
-    display_submenu(G)
-
+	display_submenu(G)
 
 def generate_with_probability_menu(G: Graph) -> None:
     num_of_nodes = input("Put number of nodes:\n")
@@ -130,15 +129,15 @@ def generate_with_probability_menu(G: Graph) -> None:
 
 
 def generate_with_vertices_and_edges_menu(G: Graph) -> None:
-    num_of_vertices = input("Put number of vertices:\n")
-    num_of_edges = input("Put number of edges:\n")
+	num_of_vertices = input("Put number of vertices:\n")
+	num_of_edges = input("Put number of edges:\n")
 
-    data = get_graph_by_vertices_and_edges(
-        int(num_of_vertices), int(num_of_edges))
-    G.load_data(
-        data=data, representation_type=RepresentationType.INCIDENCE_MATRIX)
+	data = get_graph_by_vertices_and_edges(
+		int(num_of_vertices), int(num_of_edges))
+	G.load_data(
+		data=data, representation_type=RepresentationType.INCIDENCE_MATRIX)
 
-    display_submenu(G)
+	display_submenu(G)
 
 
 if __name__ == "__main__":
