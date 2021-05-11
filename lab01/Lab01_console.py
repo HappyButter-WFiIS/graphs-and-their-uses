@@ -8,10 +8,12 @@ from utils.GraphRepresentation import GraphRepresentation, RepresentationType
 from utils.graph_plotter import plot_graph
 from utils.graph_generators import get_graph_with_probability, get_graph_by_vertices_and_edges
 
-def handle_read_from_file(file_name: str = "", repr_type: str=""):
-	G.create_representation(os.path.dirname(__file__) + "/" + file_name, RepresentationType(int(representation_type)))
+def print_graph(G: GraphRepresentation):
 	print()
 	print(G)
+
+def handle_read_from_file(file_name: str="", repr_type: str=""):
+	G.create_representation(os.path.dirname(__file__) + "/" + file_name, RepresentationType(int(representation_type)))
 
 def display_welcome():
 	print(50*'-')
@@ -25,6 +27,7 @@ def display_submenu(G: GraphRepresentation):
 		print(50*'-')
 		print("[1] Convert")
 		print("[2] Plot")
+		print("[3] Print current graph")
 		print("[b] Go back to menu")
 
 		operations_choice = input("Pick the option:\n")
@@ -51,9 +54,11 @@ def display_submenu(G: GraphRepresentation):
 			elif convert_repr_type == '3':
 				G.to_incidence_matrix()
 				print(G)
+
 		elif operations_choice == '2':
 			plot_graph(G)
-
+		elif operations_choice == '3':
+			print_graph(G)
 
 if __name__ == "__main__":
 	main_choice = ''
@@ -73,6 +78,7 @@ if __name__ == "__main__":
 		
 		if main_choice == 'q':
 			print("\nThanks for playing. Bye.")
+
 		elif main_choice == '1':
 			print("What representation type is in the file?")	
 			print("\n[1] Adjancency matrix")
@@ -101,8 +107,6 @@ if __name__ == "__main__":
 			data = get_graph_with_probability(int(num_of_nodes), float(probability))
 
 			G.load_data(data=data, representation_type=RepresentationType.ADJACENCY_MATRIX)
-			print()
-			print(G)
 
 			display_submenu(G)
 
@@ -113,11 +117,7 @@ if __name__ == "__main__":
 			data = get_graph_by_vertices_and_edges(int(num_of_vertices), int(num_of_edges))
 
 			G.load_data(data=data, representation_type=RepresentationType.INCIDENCE_MATRIX)
-			print()
-			print(G)
 
-			display_submenu(G)
-
-						
+			display_submenu(G)			
 		else:
 			print("\nI didn't understand that choice.\n")

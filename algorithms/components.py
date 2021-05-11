@@ -1,9 +1,9 @@
 
-def get_index_of_max_value(values: list):
+def get_index_of_max_value(values: list) -> int:
     return values.index(max(values))    
 
 
-def search(G):
+def search(G: GraphRepresentation):
 
     def visit_node(i):
         visited[i] = True
