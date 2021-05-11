@@ -14,7 +14,7 @@ if __name__ == "__main__":
     while(True):
 
         data = get_graph_with_probability(7, 0.5)
-        G.load_data(data=data.tolist(), representation_type=RepresentationType.ADJACENCY_MATRIX)
+        G.load_data(data=data, representation_type=RepresentationType.ADJACENCY_MATRIX)
 
         if G.is_k_regular(2):
             break

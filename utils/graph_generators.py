@@ -122,5 +122,3 @@ def randomize(G: Graph, randomizations: int):
                 G.repr[a][d] = G.repr[d][a] = 1
                 G.repr[c][b] = G.repr[b][c] = 1
                 completed_randomizations += 1
-    
-    print(iterations)

@@ -10,7 +10,6 @@ from algorithms.components import search, sort_groups
 
 
 if __name__ == '__main__':
-    print("Znajdowanie najwiekszej wspolnej skladowej")
     G = Graph()
     G.load_data([4, 2, 2, 3, 1, 3, 4, 1, 2, 2, 2],
                 RepresentationType.GRAPH_SEQUENCE)

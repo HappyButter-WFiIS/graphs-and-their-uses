@@ -6,8 +6,8 @@ from utils.Graph import Graph, RepresentationType
 
 def dfs(adj_mat: list, adj_list: int, vertex: int) -> list:
     """
-    Finds Euler cycle using DFS algorithm without recursion (thus using stack).
-    Returns sequence of vertices in Euler Cycle.
+    Finds Eulerian cycle using DFS algorithm without recursion (thus using stack).
+    Returns sequence of vertices in Eulerian Cycle.
     Parameters: 
         adj_mat - representation of graph as adjecency matrix (for deleting edges)
         adj_list - representation of graph as adjecency list (for finding neighbours)
@@ -39,8 +39,8 @@ def dfs(adj_mat: list, adj_list: int, vertex: int) -> list:
 
 def euler_cycle(G: Graph) -> str:
     """
-    Returns string representing Euler Cycle 
-    in Euler Graph given as a parameter.
+    Returns string representing Eulerian Cycle 
+    in Eulerian Graph given as a parameter.
     """
     copyG = deepcopy(G)
 
@@ -55,7 +55,7 @@ def euler_cycle(G: Graph) -> str:
 
 def generate_euler_graph_sequence(G: Graph, vertices: int) -> bool:
     """
-    Generates graphical sequence of Euler Graph for given number of vertices 
+    Generates graphical sequence of Eulerian Graph for given number of vertices 
     and loads it to graph given as a parameter.
     Returns True if generating was successful in one of num_samples iterations.
     """
