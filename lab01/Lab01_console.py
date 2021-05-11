@@ -6,7 +6,7 @@ parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
 
 from utils.graph_generators import get_graph_with_probability, get_graph_by_vertices_and_edges
-from utils.graph_plotter import plot_graph
+from utils.graph_plotter import GraphPlotter
 from utils.Graph import Graph, RepresentationType
 
 
@@ -94,7 +94,7 @@ def display_submenu(G: Graph) -> None:
         if operations_choice == '1':
             handle_convert(G)
         elif operations_choice == '2':
-            plot_graph(G)
+            GraphPlotter.plot_graph(G)
         elif operations_choice == '3':
             print_graph(G)
 
@@ -116,7 +116,7 @@ def load_graph_from_file_menu(G: Graph) -> None:
     if representation_type and file_name:
         handle_read_from_file(G, int(representation_type), file_name)
 
-    display_submenu(G)
+        display_submenu(G)
 
 
 def generate_with_probability_menu(G: Graph) -> None:

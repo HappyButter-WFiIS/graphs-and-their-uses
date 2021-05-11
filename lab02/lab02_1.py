@@ -4,7 +4,7 @@ currentdir = os.path.dirname(os.path.realpath(__file__))
 parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
 
-from utils.graph_plotter import plot_graph
+from utils.graph_plotter import GraphPlotter
 from utils.Graph import Graph, RepresentationType
 
 
@@ -14,4 +14,4 @@ if __name__ == '__main__':
 
     G.to_adjacency_matrix()
 
-    plot_graph(G)
+    GraphPlotter.plot_graph(G)
