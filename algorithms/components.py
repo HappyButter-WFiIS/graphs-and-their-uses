@@ -1,7 +1,8 @@
 from utils.Graph import Graph
 
 def get_index_of_max_value(values: list) -> int:
-    return values.index(max(values))    
+    list_sizes = [len(item) for item in values]
+    return list_sizes.index(max(list_sizes))
 
 
 def search(G: Graph):
@@ -45,5 +46,6 @@ def sort_groups(G, groups):
             print("%s%d " % (separator, node), end='')
             separator = ''
         print()
-    print("Najwieksza wspolna skladowa ma numer %d." %
+        
+    print("Biggest component has index: %d." %
           (get_index_of_max_value(sorted_groups) + 1))

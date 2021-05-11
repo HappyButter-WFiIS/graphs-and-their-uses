@@ -11,7 +11,7 @@ from algorithms.euler import euler_cycle, generate_euler_graph_sequence
 from algorithms.components import search, sort_groups
 from algorithms.hamilton import isHamiltonian
 
-def display_welcome():
+def display_welcome() -> None:
     """
     Displaying welcome information
     """
@@ -20,19 +20,32 @@ def display_welcome():
     print(50*'-' + '\n')	
 
 
-def display_menu():
+def display_menu() -> None:
     """
     Displaying main menu
     """
-    display_welcome()
-    print('[1] Graphical sequence')
-    print('[2] Graph randomization')
-    print('[3] Graph components')
-    print('[4] Eulerian graphs')
-    print('[5] k-regular graphs')
-    print('[6] Hamiltonian graphs')
+    print('\n[1] Chceck if sequence is graphical')
+    print('[2] Example of graph randomization for given graphical sequence')
+    print('[3] Graph components in random graph')
+    print('[4] Random Eulerian graphs')
+    print('[5] Random k-regular graphs')
+    print('[6] Check if random graph is Hamiltonian')
+    print('[7] Load graph from file')
     print('[q] Quit\n')
 
+
+def display_submenu() -> None:
+    """
+    Displaying submenu for graph in file
+    """
+    print('\n ---- Graph from file ---\n')
+    print('[1] Chceck if graph is Hamiltonian')
+    print('[2] Check if graph is k-regular')
+    print('[3] Randomize graph')
+    print('[4] Mark components in graph and find the biggest one')
+    print('[5] Plot graph')
+    print('[b] Go back\n')
+    
 
 def present_graphical_sequence() -> list:
     """
@@ -117,12 +130,11 @@ def present_k_regular_graphs() -> None:
     """
     vertices = int(input('\nNumber of vertices: '))
     k = int(input('Put k-parameter: '))
-    number_of_randomizations = int(input("Put number of randomizations"))
+    randomizations = int(input("Put number of randomizations: "))
 
     G = Graph()
-
-    G.create_k_regular_with_n_vertices(k=k, vertices=vertices)
-    randomize(G, number_of_randomizations)
+    G.create_k_regular_with_n_vertices(k, vertices)
+    randomize(G, randomizations)
     
     GraphPlotter.plot_graph(G)
 
@@ -146,7 +158,82 @@ def present_hamiltonian_graphs() -> None:
 
     GraphPlotter.plot_graph(G)
 
+    
+def present_graph_from_file(G: Graph) -> None:   
+    operations_choice = ''
+    v = len(G.repr)
+    
+    while operations_choice != 'b':
+        display_submenu()
+        operations_choice = input("Pick the option:\n")
+    
+        try:
+            
+            if operations_choice == '1':
+                G.to_adjacency_list()
+                if isHamiltonian(G.repr) == 1:
+                    print('Graph is Hamiltonian')
+                else:
+                    print('Graph is not Hamiltonian')
+                
+            if operations_choice == '2':
+                G.to_adjacency_matrix()
+                for k in range(1, v):
+                    if G.is_k_regular(k):
+                        print('Graph is ' + str(k) + '-regular')
+                        break
+                    if k == v - 1:
+                        print('Graph is not k-regular')
+            
+            if operations_choice == '3':
+                G.to_adjacency_matrix()
+                randomizations = int(input('Number of randomizations: '))
+                randomize(G, randomizations)
+            
+            if operations_choice == '4':
+                G.to_adjacency_list()
+                groups = search(G)
+                sort_groups(G, groups)
+                GraphPlotter.plot_graph(G, groups)
+            
+            if operations_choice == '5':
+                GraphPlotter.plot_graph(G)
+            
+        except:
+            print("Something went wrong. Try again!")
+        
+        
+def handle_read_from_file(G: Graph, repr_type: int, file_name: str = ""):
+    """
+    Reading graph from file. File must be inside the folder where Lab01_console.py is.
+    """
+    if repr_type == 1 or repr_type == 2 or repr_type == 3:
+        G.create_representation(os.path.dirname(
+            __file__) + "/" + file_name, RepresentationType(repr_type))
+    else:
+        print("\nInvalid file type have been chosen.")
 
+
+def load_graph_from_file_menu() -> None:
+    """
+    Loading graph from file.
+    """
+    G = Graph()
+    print("What representation type is in the file?")
+    print("\n[1] Adjancency matrix")
+    print("[2] Adjacency list")
+    print("[3] Incidence matrix")
+
+    representation_type = input("Pick the type:\n")
+
+    print("Ok. Now put the file name.")
+    file_name = input("File name:\n")
+
+    if representation_type and file_name:
+        handle_read_from_file(G, int(representation_type), file_name)
+        present_graph_from_file(G)
+        
+        
 if __name__ == '__main__':
     main_choice = ''
 
@@ -154,21 +241,24 @@ if __name__ == '__main__':
         display_menu()
         main_choice = input("What would you like to do?\n")
 
-        #try:
+        try:
 
-        if main_choice == '1':
-            present_graphical_sequence()
-        if main_choice == '2':
-            present_graph_randomization()
-        if main_choice == '3':
-            present_components_finding()
-        if main_choice == '4':
-            present_eulerian_graphs()
-        if main_choice == '5':
-            present_k_regular_graphs()
-        if main_choice == '6':
-            present_hamiltonian_graphs()
+            if main_choice == '1':
+                present_graphical_sequence()
+            if main_choice == '2':
+                present_graph_randomization()
+            if main_choice == '3':
+                present_components_finding()
+            if main_choice == '4':
+                present_eulerian_graphs()
+            if main_choice == '5':
+                present_k_regular_graphs()
+            if main_choice == '6':
+                present_hamiltonian_graphs()
+            if main_choice == '7':
+                load_graph_from_file_menu()
+            
+        except:
+           print("Something went wrong. Try again!")
 
-        #except:
-        #   print("Something went wrong. Try again!")
     print("\nThanks for playing. Bye.")
