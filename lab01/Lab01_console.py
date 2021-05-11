@@ -9,13 +9,14 @@ from utils.graph_generators import get_graph_with_probability, get_graph_by_vert
 from utils.graph_plotter import plot_graph
 from utils.Graph import Graph, RepresentationType
 
+
 def print_graph(G: Graph) -> None:
     """
     Printing given Graph to console.
     """
     print("\nCurrent graph representation type is: ")
     if G.repr_type == RepresentationType.ADJACENCY_MATRIX:
-        print("Adjancency matrix")
+        print("Adjacency matrix")
     elif G.repr_type == RepresentationType.ADJACENCY_LIST:
         print("Adjacency list")
     elif G.repr_type == RepresentationType.INCIDENCE_MATRIX:
@@ -40,9 +41,9 @@ def display_welcome() -> None:
     """
     Welcome information printed in console.
     """
-    print(50*'-')
+    print(50 * '-')
     print("\tWelcome to graph destroyer 3000")
-    print(50*'-' + '\n')
+    print(50 * '-' + '\n')
 
 
 def handle_convert(G: Graph) -> None:
@@ -72,24 +73,24 @@ def handle_convert(G: Graph) -> None:
 
 def display_submenu(G: Graph) -> None:
     """
-	Submenu of main menu. Let user to go to convert handler or
-	plot graph or print current graph or go back to main menu.
-	"""
+    Submenu of main menu. Let user to go to convert handler or
+    plot graph or print current graph or go back to main menu.
+    """
     operations_choice = ''
 
     while operations_choice != 'q':
         print()
-        print(50*'-')
+        print(50 * '-')
         print("[1] Convert")
         print("[2] Plot")
         print("[3] Print current graph")
         print("[b] Go back to menu")
-        
+
         operations_choice = input("Pick the option:\n")
 
         if operations_choice == 'b':
             return
-        
+
         if operations_choice == '1':
             handle_convert(G)
         elif operations_choice == '2':
@@ -100,22 +101,23 @@ def display_submenu(G: Graph) -> None:
 
 def load_graph_from_file_menu(G: Graph) -> None:
     """
-	Loading graph from file.
-	"""
+    Loading graph from file.
+    """
     print("What representation type is in the file?")
     print("\n[1] Adjancency matrix")
     print("[2] Adjacency list")
     print("[3] Incidence matrix")
-    
+
     representation_type = input("Pick the type:\n")
-    
+
     print("Ok. Now put the file name.")
     file_name = input("File name:\n")
 
     if representation_type and file_name:
         handle_read_from_file(G, int(representation_type), file_name)
 
-	display_submenu(G)
+    display_submenu(G)
+
 
 def generate_with_probability_menu(G: Graph) -> None:
     num_of_nodes = input("Put number of nodes:\n")
@@ -129,15 +131,15 @@ def generate_with_probability_menu(G: Graph) -> None:
 
 
 def generate_with_vertices_and_edges_menu(G: Graph) -> None:
-	num_of_vertices = input("Put number of vertices:\n")
-	num_of_edges = input("Put number of edges:\n")
+    num_of_vertices = input("Put number of vertices:\n")
+    num_of_edges = input("Put number of edges:\n")
 
-	data = get_graph_by_vertices_and_edges(
-		int(num_of_vertices), int(num_of_edges))
-	G.load_data(
-		data=data, representation_type=RepresentationType.INCIDENCE_MATRIX)
+    data = get_graph_by_vertices_and_edges(
+        int(num_of_vertices), int(num_of_edges))
+    G.load_data(
+        data=data, representation_type=RepresentationType.INCIDENCE_MATRIX)
 
-	display_submenu(G)
+    display_submenu(G)
 
 
 if __name__ == "__main__":
