@@ -116,19 +116,13 @@ def present_k_regular_graphs() -> None:
     """
     vertices = int(input('\nNumber of vertices: '))
     k = int(input('Put k-parameter: '))
+    number_of_randomizations = int(input("Put number of randomizations"))
 
-    probability = 0.5
-    iterations = 0
     G = Graph()
 
-    while(True):
-        iterations += 1
-        G.load_data(get_graph_with_probability(vertices, probability), RepresentationType.ADJACENCY_MATRIX)
-
-        if G.is_k_regular(k):
-            break
+    G.get_k_regular_with_n_vertices(k=k, vertices=vertices)
+    randomize(G, number_of_randomizations)
     
-    print('Graph found after ' + str(iterations) + ' iterations')
     GraphPlotter.plot_graph(G)
 
 

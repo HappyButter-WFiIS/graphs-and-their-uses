@@ -16,7 +16,7 @@ def print_graph(G: Graph) -> None:
     """
     print("\nCurrent graph representation type is: ")
     if G.repr_type == RepresentationType.ADJACENCY_MATRIX:
-        print("Adjancency matrix")
+        print("Adjacency matrix")
     elif G.repr_type == RepresentationType.ADJACENCY_LIST:
         print("Adjacency list")
     elif G.repr_type == RepresentationType.INCIDENCE_MATRIX:

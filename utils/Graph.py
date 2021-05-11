@@ -52,7 +52,13 @@ class Graph:
         """
         self.repr_type = representation_type
         self.__create(self.__read_file(filename))
-
+    
+    def get_k_regular_with_n_vertices(self, k: int, vertices: int) -> None:
+        graph_sequence = [k]*vertices
+        self.load_data(graph_sequence,
+                RepresentationType.GRAPH_SEQUENCE)
+        self.to_adjacency_matrix()
+    
     def load_data(self, data: list, representation_type: RepresentationType) -> bool:
         """
         Loads graph from data in given representation.
