@@ -12,7 +12,7 @@ from utils.graph_generators import randomize
 if __name__ == "__main__":
     G = Graph()
 
-    G.get_k_regular_with_n_vertices(k=2, vertices=7)
+    G.create_k_regular_with_n_vertices(k=2, vertices=7)
     randomize(G, 100)
 
     GraphPlotter.plot_graph(G)

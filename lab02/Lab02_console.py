@@ -121,7 +121,7 @@ def present_k_regular_graphs() -> None:
 
     G = Graph()
 
-    G.get_k_regular_with_n_vertices(k=k, vertices=vertices)
+    G.create_k_regular_with_n_vertices(k=k, vertices=vertices)
     randomize(G, number_of_randomizations)
     
     GraphPlotter.plot_graph(G)

@@ -53,8 +53,12 @@ class Graph:
         self.repr_type = representation_type
         self.__create(self.__read_file(filename))
     
-    def get_k_regular_with_n_vertices(self, k: int, vertices: int) -> None:
-        graph_sequence = [k]*vertices
+    def create_k_regular_with_n_vertices(self, k: int, n: int) -> None:
+        """
+        Creates k-regular graph with given n vertices. The created graph is 
+        in adjacency matrix representation.
+        """
+        graph_sequence = [k]*n
         self.load_data(graph_sequence,
                 RepresentationType.GRAPH_SEQUENCE)
         self.to_adjacency_matrix()
