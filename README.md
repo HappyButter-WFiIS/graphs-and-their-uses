@@ -6,7 +6,13 @@
 - random graph generation
 - visualization
 
-### To be continued...
 ### lab02
+- Hamiltonian and Eulerian cycles
+- finding graph components
+- checking if sequence is graphical
+- building graphs from graphical sequence
+- k-regular graphs
+- graph randomization
+
 ### lab03
 ### lab04
