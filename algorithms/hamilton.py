@@ -3,9 +3,9 @@ from array import *
 def isHamiltonianPathFromVertex(G: list, visited: list, curr_vertex: int) -> int:
     """
     Check if exists hamiltonian path starting from curr_vertex
-	Returns 1 if hamiltonian path from curr_vertex exists, otherwise 0 
+    Returns 1 if hamiltonian path from curr_vertex exists, otherwise 0 
     Parameters: 
-        G - representation of graph as adjecency list
+        G - representation of graph as adjecency list (for deleting edges)
         visited - list that keeps info about already visited nodes
         curr_vertex - starting vertex
     """
@@ -25,7 +25,7 @@ def isHamiltonianPathFromVertex(G: list, visited: list, curr_vertex: int) -> int
 def isHamiltonian(G: list) -> int:
     """
     Check if exists hamiltonian path in graph G
-	Returns 1 if hamiltonian path exists, otherwise 0 
+    Returns 1 if hamiltonian path exists, otherwise 0 
     Parameters: 
         G - representation of graph as adjecency list
     """
