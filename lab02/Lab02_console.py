@@ -5,7 +5,7 @@ parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
 
 from utils.Graph import Graph, RepresentationType
-from utils.graph_plotter import plot_graph
+from utils.graph_plotter import GraphPlotter
 from utils.graph_generators import randomize, get_graph_with_probability
 from algorithms.euler import euler_cycle, generate_euler_graph_sequence
 from algorithms.components import search, sort_groups
@@ -46,7 +46,7 @@ def present_graphical_sequence() -> list:
 
     if G.load_data(sequence, RepresentationType.GRAPH_SEQUENCE):
         print('Your sequence is graphical! Here is one of possible solutions\n')
-        plot_graph(G)
+        GraphPlotter.plot_graph(G)
 
     else:
         print('Sequence is not graphical\n')
@@ -69,7 +69,7 @@ def present_graph_randomization() -> None:
         G.load_data(sequence, RepresentationType.GRAPH_SEQUENCE)
         G.to_adjacency_matrix()
         randomize(G, randomizations)
-        plot_graph(G)
+        GraphPlotter.plot_graph(G)
 
 
 def present_components_finding() -> None:
@@ -87,7 +87,7 @@ def present_components_finding() -> None:
 
     groups = search(G)
     sort_groups(G, groups)
-    plot_graph(G, groups)
+    GraphPlotter.plot_graph(G, groups)
 
 
 def present_eulerian_graphs() -> None:
@@ -104,7 +104,7 @@ def present_eulerian_graphs() -> None:
         G.to_adjacency_matrix()
         randomize(G, randomizations)
         print('Euler Cycle: ' + euler_cycle(G))
-        plot_graph(G)
+        GraphPlotter.plot_graph(G)
 
     else:
         print("Error while generating euler graph sequence")
@@ -129,7 +129,7 @@ def present_k_regular_graphs() -> None:
             break
     
     print('Graph found after ' + str(iterations) + ' iterations')
-    plot_graph(G)
+    GraphPlotter.plot_graph(G)
 
 
 def present_hamiltonian_graphs() -> None:
@@ -149,7 +149,7 @@ def present_hamiltonian_graphs() -> None:
     else:
         print('Graph is not Hamiltonian')
 
-    plot_graph(G)
+    GraphPlotter.plot_graph(G)
         
 
 if __name__ == '__main__':
