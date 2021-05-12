@@ -15,8 +15,8 @@ def isHamiltonianPathFromVertex(G: list, visited: list, curr_vertex: int) -> int
         return 1
 
     for v in G[curr_vertex]:
-        if not visited[v]:
-            if isHamiltonianPathFromVertex(G,visited,v): 
+        if not visited[v-1]:
+            if isHamiltonianPathFromVertex(G,visited,v-1): 
                 return 1
 
     visited[curr_vertex] = 0
@@ -32,7 +32,7 @@ def isHamiltonian(G: list) -> int:
     visited = [0] * len(G)
 
     for v in range(len(G)):
-        if(isHamiltonianPathFromVertex(G, visited, v) ):
+        if(isHamiltonianPathFromVertex(G, visited, v-1) ):
             return 1
     
         visited = [0] * len(G)
