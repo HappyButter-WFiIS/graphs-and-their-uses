@@ -10,11 +10,21 @@ def get_graph_by_vertices_and_edges(num_of_vertices: int, num_of_edges: int) -> 
     which amount is passed by 'num_of_nodes' parameter. These nodes,
     are linked with randomly chosen edges in a number of 'num_of_edges'.
     """
+    # handling incorrect number of vertices
+    if num_of_vertices < 1:
+        print("Number of vertices must be positive.")
+        num_of_vertices = 1
+    
+    # handling incorrect number of edges
     max_edges_number = num_of_vertices * (num_of_vertices-1) // 2
     if num_of_edges > max_edges_number:
         print("\nMax number of edges for graph with {0} vertices is {1}".format(num_of_vertices, max_edges_number))
         print("-> Generating graph with {0} edges.".format(max_edges_number))
         num_of_edges = max_edges_number
+    elif num_of_edges < 0:
+        print("\nMin number of edges is 0".format(num_of_vertices, max_edges_number))
+        print("-> Generating graph with 0 edges.")
+        num_of_edges = 0
         
     
     vertices_list = list(range(0, num_of_vertices))
@@ -39,6 +49,14 @@ def get_graph_with_probability(num_of_nodes: int, probability: float) -> list:
     adjacency matrix, with connections between nodes, that
     depend on the 'probability' parameter.
     """
+    # handle if number of nodes is not in range (1;1000) 
+    if num_of_nodes > 1000:
+        print("\nIt may take a few seconds... Relax...")  
+    elif num_of_nodes < 1:
+        print("\nMin number of nodes is 1")
+        print("-> Generating graph with 1 node.")
+        num_of_nodes = 1 
+    
     graph = np.random.random((num_of_nodes, num_of_nodes))
     graph = graph >= 1 - probability
 
