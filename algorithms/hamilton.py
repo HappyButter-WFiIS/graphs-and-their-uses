@@ -32,7 +32,7 @@ def isHamiltonian(G: list) -> int:
     visited = [0] * len(G)
 
     for v in range(len(G)):
-        if(isHamiltonianPathFromVertex(G, visited, v-1) ):
+        if(isHamiltonianPathFromVertex(G, visited, v) ):
             return 1
     
         visited = [0] * len(G)
