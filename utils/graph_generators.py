@@ -13,7 +13,9 @@ def get_graph_by_vertices_and_edges(num_of_vertices: int, num_of_edges: int) -> 
     max_edges_number = num_of_vertices * (num_of_vertices-1) // 2
     if num_of_edges > max_edges_number:
         print("\nMax number of edges for graph with {0} vertices is {1}".format(num_of_vertices, max_edges_number))
-        return list()
+        print("-> Generating graph with {0} edges.".format(max_edges_number))
+        num_of_edges = max_edges_number
+        
     
     vertices_list = list(range(0, num_of_vertices))
     edges_list = [(a, b) for idx, a in enumerate(vertices_list) for b in
