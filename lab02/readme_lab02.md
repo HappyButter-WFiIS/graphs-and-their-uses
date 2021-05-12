@@ -144,6 +144,6 @@
       
  - Note: 
  It is assumed that input data is correct.
- However if it is not the proper message is diplayed and the program returns to main menu / submenu.
+ However, if it is not, the proper message is displayed and the program returns to main menu / submenu.
  In case of graphs from file, it is highly recommended to plot graph after upload 
  to check if it was loaded without any errors.

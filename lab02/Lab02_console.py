@@ -30,7 +30,7 @@ def display_menu() -> None:
     print('[4] Random Eulerian graphs')
     print('[5] Random k-regular graphs')
     print('[6] Check if random graph is Hamiltonian')
-    print('[7] Load graph from file')
+    print('[0] Load graph from file')
     print('[q] Quit\n')
 
 
@@ -44,7 +44,7 @@ def display_submenu() -> None:
     print('[3] Randomize graph')
     print('[4] Mark components in graph and find the biggest one')
     print('[5] Plot graph')
-    print('[b] Go back\n')
+    print('[b] Go back to menu\n')
     
 
 def present_graphical_sequence() -> list:
@@ -255,7 +255,7 @@ if __name__ == '__main__':
                 present_k_regular_graphs()
             if main_choice == '6':
                 present_hamiltonian_graphs()
-            if main_choice == '7':
+            if main_choice == '0':
                 load_graph_from_file_menu()
             
         except:

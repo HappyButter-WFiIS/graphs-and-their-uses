@@ -340,7 +340,7 @@ class Graph:
 
     def is_k_regular(self, k: int) -> bool:
         """
-        Checks is graph is k-regular.
+        Checks if graph is k-regular.
         """
         if self.repr_type == RepresentationType.ADJACENCY_MATRIX:
             for line in self.repr:
