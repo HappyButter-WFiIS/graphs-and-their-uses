@@ -6,16 +6,16 @@ sys.path.append(parentdir)
 
 from utils.Graph import Graph, RepresentationType
 from utils.graph_plotter import GraphPlotter
-from algorithms.components import search, sort_groups
+from algorithms.components import get_components, print_sorted_components
 
 
 if __name__ == '__main__':
     G = Graph()
-    G.load_data([4, 2, 2, 3, 1, 3, 4, 1, 2, 2, 2],
+    G.load_data([2, 2, 2, 1, 3, 1, 2, 1, 4, 2, 2, 1, 3, 1, 1],
                 RepresentationType.GRAPH_SEQUENCE)
     G.to_adjacency_list()
-    groups = search(G)
+    groups = get_components(G)
 
-    sort_groups(G, groups)
+    print_sorted_components(G, groups)
     G.to_adjacency_matrix()
     GraphPlotter.plot_graph(G, groups)

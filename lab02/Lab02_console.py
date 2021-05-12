@@ -8,7 +8,7 @@ from utils.Graph import Graph, RepresentationType
 from utils.graph_plotter import GraphPlotter
 from utils.graph_generators import randomize, get_graph_with_probability
 from algorithms.euler import euler_cycle, generate_euler_graph_sequence
-from algorithms.components import search, sort_groups
+from algorithms.components import get_components, print_sorted_components
 from algorithms.hamilton import isHamiltonian
 
 def display_welcome() -> None:
@@ -99,8 +99,8 @@ def present_components_finding() -> None:
     G.load_data(get_graph_with_probability(vertices, probability), RepresentationType.ADJACENCY_MATRIX)
     G.to_adjacency_list()
 
-    groups = search(G)
-    sort_groups(G, groups)
+    groups = get_components(G)
+    print_sorted_components(G, groups)
     GraphPlotter.plot_graph(G, groups)
 
 
@@ -192,8 +192,8 @@ def present_graph_from_file(G: Graph) -> None:
             
             if operations_choice == '4':
                 G.to_adjacency_list()
-                groups = search(G)
-                sort_groups(G, groups)
+                groups = get_components(G)
+                print_sorted_components(G, groups)
                 GraphPlotter.plot_graph(G, groups)
             
             if operations_choice == '5':

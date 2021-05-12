@@ -1,22 +1,30 @@
 from utils.Graph import Graph
 
+
 def get_index_of_max_value(values: list) -> int:
+    """
+    A helper function which returns the index from a list-of-lists,
+    for which the list corresponding to it has the biggest length.
+    """
     list_sizes = [len(item) for item in values]
     return list_sizes.index(max(list_sizes))
 
 
-def search(G: Graph):
+def get_components(graph: Graph) -> list:
+    """
+    Creates a list which contains labels for Graph nodes.
+    Same value means the same component of the Graph.
+    """
+    def visit_node(idx):
+        visited[idx] = True
+        groups[idx] = current_group
+        for j in range(len(graph[idx])):
 
-    def visit_node(i):
-        visited[i] = True
-        groups[i] = current_group
-        for j in range(len(G[i])):
+            if not visited[graph[idx][j] - 1]:
+                visit_node(graph[idx][j] - 1)
 
-            if not visited[G[i][j]-1]:
-                visit_node(G[i][j]-1)
-
-    G = G.repr
-    node_count = len(G)
+    graph = graph.repr
+    node_count = len(graph)
     visited = [False] * node_count
     groups = [None] * node_count
     current_group = 0
@@ -30,14 +38,20 @@ def search(G: Graph):
     return groups
 
 
-def sort_groups(G, groups):
-    G = G.repr
-    numof_groups = max(groups)+1
+def print_sorted_components(graph: Graph, groups: list) -> int:
+    """
+    Prints Graph node indices sorted into components.
+    Also prints and returns the biggest component.
+    """
+    graph = graph.repr
+    num_of_groups = max(groups)+1
     sorted_groups = []
-    for i in range(numof_groups):
+    for i in range(num_of_groups):
         sorted_groups.append([])
-    for i in range(len(G)):
+    for i in range(len(graph)):
         sorted_groups[groups[i]].append(i+1)
+
+    print("Components:")
 
     for i in range(len(sorted_groups)):
         print("%d) " % (i+1), end='')
@@ -46,6 +60,9 @@ def sort_groups(G, groups):
             print("%s%d " % (separator, node), end='')
             separator = ''
         print()
-        
-    print("Biggest component has index: %d." %
-          (get_index_of_max_value(sorted_groups) + 1))
+
+    biggest = get_index_of_max_value(sorted_groups) + 1
+
+    print(f"Biggest component has index: {biggest}.")
+
+    return biggest
