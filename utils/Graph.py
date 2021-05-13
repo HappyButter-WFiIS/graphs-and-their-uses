@@ -1,6 +1,8 @@
 from enum import Enum
 from copy import deepcopy
 
+from algorithms.dijkstra import find_shortest_path
+
 
 class RepresentationType(Enum):
     """
@@ -364,6 +366,21 @@ class Graph:
                     if element != 0:
                         adjlist_repr_row[j + 1] = element
 
-                adjlist_repr[i + 1] = (adjlist_repr_row)
+                adjlist_repr[i + 1] = adjlist_repr_row
             return adjlist_repr
         return {}
+
+    def get_distance_matrix(self):
+        """
+        Returns a two-dimensional distance matrix of the graph instance.
+        """
+        final_matrix = [[0 for _ in range(10)] for __ in range(10)]
+
+        for i in range(10):
+            temp = find_shortest_path(G=self.get_weighted_adjacency_list(), start=i + 1, destination=i + 1,
+                                      verbose=False)
+            for j in range(i):
+                final_matrix[i][j] = temp[j + 1]
+                final_matrix[j][i] = temp[j + 1]
+
+        return final_matrix
