@@ -9,7 +9,7 @@ from utils.graph_plotter import GraphPlotter
 from utils.graph_generators import randomize, get_graph_with_probability
 from algorithms.euler import euler_cycle, generate_euler_graph_sequence
 from algorithms.components import get_components, print_sorted_components
-from algorithms.hamilton import isHamiltonian
+from algorithms.hamilton import hamilton
 
 def display_welcome() -> None:
     """
@@ -149,12 +149,9 @@ def present_hamiltonian_graphs() -> None:
 
     G = Graph()
     G.load_data(get_graph_with_probability(vertices, probability), RepresentationType.ADJACENCY_MATRIX)
-    G.to_adjacency_list()
+    G.to_adjacency_matrix()
     
-    if isHamiltonian(G.repr) == 1:
-        print('Graph is Hamiltonian')
-    else:
-        print('Graph is not Hamiltonian')
+    print(hamilton(G.repr))
 
     GraphPlotter.plot_graph(G)
 
