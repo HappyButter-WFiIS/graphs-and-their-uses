@@ -1,5 +1,6 @@
 from enum import Enum
 from copy import deepcopy
+import numpy as np
 
 from algorithms.dijkstra import find_shortest_path
 
@@ -374,9 +375,10 @@ class Graph:
         """
         Returns a two-dimensional distance matrix of the graph instance.
         """
-        final_matrix = [[0 for _ in range(10)] for __ in range(10)]
+        size = np.shape(self.repr)[0]
+        final_matrix = [[0 for _ in range(size)] for __ in range(size)]
 
-        for i in range(10):
+        for i in range(size):
             temp = find_shortest_path(G=self.get_weighted_adjacency_list(), start=i + 1, destination=i + 1,
                                       verbose=False)
             for j in range(i):
