@@ -7,7 +7,7 @@ sys.path.append(parentdir)
 from utils.Graph import Graph, RepresentationType
 from utils.graph_plotter import GraphPlotter
 from utils.graph_generators import randomize, get_graph_with_probability
-from algorithms.euler import euler_cycle, generate_euler_graph_sequence
+from algorithms.euler import euler_cycle, generate_euler_graph_sequence, is_eulerian
 from algorithms.components import get_components, print_sorted_components
 from algorithms.hamilton import hamilton
 
@@ -40,10 +40,11 @@ def display_submenu() -> None:
     """
     print('\n ---- Graph from file ---\n')
     print('[1] Chceck if graph is Hamiltonian')
-    print('[2] Check if graph is k-regular')
-    print('[3] Randomize graph')
-    print('[4] Mark components in graph and find the biggest one')
-    print('[5] Plot graph')
+    print('[2] Chceck if graph is Eulerian')
+    print('[3] Check if graph is k-regular')
+    print('[4] Randomize graph')
+    print('[5] Mark components in graph and find the biggest one')
+    print('[6] Plot graph')
     print('[b] Go back to menu\n')
     
 
@@ -149,13 +150,17 @@ def present_hamiltonian_graphs() -> None:
 
     G = Graph()
     G.load_data(get_graph_with_probability(vertices, probability), RepresentationType.ADJACENCY_MATRIX)
-    G.to_adjacency_matrix()
     
-    print(hamilton(G.repr))
-
+    cycle = hamilton(G)
+    if cycle == []:
+        print("Graph is not hamiltonian")
+    else:
+        print("Graph is hamiltonian")
+        print(cycle)
+        
     GraphPlotter.plot_graph(G)
 
-    
+
 def present_graph_from_file(G: Graph) -> None:   
     operations_choice = ''
     v = len(G.repr)
@@ -167,13 +172,21 @@ def present_graph_from_file(G: Graph) -> None:
         try:
             
             if operations_choice == '1':
-                G.to_adjacency_list()
-                if isHamiltonian(G.repr) == 1:
-                    print('Graph is Hamiltonian')
-                else:
+                cycle = hamilton(G)
+                if cycle == []:
                     print('Graph is not Hamiltonian')
-                
+                else:
+                    print('Graph is Hamiltonian')
+                    print(cycle)
+            
             if operations_choice == '2':
+                if is_eulerian(G):
+                    print('Graph is Eulerian')
+                    print(euler_cycle(G))
+                else:
+                    print('Graph is not Eulerian')
+                
+            if operations_choice == '3':
                 G.to_adjacency_matrix()
                 for k in range(1, v):
                     if G.is_k_regular(k):
@@ -182,18 +195,18 @@ def present_graph_from_file(G: Graph) -> None:
                     if k == v - 1:
                         print('Graph is not k-regular')
             
-            if operations_choice == '3':
+            if operations_choice == '4':
                 G.to_adjacency_matrix()
                 randomizations = int(input('Number of randomizations: '))
                 randomize(G, randomizations)
             
-            if operations_choice == '4':
+            if operations_choice == '5':
                 G.to_adjacency_list()
                 groups = get_components(G)
                 print_sorted_components(G, groups)
                 GraphPlotter.plot_graph(G, groups)
             
-            if operations_choice == '5':
+            if operations_choice == '6':
                 GraphPlotter.plot_graph(G)
             
         except:

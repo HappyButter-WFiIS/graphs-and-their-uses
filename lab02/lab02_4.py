@@ -20,7 +20,7 @@ if __name__ == "__main__":
     else:
         print("Error while generating euler graph sequence")
         exit()
-        
+    
     G.to_adjacency_matrix()
     randomize(G, randomizations)
     print(euler_cycle(G))

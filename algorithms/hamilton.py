@@ -4,6 +4,7 @@
 """
  
 from typing import List
+from utils.Graph import Graph, RepresentationType
  
  
 # Checks whether it is possible to add next vertex
@@ -30,7 +31,8 @@ def hamilton_inner(graph: List[List[int]], path: List[int], curr_ind: int) -> bo
     return False
  
  
-def hamilton(graph: List[List[int]], initial_vertex: int = 0) -> List[int]:
-    path = [-1] * (len(graph) + 1)
+def hamilton(G: Graph, initial_vertex: int = 0) -> List[int]:
+    G.to_adjacency_matrix()
+    path = [-1] * (len(G.repr) + 1)
     path[0] = path[-1] = initial_vertex
-    return path if hamilton_inner(graph, path, 1) else []
+    return [(x + 1) for x in path] if hamilton_inner(G.repr, path, 1) else []
