@@ -6,7 +6,7 @@ sys.path.append(parentdir)
 
 from utils.Graph import Graph, RepresentationType
 from utils.graph_generators import gen_random_conn_graph_weighted
-from utils.graph_plotter import plot_graph
+from utils.graph_plotter import GraphPlotter
 
 
 if __name__ == "__main__":
@@ -16,7 +16,7 @@ if __name__ == "__main__":
     G.load_data(data=random_conn_graph,
                 representation_type=RepresentationType.ADJACENCY_MATRIX_WITH_WEIGHTS)
     print(G)
-    plot_graph(G.repr)
+    GraphPlotter.plot_graph(G)
     
 
 
