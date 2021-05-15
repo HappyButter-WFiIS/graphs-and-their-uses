@@ -1,40 +1,36 @@
-from array import *
-
-def isHamiltonianPathFromVertex(G: list, visited: list, curr_vertex: int) -> int:
-    """
-    Check if exists hamiltonian path starting from curr_vertex
-    Returns 1 if hamiltonian path from curr_vertex exists, otherwise 0 
-    Parameters: 
-        G - representation of graph as adjecency list (for deleting edges)
-        visited - list that keeps info about already visited nodes
-        curr_vertex - starting vertex
-    """
-    visited[curr_vertex] = 1
-
-    if not 0 in visited:
-        return 1
-
-    for v in G[curr_vertex]:
-        if not visited[v-1]:
-            if isHamiltonianPathFromVertex(G,visited,v-1): 
-                return 1
-
-    visited[curr_vertex] = 0
-    return 0
-
-def isHamiltonian(G: list) -> int:
-    """
-    Check if exists hamiltonian path in graph G
-    Returns 1 if hamiltonian path exists, otherwise 0 
-    Parameters: 
-        G - representation of graph as adjecency list
-    """
-    visited = [0] * len(G)
-
-    for v in range(len(G)):
-        if(isHamiltonianPathFromVertex(G, visited, v) ):
-            return 1
-    
-        visited = [0] * len(G)
-
-    return 0
+"""
+    algorithm to find hamiltonian cycle
+    input is adjacency matrix
+"""
+ 
+from typing import List
+ 
+ 
+# Checks whether it is possible to add next vertex
+def valid_connection(
+    graph: List[List[int]], next_ver: int, curr_ind: int, path: List[int]) -> bool:
+    if graph[path[curr_ind - 1]][next_ver] == 0:
+        return False
+    return not any(vertex == next_ver for vertex in path)
+ 
+ 
+# Chceck if we visited all of vertices
+# If last visited vertex has path to starting vertex return True
+# either return False
+ 
+def hamilton_inner(graph: List[List[int]], path: List[int], curr_ind: int) -> bool:
+    if curr_ind == len(graph):
+        return graph[path[curr_ind - 1]][path[0]] == 1
+    for next in range(0, len(graph)):
+        if valid_connection(graph, next, curr_ind, path):
+            path[curr_ind] = next
+            if hamilton_inner(graph, path, curr_ind + 1):
+                return True
+            path[curr_ind] = -1
+    return False
+ 
+ 
+def hamilton(graph: List[List[int]], initial_vertex: int = 0) -> List[int]:
+    path = [-1] * (len(graph) + 1)
+    path[0] = path[-1] = initial_vertex
+    return path if hamilton_inner(graph, path, 1) else []
