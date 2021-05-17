@@ -40,17 +40,22 @@ class GraphPlotter:
             for i in range(len(nodes_color_modes)):
                 if nodes_color_modes[i] > len(GraphPlotter.node_color_modes) - 1:
                     nodes_color_modes[i] = 0
+
             ax = GraphPlotter.__prepare_plot()
             node_positions = GraphPlotter.__get_node_positions(num_of_nodes)
-            GraphPlotter.__draw_edges(num_of_nodes,
-                                      source_matrix,
-                                      node_positions)
-            GraphPlotter.__draw_wages(num_of_nodes,
-                                      source_matrix,
-                                      node_positions)
-            GraphPlotter.__draw_nodes(num_of_nodes, ax,
-                                      nodes_color_modes,
-                                      node_positions)
+
+            GraphPlotter.__draw_edges(num_of_nodes=num_of_nodes,
+                                      source_matrix=source_matrix,
+                                      node_positions=node_positions)
+
+            GraphPlotter.__draw_wages(num_of_nodes=num_of_nodes,
+                                      source_matrix=source_matrix,
+                                      node_positions=node_positions)
+
+            GraphPlotter.__draw_nodes(num_of_nodes=num_of_nodes,
+                                      ax=ax,
+                                      groups=nodes_color_modes,
+                                      node_positions=node_positions)
 
             plot.show()
             if current_repr_type == RepresentationType.INCIDENCE_MATRIX:
