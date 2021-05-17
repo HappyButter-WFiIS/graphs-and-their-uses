@@ -6,16 +6,17 @@ sys.path.append(parentdir)
 
 from utils.Graph import Graph, RepresentationType
 from utils.graph_generators import gen_random_conn_graph_weighted
-from utils.graph_plotter import plot_graph
+from utils.graph_plotter import GraphPlotter
 from algorithms.mst import kruskal, prim
 
-
 if __name__ == '__main__':
-    v = int(input('Number of vertices: ')) 
+    v = int(input('Number of vertices: '))
     G = Graph()
     G.load_data(gen_random_conn_graph_weighted(v), RepresentationType.ADJACENCY_MATRIX)
-    plot_graph(G.repr)
+    GraphPlotter.plot_graph(G)
     MST = kruskal(G.repr)
-    plot_graph(MST)
+    G.load_data(MST, RepresentationType.ADJACENCY_MATRIX)
+    GraphPlotter.plot_graph(G)
     MST = prim(G.repr)
-    plot_graph(MST)
+    G.load_data(MST, RepresentationType.ADJACENCY_MATRIX)
+    GraphPlotter.plot_graph(G)

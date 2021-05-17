@@ -71,3 +71,16 @@ def generate_euler_graph_sequence(G: Graph, vertices: int) -> bool:
         iteration += 1              
 
     return False
+
+def is_eulerian(G: Graph) -> bool:
+    """
+    Returns True if graphical sequence of given graph
+    consists only even numbers.
+    """
+    copyG = deepcopy(G)
+    copyG.to_graphical_sequence()
+    for deg in copyG.repr:
+        if deg % 2 == 1:
+            return False
+    
+    return True
