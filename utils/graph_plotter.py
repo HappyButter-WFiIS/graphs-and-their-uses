@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plot
-import numpy as np
 import math
 from utils.Graph import RepresentationType, Graph
 
@@ -43,6 +42,7 @@ class GraphPlotter:
                     nodes_color_modes[i] = 0
             ax = GraphPlotter.__prepare_plot()
             GraphPlotter.__draw_edges(num_of_nodes, source_matrix)
+            GraphPlotter.__draw_wages(num_of_nodes, source_matrix)
             GraphPlotter.__draw_nodes(num_of_nodes, ax, nodes_color_modes)
 
             plot.show()
@@ -69,8 +69,8 @@ class GraphPlotter:
     @staticmethod
     def __draw_nodes(num_of_nodes, ax, groups) -> None:
         for i in range(num_of_nodes):
-            x = np.sin(2 * np.pi / num_of_nodes * i)
-            y = np.cos(2 * np.pi / num_of_nodes * i)
+            x = math.sin(2 * math.pi / num_of_nodes * i)
+            y = math.cos(2 * math.pi / num_of_nodes * i)
             node = plot.Circle((x, y), 0.1, clip_on=False, zorder=3,
                                color=GraphPlotter.node_color_modes[groups[i]]["bg"])
             ax.annotate(str(i + 1), xy=(x, y), fontsize=15,
@@ -80,7 +80,7 @@ class GraphPlotter:
 
     @staticmethod
     def __draw_edges(num_of_nodes, source_matrix) -> None:
-        pi = np.pi
+        pi = math.pi
         for row in range(num_of_nodes):
             for col in range(row):
                 if row == col:
@@ -89,41 +89,35 @@ class GraphPlotter:
                 second_wage = source_matrix[col][row]
                 if first_wage == 0 and second_wage == 0:
                     continue
-                xx = [np.sin(2 * pi / num_of_nodes * col),
-                      np.sin(2 * pi / num_of_nodes * row)]
-                yy = [np.cos(2 * pi / num_of_nodes * col),
-                      np.cos(2 * pi / num_of_nodes * row)]
+                xx = [math.sin(2 * pi / num_of_nodes * col),
+                      math.sin(2 * pi / num_of_nodes * row)]
+                yy = [math.cos(2 * pi / num_of_nodes * col),
+                      math.cos(2 * pi / num_of_nodes * row)]
                 plot.plot(xx, yy, color="black")
 
-                offset = 6
-
-                if first_wage != 0:
-                    first_wage_x = (xx[1] - xx[0])
-                    first_wage_y = (yy[1] - yy[0])
-                    length = math.sqrt(first_wage_x ** 2 + first_wage_y ** 2)
-                    first_wage_x /= length * offset
-                    first_wage_y /= length * offset
-                    first_wage_x += xx[0]
-                    first_wage_y += yy[0]
-                    t = plot.text(s=str(second_wage),
-                                  x=first_wage_x,
-                                  y=first_wage_y,
-                                  fontsize=10,
-                                  ha='center',
-                                  va='center')
-                    t.set_bbox(dict(pad=0.1, color='white'))
-
-                if second_wage != 0:
-                    second_wage_x = (xx[0] - xx[1])
-                    second_wage_y = (yy[0] - yy[1])
-                    length = math.sqrt(second_wage_x ** 2 + second_wage_y ** 2)
-                    second_wage_x /= length * offset
-                    second_wage_y /= length * offset
-                    second_wage_x += xx[1]
-                    second_wage_y += yy[1]
-                    t = plot.text(s=str(second_wage),
-                                  x=second_wage_x,
-                                  y=second_wage_y,
+    @staticmethod
+    def __draw_wages(num_of_nodes, source_matrix) -> None:
+        offset = 5
+        pi = math.pi
+        for row in range(num_of_nodes):
+            for col in range(num_of_nodes):
+                if row == col:
+                    continue
+                xx = [math.sin(2 * pi / num_of_nodes * col),
+                      math.sin(2 * pi / num_of_nodes * row)]
+                yy = [math.cos(2 * pi / num_of_nodes * col),
+                      math.cos(2 * pi / num_of_nodes * row)]
+                if source_matrix[row][col] != 0:
+                    x = (xx[1] - xx[0])
+                    y = (yy[1] - yy[0])
+                    length = math.sqrt(x ** 2 + y ** 2)
+                    x /= length * offset
+                    y /= length * offset
+                    x += xx[0]
+                    y += yy[0]
+                    t = plot.text(s=str(source_matrix[row][col]),
+                                  x=x,
+                                  y=y,
                                   fontsize=10,
                                   ha='center',
                                   va='center')
