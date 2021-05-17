@@ -41,9 +41,16 @@ class GraphPlotter:
                 if nodes_color_modes[i] > len(GraphPlotter.node_color_modes) - 1:
                     nodes_color_modes[i] = 0
             ax = GraphPlotter.__prepare_plot()
-            GraphPlotter.__draw_edges(num_of_nodes, source_matrix)
-            GraphPlotter.__draw_wages(num_of_nodes, source_matrix)
-            GraphPlotter.__draw_nodes(num_of_nodes, ax, nodes_color_modes)
+            node_positions = GraphPlotter.__get_node_positions(num_of_nodes)
+            GraphPlotter.__draw_edges(num_of_nodes,
+                                      source_matrix,
+                                      node_positions)
+            GraphPlotter.__draw_wages(num_of_nodes,
+                                      source_matrix,
+                                      node_positions)
+            GraphPlotter.__draw_nodes(num_of_nodes, ax,
+                                      nodes_color_modes,
+                                      node_positions)
 
             plot.show()
             if current_repr_type == RepresentationType.INCIDENCE_MATRIX:
@@ -67,19 +74,32 @@ class GraphPlotter:
         return ax
 
     @staticmethod
-    def __draw_nodes(num_of_nodes, ax, groups) -> None:
+    def __draw_nodes(num_of_nodes, ax, groups, node_positions) -> None:
         for i in range(num_of_nodes):
-            x = math.sin(2 * math.pi / num_of_nodes * i)
-            y = math.cos(2 * math.pi / num_of_nodes * i)
-            node = plot.Circle((x, y), 0.1, clip_on=False, zorder=3,
+
+            node = plot.Circle((node_positions[i][0],
+                                node_positions[i][1]),
+                               0.1, clip_on=False, zorder=3,
                                color=GraphPlotter.node_color_modes[groups[i]]["bg"])
-            ax.annotate(str(i + 1), xy=(x, y), fontsize=15,
+            ax.annotate(str(i + 1),
+                        xy=(node_positions[i][0],
+                            node_positions[i][1]),
+                        fontsize=15,
                         ha="center", va="center",
                         color=GraphPlotter.node_color_modes[groups[i]]["text"])
             ax.add_patch(node)
 
     @staticmethod
-    def __draw_edges(num_of_nodes, source_matrix) -> None:
+    def __get_node_positions(num_of_nodes) -> list:
+        pi = math.pi
+        positions = []
+        for node_idx in range(num_of_nodes):
+            positions.append([math.sin(2 * pi / num_of_nodes * node_idx),
+                              math.cos(2 * pi / num_of_nodes * node_idx)])
+        return positions
+
+    @staticmethod
+    def __draw_edges(num_of_nodes, source_matrix, node_positions) -> None:
         pi = math.pi
         for row in range(num_of_nodes):
             for col in range(row):
@@ -89,24 +109,24 @@ class GraphPlotter:
                 second_wage = source_matrix[col][row]
                 if first_wage == 0 and second_wage == 0:
                     continue
-                xx = [math.sin(2 * pi / num_of_nodes * col),
-                      math.sin(2 * pi / num_of_nodes * row)]
-                yy = [math.cos(2 * pi / num_of_nodes * col),
-                      math.cos(2 * pi / num_of_nodes * row)]
+                xx = [node_positions[col][0],
+                      node_positions[row][0]]
+                yy = [node_positions[col][1],
+                      node_positions[row][1]]
                 plot.plot(xx, yy, color="black")
 
     @staticmethod
-    def __draw_wages(num_of_nodes, source_matrix) -> None:
+    def __draw_wages(num_of_nodes, source_matrix, node_positions) -> None:
         offset = 5
         pi = math.pi
         for row in range(num_of_nodes):
             for col in range(num_of_nodes):
                 if row == col:
                     continue
-                xx = [math.sin(2 * pi / num_of_nodes * col),
-                      math.sin(2 * pi / num_of_nodes * row)]
-                yy = [math.cos(2 * pi / num_of_nodes * col),
-                      math.cos(2 * pi / num_of_nodes * row)]
+                xx = [node_positions[col][0],
+                      node_positions[row][0]]
+                yy = [node_positions[col][1],
+                      node_positions[row][1]]
                 if source_matrix[row][col] != 0:
                     x = (xx[1] - xx[0])
                     y = (yy[1] - yy[0])
