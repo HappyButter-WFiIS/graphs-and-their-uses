@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plot
 import numpy as np
+import math
 from utils.Graph import RepresentationType, Graph
 
 
@@ -79,12 +80,51 @@ class GraphPlotter:
 
     @staticmethod
     def __draw_edges(num_of_nodes, source_matrix) -> None:
+        pi = np.pi
         for row in range(num_of_nodes):
             for col in range(row):
-                if source_matrix[row][col] == 0:
+                if row == col:
                     continue
-                xx = [np.sin(2 * np.pi / num_of_nodes * col),
-                      np.sin(2 * np.pi / num_of_nodes * row)]
-                yy = [np.cos(2 * np.pi / num_of_nodes * col),
-                      np.cos(2 * np.pi / num_of_nodes * row)]
+                first_wage = source_matrix[row][col]
+                second_wage = source_matrix[col][row]
+                if first_wage == 0 and second_wage == 0:
+                    continue
+                xx = [np.sin(2 * pi / num_of_nodes * col),
+                      np.sin(2 * pi / num_of_nodes * row)]
+                yy = [np.cos(2 * pi / num_of_nodes * col),
+                      np.cos(2 * pi / num_of_nodes * row)]
                 plot.plot(xx, yy, color="black")
+
+                offset = 6
+
+                if first_wage != 0:
+                    first_wage_x = (xx[1] - xx[0])
+                    first_wage_y = (yy[1] - yy[0])
+                    length = math.sqrt(first_wage_x ** 2 + first_wage_y ** 2)
+                    first_wage_x /= length * offset
+                    first_wage_y /= length * offset
+                    first_wage_x += xx[0]
+                    first_wage_y += yy[0]
+                    t = plot.text(s=str(second_wage),
+                                  x=first_wage_x,
+                                  y=first_wage_y,
+                                  fontsize=10,
+                                  ha='center',
+                                  va='center')
+                    t.set_bbox(dict(pad=0.1, color='white'))
+
+                if second_wage != 0:
+                    second_wage_x = (xx[0] - xx[1])
+                    second_wage_y = (yy[0] - yy[1])
+                    length = math.sqrt(second_wage_x ** 2 + second_wage_y ** 2)
+                    second_wage_x /= length * offset
+                    second_wage_y /= length * offset
+                    second_wage_x += xx[1]
+                    second_wage_y += yy[1]
+                    t = plot.text(s=str(second_wage),
+                                  x=second_wage_x,
+                                  y=second_wage_y,
+                                  fontsize=10,
+                                  ha='center',
+                                  va='center')
+                    t.set_bbox(dict(pad=0.1, color='white'))
