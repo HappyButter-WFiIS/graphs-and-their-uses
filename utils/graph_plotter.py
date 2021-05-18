@@ -20,12 +20,12 @@ class GraphPlotter:
         {'bg': 'brown', 'text': 'white'},
     ]
 
-    """
-    Plots graph using Matplotlib. If color modes are not passed, the color of each node will be the same.
-    """
-
     @staticmethod
     def plot_graph(graph: Graph, nodes_color_modes: list = None) -> None:
+        """
+        Plots graph using Matplotlib.
+        If color modes are not passed, the color of each node will be the same.
+        """
         current_repr_type = graph.repr_type
         if current_repr_type == RepresentationType.ADJACENCY_LIST \
                 or current_repr_type == RepresentationType.ADJACENCY_MATRIX \
@@ -51,7 +51,8 @@ class GraphPlotter:
 
             GraphPlotter.__draw_wages(num_of_nodes=num_of_nodes,
                                       source_matrix=source_matrix,
-                                      node_positions=node_positions)
+                                      node_positions=node_positions,
+                                      label_offset=0.25)
 
             GraphPlotter.__draw_arrows(num_of_nodes=num_of_nodes,
                                        source_matrix=source_matrix,
@@ -85,7 +86,9 @@ class GraphPlotter:
         return ax
 
     @staticmethod
-    def __draw_nodes(num_of_nodes, ax, groups, node_positions) -> None:
+    def __draw_nodes(num_of_nodes,
+                     ax, groups,
+                     node_positions) -> None:
         for i in range(num_of_nodes):
             node = plot.Circle((node_positions[i][0],
                                 node_positions[i][1]),
@@ -125,9 +128,13 @@ class GraphPlotter:
                 plot.plot(xx, yy, color="black")
 
     @staticmethod
-    def __get_first_end_of_line(xx: (float, float),
-                                yy: (float, float),
-                                offset: float) -> (float, float):
+    def __get_endpoint(xx: (float, float),
+                       yy: (float, float),
+                       offset: float) -> (float, float):
+        """
+        Returns coordinates of the first end of the line
+        shifted to the direction of the line.
+        """
         x = (xx[1] - xx[0])
         y = (yy[1] - yy[0])
         length = math.sqrt(x ** 2 + y ** 2)
@@ -138,24 +145,26 @@ class GraphPlotter:
         return x, y
 
     @staticmethod
-    def __draw_wages(num_of_nodes, source_matrix, node_positions) -> None:
+    def __draw_wages(num_of_nodes,
+                     source_matrix,
+                     node_positions,
+                     label_offset) -> None:
         for row in range(num_of_nodes):
             for col in range(num_of_nodes):
-                if row == col:
+                if row == col or source_matrix[row][col] == 0:
                     continue
                 xx = [node_positions[col][0],
                       node_positions[row][0]]
                 yy = [node_positions[col][1],
                       node_positions[row][1]]
-                if source_matrix[row][col] != 0:
-                    x, y = GraphPlotter.__get_first_end_of_line(xx, yy, 0.2)
-                    t = plot.text(s=str(source_matrix[row][col]),
-                                  x=x,
-                                  y=y,
-                                  fontsize=10,
-                                  ha='center',
-                                  va='center')
-                    t.set_bbox(dict(pad=0.15, color='white'))
+                x, y = GraphPlotter.__get_endpoint(xx, yy, label_offset)
+                t = plot.text(s=str(source_matrix[row][col]),
+                              x=x,
+                              y=y,
+                              fontsize=10,
+                              ha='center',
+                              va='center')
+                t.set_bbox(dict(pad=0.15, color='white'))
 
     @staticmethod
     def __draw_arrows(num_of_nodes,
@@ -171,7 +180,7 @@ class GraphPlotter:
                       node_positions[row][0]]
                 yy = [node_positions[col][1],
                       node_positions[row][1]]
-                x, y = GraphPlotter.__get_first_end_of_line(xx, yy, 0.1)
+                x, y = GraphPlotter.__get_endpoint(xx, yy, 0.1)
 
                 angle = math.atan2(yy[1] - yy[0], xx[1] - xx[0])
                 ly1 = y + arrow_size * math.sin(angle + pi / 6)
