@@ -30,8 +30,11 @@ class GraphPlotter:
         if current_repr_type == RepresentationType.ADJACENCY_LIST \
                 or current_repr_type == RepresentationType.ADJACENCY_MATRIX \
                 or current_repr_type == RepresentationType.INCIDENCE_MATRIX \
-                or current_repr_type == RepresentationType.GRAPH_SEQUENCE:
-            graph.to_adjacency_matrix()
+                or current_repr_type == RepresentationType.GRAPH_SEQUENCE \
+                or current_repr_type == RepresentationType.ADJACENCY_MATRIX_WITH_WEIGHTS:
+            
+            if current_repr_type != RepresentationType.ADJACENCY_MATRIX_WITH_WEIGHTS:
+                graph.to_adjacency_matrix()
 
             source_matrix = graph.repr
 
@@ -127,6 +130,7 @@ class GraphPlotter:
                       node_positions[row][1]]
                 plot.plot(xx, yy, color="black")
 
+    
     @staticmethod
     def __get_endpoint(xx: (float, float),
                        yy: (float, float),
