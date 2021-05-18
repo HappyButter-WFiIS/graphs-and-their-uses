@@ -23,6 +23,7 @@ class GraphPlotter:
     """
     Plots graph using Matplotlib. If color modes are not passed, the color of each node will be the same.
     """
+
     @staticmethod
     def plot_graph(graph: Graph, nodes_color_modes: list = None) -> None:
         current_repr_type = graph.repr_type
@@ -51,6 +52,11 @@ class GraphPlotter:
             GraphPlotter.__draw_wages(num_of_nodes=num_of_nodes,
                                       source_matrix=source_matrix,
                                       node_positions=node_positions)
+
+            GraphPlotter.__draw_arrows(num_of_nodes=num_of_nodes,
+                                       source_matrix=source_matrix,
+                                       node_positions=node_positions,
+                                       arrow_size=0.05)
 
             GraphPlotter.__draw_nodes(num_of_nodes=num_of_nodes,
                                       ax=ax,
@@ -81,7 +87,6 @@ class GraphPlotter:
     @staticmethod
     def __draw_nodes(num_of_nodes, ax, groups, node_positions) -> None:
         for i in range(num_of_nodes):
-
             node = plot.Circle((node_positions[i][0],
                                 node_positions[i][1]),
                                0.1, clip_on=False, zorder=3,
@@ -105,7 +110,6 @@ class GraphPlotter:
 
     @staticmethod
     def __draw_edges(num_of_nodes, source_matrix, node_positions) -> None:
-        pi = math.pi
         for row in range(num_of_nodes):
             for col in range(row):
                 if row == col:
@@ -121,9 +125,20 @@ class GraphPlotter:
                 plot.plot(xx, yy, color="black")
 
     @staticmethod
+    def __get_first_end_of_line(xx: (float, float),
+                                yy: (float, float),
+                                offset: float) -> (float, float):
+        x = (xx[1] - xx[0])
+        y = (yy[1] - yy[0])
+        length = math.sqrt(x ** 2 + y ** 2)
+        x /= length / offset
+        y /= length / offset
+        x += xx[0]
+        y += yy[0]
+        return x, y
+
+    @staticmethod
     def __draw_wages(num_of_nodes, source_matrix, node_positions) -> None:
-        offset = 5
-        pi = math.pi
         for row in range(num_of_nodes):
             for col in range(num_of_nodes):
                 if row == col:
@@ -133,17 +148,35 @@ class GraphPlotter:
                 yy = [node_positions[col][1],
                       node_positions[row][1]]
                 if source_matrix[row][col] != 0:
-                    x = (xx[1] - xx[0])
-                    y = (yy[1] - yy[0])
-                    length = math.sqrt(x ** 2 + y ** 2)
-                    x /= length * offset
-                    y /= length * offset
-                    x += xx[0]
-                    y += yy[0]
+                    x, y = GraphPlotter.__get_first_end_of_line(xx, yy, 0.2)
                     t = plot.text(s=str(source_matrix[row][col]),
                                   x=x,
                                   y=y,
                                   fontsize=10,
                                   ha='center',
                                   va='center')
-                    t.set_bbox(dict(pad=0.1, color='white'))
+                    t.set_bbox(dict(pad=0.15, color='white'))
+
+    @staticmethod
+    def __draw_arrows(num_of_nodes,
+                      source_matrix,
+                      node_positions,
+                      arrow_size) -> None:
+        pi = math.pi
+        for row in range(num_of_nodes):
+            for col in range(num_of_nodes):
+                if row == col or source_matrix[row][col] == 0:
+                    continue
+                xx = [node_positions[col][0],
+                      node_positions[row][0]]
+                yy = [node_positions[col][1],
+                      node_positions[row][1]]
+                x, y = GraphPlotter.__get_first_end_of_line(xx, yy, 0.1)
+
+                angle = math.atan2(yy[1] - yy[0], xx[1] - xx[0])
+                ly1 = y + arrow_size * math.sin(angle + pi / 6)
+                lx1 = x + arrow_size * math.cos(angle + pi / 6)
+                ly2 = y + arrow_size * math.sin(angle - pi / 6)
+                lx2 = x + arrow_size * math.cos(angle - pi / 6)
+                plot.plot((x, lx1), (y, ly1), color="black")
+                plot.plot((x, lx2), (y, ly2), color="black")
