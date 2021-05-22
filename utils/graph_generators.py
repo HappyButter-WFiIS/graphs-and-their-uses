@@ -146,3 +146,27 @@ def randomize(G: Graph, randomizations: int):
                 G.repr[a][d] = G.repr[d][a] = 1
                 G.repr[c][b] = G.repr[b][c] = 1
                 completed_randomizations += 1
+
+
+def get_directed_graph_with_probability(num_of_nodes: int, probability: float) -> list:
+    """
+    Returns DIRECTED graph, represented by 'num_of_nodes' x 'num_of_nodes'
+    adjacency matrix, with connections between nodes, that
+    depend on the 'probability' parameter. Received matrix is not symmetric
+    to the diagonal.
+    """
+    # handle if number of nodes is not in range (1;1000)
+    if num_of_nodes > 1000:
+        print("\nIt may take a few seconds... Relax...")
+    elif num_of_nodes < 1:
+        print("\nMin number of nodes is 1")
+        print("-> Generating graph with 1 node.")
+        num_of_nodes = 1
+
+    graph = np.random.random((num_of_nodes, num_of_nodes))
+    graph = graph >= 1 - probability
+
+    for i in range(num_of_nodes):
+        graph[i][i] = False
+
+    return np.asarray(graph, dtype=int).tolist()
