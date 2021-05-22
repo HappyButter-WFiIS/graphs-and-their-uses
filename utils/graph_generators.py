@@ -148,7 +148,7 @@ def randomize(G: Graph, randomizations: int):
                 completed_randomizations += 1
 
 
-def get_directed_graph_with_probability(num_of_nodes: int, probability: float) -> list:
+def get_directed_graph_with_probability(num_of_nodes: int, probability: float, weight_range: int = 1) -> list:
     """
     Returns DIRECTED graph, represented by 'num_of_nodes' x 'num_of_nodes'
     adjacency matrix, with connections between nodes, that
@@ -164,8 +164,8 @@ def get_directed_graph_with_probability(num_of_nodes: int, probability: float) -
         num_of_nodes = 1
 
     graph = np.random.random((num_of_nodes, num_of_nodes))
-    graph = graph >= 1 - probability
-
+    graph = (graph >= 1 - probability)
+    graph = np.multiply(graph, np.random.random((num_of_nodes, num_of_nodes))) * weight_range
     for i in range(num_of_nodes):
         graph[i][i] = False
 
