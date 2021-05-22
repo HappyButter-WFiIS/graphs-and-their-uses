@@ -51,6 +51,7 @@ class DirectedGraph(Graph):
     """
 
     def __from_adjlist_to_adjmat(self) -> None:
+        print("__from_adjlist_to_adjmat")
         adjmat_repr = list()
         count_nodes = len(self.repr)
 
@@ -58,12 +59,13 @@ class DirectedGraph(Graph):
             adjmat_repr.append(list([0] * count_nodes))
 
             for value in row:
-                adjmat_repr[i][value - 1] = 1
+                adjmat_repr[i][value - 1] = self.repr[i][value]
 
         self.repr = adjmat_repr
         self.repr_type = RepresentationType.ADJACENCY_MATRIX
 
     def __from_incmat_to_adjmat(self) -> None:
+        print("__from_incmat_to_adjmat")
         count_edges = self.__count_edges()
 
         count_nodes = len(self.repr)
@@ -71,13 +73,15 @@ class DirectedGraph(Graph):
 
         for edge_index in range(count_edges):
             edge = [-1, -1]
+            weight = -1
             for vertex_index in range(count_nodes):
                 if self.repr[vertex_index][edge_index] == -1:
                     edge[0] = vertex_index
-                if self.repr[vertex_index][edge_index] == 1:
+                if self.repr[vertex_index][edge_index] > 0:
                     edge[1] = vertex_index
+                    weight = self.repr[vertex_index][edge_index]
             if edge != [-1, -1]:
-                adjmat_repr[edge[0]][edge[1]] = 1
+                adjmat_repr[edge[0]][edge[1]] = weight
 
         self.repr = adjmat_repr
         self.repr_type = RepresentationType.ADJACENCY_MATRIX
@@ -87,14 +91,15 @@ class DirectedGraph(Graph):
     """
 
     def __from_adjmat_to_adjlist(self) -> None:
+        print("__from_adjmat_to_adjlist")
         adjlist_repr = list()
 
         for i, row in enumerate(self.repr):
-            adjlist_repr_row = list()
+            adjlist_repr_row = dict()
 
             for j, element in enumerate(row):
-                if (element == 1):
-                    adjlist_repr_row.append(j + 1)
+                if element > 0:
+                    adjlist_repr_row[j+1] = element
 
             adjlist_repr.append(adjlist_repr_row)
 
@@ -102,22 +107,25 @@ class DirectedGraph(Graph):
         self.repr_type = RepresentationType.ADJACENCY_LIST
 
     def __from_incmat_to_adjlist(self) -> None:
+        print("__from_incmat_to_adjlist")
         count_edges = self.__count_edges()
         count_nodes = len(self.repr)
         adjlist_repr = list()
 
         for _ in range(count_nodes):
-            adjlist_repr.append(list())
+            adjlist_repr.append(dict())
 
         for edge_index in range(count_edges):
             edge = [-1, -1]
+            weight = -1
             for vertex_index in range(count_nodes):
                 if self.repr[vertex_index][edge_index] == -1:
                     edge[0] = vertex_index
-                if self.repr[vertex_index][edge_index] == 1:
+                if self.repr[vertex_index][edge_index] > 0:
                     edge[1] = vertex_index
+                    weight = self.repr[vertex_index][edge_index]
             if edge != [-1, -1]:
-                adjlist_repr[edge[0]].append(edge[1] + 1)
+                adjlist_repr[edge[0]][edge[1] + 1] = weight
 
         self.repr = adjlist_repr
         self.repr_type = RepresentationType.ADJACENCY_LIST
@@ -127,6 +135,7 @@ class DirectedGraph(Graph):
     """
 
     def __from_adjmat_to_incmat(self) -> None:
+        print("__from_adjmat_to_incmat")
         incmat_repr = list()
 
         count_edges = self.__count_edges()
@@ -141,23 +150,24 @@ class DirectedGraph(Graph):
 
         for i, row in enumerate(self.repr):
             for j in range(count_nodes):
-                if (row[j] == 1):
+                if row[j] > 0:
                     incmat_repr[i][current_edge] = -1
-                    incmat_repr[j][current_edge] = 1
+                    incmat_repr[j][current_edge] = row[j]
                     current_edge += 1
 
         self.repr = incmat_repr
         self.repr_type = RepresentationType.INCIDENCE_MATRIX
 
     def __from_adjlist_to_incmat(self) -> None:
+        print("__from_adjlist_to_incmat")
         count_edges = self.__count_edges()
         count_nodes = len(self.repr)
         edges_list = list()
         incmat_repr = list()
 
         for index, row in enumerate(self.repr):
-            for vertex in row:
-                edge = (index, vertex - 1)
+            for vertex in row.items():
+                edge = (index, vertex[0] - 1, vertex[1])
                 if edge not in edges_list:
                     edges_list.append(edge)
 
@@ -166,12 +176,13 @@ class DirectedGraph(Graph):
 
         for edge_index, edge in enumerate(edges_list):
             incmat_repr[edge[0]][edge_index] = -1
-            incmat_repr[edge[1]][edge_index] = 1
+            incmat_repr[edge[1]][edge_index] = edge[2]
 
         self.repr = incmat_repr
         self.repr_type = RepresentationType.INCIDENCE_MATRIX
 
     def __from_sequence_to_adjlist(self) -> None:
+        print("__from_sequence_to_adjlist")
         enumerated_data = [[idx, conn] for idx, conn in enumerate(self.repr)]
         adjacency_list = [[] for _ in range(len(enumerated_data))]
         for _ in range(len(enumerated_data)):

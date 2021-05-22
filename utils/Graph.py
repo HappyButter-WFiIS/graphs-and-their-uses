@@ -55,17 +55,17 @@ class Graph:
         """
         self.repr_type = representation_type
         self.__create(self.__read_file(filename))
-    
+
     def create_k_regular_with_n_vertices(self, k: int, n: int) -> None:
         """
         Creates k-regular graph with given n vertices. The created graph is 
         in adjacency matrix representation.
         """
-        graph_sequence = [k]*n
+        graph_sequence = [k] * n
         self.load_data(graph_sequence,
-                RepresentationType.GRAPH_SEQUENCE)
+                       RepresentationType.GRAPH_SEQUENCE)
         self.to_adjacency_matrix()
-    
+
     def load_data(self, data: list, representation_type: RepresentationType) -> bool:
         """
         Loads graph from data in given representation.
@@ -104,7 +104,7 @@ class Graph:
     """
     Transform representations
     """
-    
+
     def to_adjacency_matrix(self) -> None:
         if self.repr_type == RepresentationType.ADJACENCY_LIST:
             self.__from_adjlist_to_adjmat()
