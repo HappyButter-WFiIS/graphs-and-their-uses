@@ -7,15 +7,11 @@ currentdir = os.path.dirname(os.path.realpath(__file__))
 parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
 
-x = get_directed_graph_with_probability(10, 0.2, 5)
-
-for i in x:
-    print(i)
+x = get_directed_graph_with_probability(10, 0.2, -5, 10)
 
 g = DirectedGraph()
 g.load_data(data=x, representation_type=RepresentationType.ADJACENCY_MATRIX)
 GraphPlotter.plot_graph(g)
-
 
 g.to_incidence_matrix()
 g.to_adjacency_matrix()
