@@ -1,8 +1,9 @@
 import numpy as np
 import random
 from utils.Graph import RepresentationType, Graph
+from utils.DirectedGraph import DirectedGraph
 from array import *
-
+from algorithms.kosaraju import kosaraju
 
 def get_graph_by_vertices_and_edges(num_of_vertices: int, num_of_edges: int) -> list:
     """
@@ -101,7 +102,7 @@ def gen_random_conn_graph_weighted(size: int) -> list:
                 if random.randint(1, 10) <= p:
                     G[i][j] = random.randint(1, 10)
 
-        for i in range(size):  #
+        for i in range(size):  
             for j in range(size):  # making matrix
                 if (j == i):
                     G[i][j] = 0  # symetric
@@ -174,3 +175,25 @@ def get_directed_graph_with_probability(num_of_nodes: int, probability: float, l
             if mask[i][j] == 0:
                 graph[i][j] = None
     return graph
+
+
+def get_connected_digraph(num_of_nodes: int, 
+                          probability: float, 
+                          lowest_weight: int = 0,
+                          highest_weight: int = 1) -> DirectedGraph:
+    """
+    Returns connected and DIRECTED graph represented by DirectedGraph object.
+    """
+    G = DirectedGraph()
+	
+    iter_limit = 100 
+    result = False
+    while not result and iter_limit > 0:
+        iter_limit -= 1
+        
+        x = get_directed_graph_with_probability(num_of_nodes, probability, lowest_weight, highest_weight)
+        G.load_data(data=x, representation_type=RepresentationType.ADJACENCY_MATRIX)
+        comp = kosaraju(G)
+        result = all(elem == comp[0] for elem in comp)
+    
+    return G

@@ -11,7 +11,7 @@ from algorithms.dijkstra import find_shortest_path
 
 
 if __name__ == "__main__":
-    random_conn_graph = gen_random_conn_graph_weighted(12)
+    random_conn_graph = gen_random_conn_graph_weighted(10)
 
     G = Graph()
     G.load_data(data=random_conn_graph,
@@ -25,3 +25,5 @@ if __name__ == "__main__":
 
     for i in range(10):
         find_shortest_path(G=G.get_weighted_adjacency_list(), start=s, destination=i+1, verbose=True)
+        
+    print(G.get_weighted_adjacency_list())
