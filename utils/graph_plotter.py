@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plot
 import math
 from utils.Graph import RepresentationType, Graph
+from utils.DirectedGraph import DirectedGraph
 
 
 class GraphPlotter:
@@ -26,13 +27,15 @@ class GraphPlotter:
         Plots graph using Matplotlib.
         If color modes are not passed, the color of each node will be the same.
         """
+
+        is_digraph = isinstance(graph, DirectedGraph)
         current_repr_type = graph.repr_type
         if current_repr_type == RepresentationType.ADJACENCY_LIST \
                 or current_repr_type == RepresentationType.ADJACENCY_MATRIX \
                 or current_repr_type == RepresentationType.INCIDENCE_MATRIX \
                 or current_repr_type == RepresentationType.GRAPH_SEQUENCE \
                 or current_repr_type == RepresentationType.ADJACENCY_MATRIX_WITH_WEIGHTS:
-            
+
             if current_repr_type != RepresentationType.ADJACENCY_MATRIX_WITH_WEIGHTS:
                 graph.to_adjacency_matrix()
 
@@ -50,17 +53,20 @@ class GraphPlotter:
 
             GraphPlotter.__draw_edges(num_of_nodes=num_of_nodes,
                                       source_matrix=source_matrix,
-                                      node_positions=node_positions)
+                                      node_positions=node_positions,
+                                      digraph=is_digraph)
 
             GraphPlotter.__draw_wages(num_of_nodes=num_of_nodes,
                                       source_matrix=source_matrix,
                                       node_positions=node_positions,
-                                      label_offset=0.25)
+                                      label_offset=0.25,
+                                      digraph=is_digraph)
 
             GraphPlotter.__draw_arrows(num_of_nodes=num_of_nodes,
                                        source_matrix=source_matrix,
                                        node_positions=node_positions,
-                                       arrow_size=0.05)
+                                       arrow_size=0.05,
+                                       digraph=is_digraph)
 
             GraphPlotter.__draw_nodes(num_of_nodes=num_of_nodes,
                                       ax=ax,
@@ -115,22 +121,25 @@ class GraphPlotter:
         return positions
 
     @staticmethod
-    def __draw_edges(num_of_nodes, source_matrix, node_positions) -> None:
+    def __draw_edges(num_of_nodes, source_matrix, node_positions, digraph) -> None:
         for row in range(num_of_nodes):
             for col in range(row):
                 if row == col:
                     continue
                 first_wage = source_matrix[row][col]
                 second_wage = source_matrix[col][row]
-                if first_wage == 0 and second_wage == 0:
-                    continue
+                if digraph:
+                    if first_wage is None and second_wage is None:
+                        continue
+                else:
+                    if first_wage == 0 and second_wage == 0:
+                        continue
                 xx = [node_positions[col][0],
                       node_positions[row][0]]
                 yy = [node_positions[col][1],
                       node_positions[row][1]]
                 plot.plot(xx, yy, color="black")
 
-    
     @staticmethod
     def __get_endpoint(xx: (float, float),
                        yy: (float, float),
@@ -152,11 +161,16 @@ class GraphPlotter:
     def __draw_wages(num_of_nodes,
                      source_matrix,
                      node_positions,
-                     label_offset) -> None:
+                     label_offset,
+                     digraph) -> None:
         for row in range(num_of_nodes):
             for col in range(num_of_nodes):
-                if row == col or source_matrix[row][col] == 0:
-                    continue
+                if digraph:
+                    if row == col or source_matrix[row][col] is None:
+                        continue
+                else:
+                    if row == col or source_matrix[row][col] == 0:
+                        continue
                 xx = [node_positions[col][0],
                       node_positions[row][0]]
                 yy = [node_positions[col][1],
@@ -174,12 +188,17 @@ class GraphPlotter:
     def __draw_arrows(num_of_nodes,
                       source_matrix,
                       node_positions,
-                      arrow_size) -> None:
+                      arrow_size,
+                      digraph) -> None:
         pi = math.pi
         for row in range(num_of_nodes):
             for col in range(num_of_nodes):
-                if row == col or source_matrix[row][col] == 0:
-                    continue
+                if digraph:
+                    if row == col or source_matrix[row][col] is None:
+                        continue
+                else:
+                    if row == col or source_matrix[row][col] == 0:
+                        continue
                 xx = [node_positions[col][0],
                       node_positions[row][0]]
                 yy = [node_positions[col][1],

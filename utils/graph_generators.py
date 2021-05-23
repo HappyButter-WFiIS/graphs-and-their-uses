@@ -148,7 +148,8 @@ def randomize(G: Graph, randomizations: int):
                 completed_randomizations += 1
 
 
-def get_directed_graph_with_probability(num_of_nodes: int, probability: float, weight_range: int = 1) -> list:
+def get_directed_graph_with_probability(num_of_nodes: int, probability: float, lowest_weight: int = 0,
+                                        highest_weight: int = 1) -> list:
     """
     Returns DIRECTED graph, represented by 'num_of_nodes' x 'num_of_nodes'
     adjacency matrix, with connections between nodes, that
@@ -164,9 +165,12 @@ def get_directed_graph_with_probability(num_of_nodes: int, probability: float, w
         num_of_nodes = 1
 
     graph = np.random.random((num_of_nodes, num_of_nodes))
-    graph = (graph >= 1 - probability)
-    graph = np.multiply(graph, np.random.random((num_of_nodes, num_of_nodes))) * weight_range
+    mask = (graph >= 1 - probability)
+    graph = np.multiply(mask, np.random.randint(lowest_weight, highest_weight+1, size=(num_of_nodes, num_of_nodes)))
+    graph = graph.tolist()
     for i in range(num_of_nodes):
-        graph[i][i] = False
-
-    return np.asarray(graph, dtype=int).tolist()
+        graph[i][i] = None
+        for j in range(num_of_nodes):
+            if mask[i][j] == 0:
+                graph[i][j] = None
+    return graph
