@@ -1,3 +1,4 @@
+import os.path
 from enum import Enum
 from copy import deepcopy
 import numpy as np
@@ -78,10 +79,16 @@ class Graph:
         return True
 
     def __read_file(self, filename: str) -> str:
+        
+        if not os.path.isfile(filename):
+            print ("File does not exists")
+            return ''
+        
         try:
             file = open(filename, 'r')
             return file.read().split('\n')
         except IOError:
+            self.clear_grah()
             print("Wrong filename")
             return ''
 
@@ -97,9 +104,15 @@ class Graph:
             for elem in line:
                 try:
                     row.append(int(elem))
-                except ValueError:
+                except ValueError as e:
+                    print(e)
+                    self.clear_grah()
                     return
             self.repr.append(row)
+
+    def clear_grah(self):
+        self.repr = list()
+        self.repr_type = RepresentationType.EMPTY
 
     """
     Transform representations
