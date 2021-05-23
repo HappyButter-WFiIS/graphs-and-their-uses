@@ -1,11 +1,13 @@
 import os, sys
+currentdir = os.path.dirname(os.path.realpath(__file__))
+parentdir = os.path.dirname(currentdir)
+sys.path.append(parentdir)
+
 from utils.graph_generators import get_directed_graph_with_probability, get_graph_with_probability
 from utils.graph_plotter import GraphPlotter
 from utils.DirectedGraph import DirectedGraph, RepresentationType
 
-currentdir = os.path.dirname(os.path.realpath(__file__))
-parentdir = os.path.dirname(currentdir)
-sys.path.append(parentdir)
+
 
 x = get_directed_graph_with_probability(10, 0.2, 5)
 
