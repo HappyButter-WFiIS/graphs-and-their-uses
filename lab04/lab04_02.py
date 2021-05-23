@@ -14,4 +14,4 @@ if __name__ == '__main__':
 
     G.load_data(get_directed_graph_with_probability(10, 0.2, 1, 1), RepresentationType.ADJACENCY_MATRIX)
     groups = kosaraju(G)
-    GraphPlotter.plot_graph(G, groups)
+    GraphPlotter.plot_graph(G, draw_wages = False, draw_arrows = True, nodes_color_modes = groups)

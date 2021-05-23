@@ -102,7 +102,7 @@ def present_components_finding() -> None:
 
     groups = get_components(G)
     print_sorted_components(G, groups)
-    GraphPlotter.plot_graph(G, groups)
+    GraphPlotter.plot_graph(G, False, False, groups)
 
 
 def present_eulerian_graphs() -> None:
@@ -204,7 +204,7 @@ def present_graph_from_file(G: Graph) -> None:
                 G.to_adjacency_list()
                 groups = get_components(G)
                 print_sorted_components(G, groups)
-                GraphPlotter.plot_graph(G, groups)
+                GraphPlotter.plot_graph(G, False, False, groups)
             
             if operations_choice == '6':
                 GraphPlotter.plot_graph(G)
