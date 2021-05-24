@@ -5,6 +5,7 @@ from utils.graph_plotter import GraphPlotter
 from utils.Graph import Graph
 from utils.graph_generators import get_graph_with_probability
 
+
 def johnson_algorithm(graph):
     g = graph.repr
 
@@ -50,5 +51,12 @@ def johnson_algorithm(graph):
         for i in range(len(graph_for_dijkstra.repr)):
             find_shortest_path(G=graph_for_dijkstra.get_weighted_adjacency_list(), start=s+1, destination=i + 1, verbose=True)
 
-    GraphPlotter.plot_graph(graph_for_dijkstra,draw_wages = True, draw_arrows = True)
+    GraphPlotter.plot_graph(graph_for_dijkstra)
+
+
+if __name__ == "__main__":
+    randomgraph = get_connected_digraph(5, 0.2, -5, 10)
+    randomgraph.to_adjacency_matrix()
+    johnson_algorithm(randomgraph)
+    print("gg")
 
