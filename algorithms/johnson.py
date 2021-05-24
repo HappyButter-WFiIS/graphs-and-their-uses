@@ -1,15 +1,9 @@
-from utils.DirectedGraph import DirectedGraph, RepresentationType
+from utils.DirectedGraph import  RepresentationType
 from algorithms.bellman_ford import bellman_ford
-from algorithms.bellman_ford import get_edges_list
-from utils.graph_generators import get_connected_digraph
 from algorithms.dijkstra import find_shortest_path
 from utils.graph_plotter import GraphPlotter
 from utils.Graph import Graph
 from utils.graph_generators import get_graph_with_probability
-
-randomgraph = get_connected_digraph(5, 0.2, -5, 10)
-randomgraph.to_adjacency_matrix()
-
 
 def johnson_algorithm(graph):
     g = graph.repr
@@ -56,9 +50,5 @@ def johnson_algorithm(graph):
         for i in range(len(graph_for_dijkstra.repr)):
             find_shortest_path(G=graph_for_dijkstra.get_weighted_adjacency_list(), start=s+1, destination=i + 1, verbose=True)
 
-    GraphPlotter.plot_graph(graph_for_dijkstra)
+    GraphPlotter.plot_graph(graph_for_dijkstra,draw_wages = True, draw_arrows = True)
 
-
-
-johnson_algorithm(randomgraph)
-print("gg")
