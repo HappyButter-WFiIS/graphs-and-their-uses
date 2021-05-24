@@ -10,17 +10,32 @@ sys.path.append(parentdir)
 
 from utils.DirectedGraph import DirectedGraph
 from utils.Graph import Graph, RepresentationType
-from utils.Graph import RepresentationType
-from lab02.Lab02_console import load_graph_from_file_menu
 from utils.graph_generators import get_directed_graph_with_probability
 from algorithms.kosaraju import kosaraju
 from utils.graph_plotter import GraphPlotter
 from algorithms.bellman_ford import bellman_ford
 from utils.graph_generators import get_connected_digraph
+from algorithms.johnson import johnson_algorithm
 
 
 def exit_program() -> None:
     print("[bold]Thanks for playing. Bye!")
+
+
+def print_graph(G: Graph) -> None:
+    """
+    Printing given Graph to console.
+    """
+    print("\nCurrent graph representation type is: ")
+    if G.repr_type == RepresentationType.ADJACENCY_MATRIX:
+        print("Adjacency matrix")
+    elif G.repr_type == RepresentationType.ADJACENCY_LIST:
+        print("Adjacency list")
+    elif G.repr_type == RepresentationType.INCIDENCE_MATRIX:
+        print("Incidence matrix")
+
+    print()
+    print(G)
 
 
 class Program:
@@ -28,9 +43,12 @@ class Program:
         self.console = Console()
         self.options = {
             "1": "Random directed graph",
-            "2": "Kosaraju alorithm",
+            "2": "Find strongly consistent components (Kosaraju)",
             "3": "Strongly consistent digraph",
-            "4": "Bellman-Ford algorithm",
+            "4": "Shortest paths (Bellman-Ford)",
+            "5": "All distances (Johnson)",
+            "p": "Print graph",
+            "t": "Plot graph",
             "q": "Quit",
         }
 
@@ -49,6 +67,7 @@ class Program:
         self.newline()
 
         G = DirectedGraph()
+        groups = None
 
         main_choice = ''
 
@@ -61,9 +80,10 @@ class Program:
                 main_choice = input("What would you like to do? ")
 
                 if main_choice == 'q':
-                    print("Thanks for playing. Bye.")
+                    exit_program()
 
                 elif main_choice == '1':
+                    groups = None
                     n_nodes = int(input("Number of nodes: "))
                     prob = float(input("Probability (0-1): "))
                     result = get_directed_graph_with_probability(num_of_nodes=n_nodes,
@@ -79,6 +99,7 @@ class Program:
                                             nodes_color_modes=groups)
 
                 elif main_choice == '3':
+                    groups = None
                     n_nodes = int(input("Number of nodes: "))
                     prob = float(input("Probability (0-1): "))
                     G = get_connected_digraph(num_of_nodes=n_nodes,
@@ -94,6 +115,19 @@ class Program:
                         self.console.print(bellman_ford(G, start))
                     except Exception as e:
                         print(e)
+
+                elif main_choice == '5':
+                    G = get_connected_digraph(5, 0.2, -5, 10)
+                    G.to_adjacency_matrix()
+                    johnson_algorithm(G)
+
+                elif main_choice == 'p':
+                    print_graph(G)
+
+                elif main_choice == 't':
+                    GraphPlotter.plot_graph(G, draw_wages=True,
+                                            draw_arrows=True,
+                                            nodes_color_modes=groups)
 
                 else:
 

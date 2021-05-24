@@ -7,9 +7,6 @@ from utils.graph_plotter import GraphPlotter
 from utils.Graph import Graph
 from utils.graph_generators import get_graph_with_probability
 
-randomgraph = get_connected_digraph(5, 0.2, -5, 10)
-randomgraph.to_adjacency_matrix()
-
 
 def johnson_algorithm(graph):
     g = graph.repr
@@ -59,6 +56,8 @@ def johnson_algorithm(graph):
     GraphPlotter.plot_graph(graph_for_dijkstra)
 
 
-
-johnson_algorithm(randomgraph)
-print("gg")
+if __name__ == "__main__":
+    randomgraph = get_connected_digraph(5, 0.2, -5, 10)
+    randomgraph.to_adjacency_matrix()
+    johnson_algorithm(randomgraph)
+    print("gg")
