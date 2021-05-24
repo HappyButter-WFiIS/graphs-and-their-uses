@@ -24,7 +24,7 @@ def bellman_ford(G: DirectedGraph, start: int) -> dict:
     # main part
     for _ in range(n - 1):
         for u, v, w in edges:
-            # relax
+            # relax, take it eeeeeeeeeeazy
             if shortest_distance[u] != infinity and shortest_distance[u] + w < shortest_distance[v]:
                 shortest_distance[v] = shortest_distance[u] + w
            
