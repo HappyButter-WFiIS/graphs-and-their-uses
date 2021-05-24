@@ -1,9 +1,5 @@
 import os, sys
 
-from algorithms.components import get_components, print_sorted_components
-from algorithms.dijkstra import find_shortest_path
-from algorithms.hamilton import hamilton
-
 currentdir = os.path.dirname(os.path.realpath(__file__))
 parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
@@ -12,7 +8,9 @@ from utils.Graph import Graph, RepresentationType
 from utils.graph_plotter import GraphPlotter
 from utils.graph_generators import gen_random_conn_graph_weighted, randomize
 from algorithms.mst import kruskal, prim
-
+from algorithms.components import get_components, print_sorted_components
+from algorithms.dijkstra import find_shortest_path
+from algorithms.hamilton import hamilton
 
 def display_welcome() -> None:
     """

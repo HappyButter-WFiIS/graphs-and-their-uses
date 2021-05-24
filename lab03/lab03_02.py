@@ -17,7 +17,7 @@ if __name__ == "__main__":
     G.load_data(data=random_conn_graph,
                 representation_type=RepresentationType.ADJACENCY_MATRIX_WITH_WEIGHTS)
     print(G)
-    GraphPlotter.plot_graph(G)
+    GraphPlotter.plot_graph(G, draw_wages=True)
 
     s = 1
     print(50*'-')

@@ -15,4 +15,13 @@
 - graph randomization
 
 ### lab03
+- random weighted and connected graph generation
+- shortest path with Dijkstra algorithm 
+- center node
+- minimum spanning tree with Kruskal algorithm
+
 ### lab04
+- digraph generator 
+- strongly connected graph generator with Kosaraju algorithm
+- shortest path with Bellman-Ford algorithm 
+- Johnson algorithm

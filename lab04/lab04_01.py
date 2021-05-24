@@ -13,7 +13,7 @@ x = get_directed_graph_with_probability(10, 0.2, -5, 10)
 
 g = DirectedGraph()
 g.load_data(data=x, representation_type=RepresentationType.ADJACENCY_MATRIX)
-GraphPlotter.plot_graph(g)
+GraphPlotter.plot_graph(g, draw_wages = True, draw_arrows = True)
 
 g.to_incidence_matrix()
 g.to_adjacency_matrix()
@@ -25,4 +25,4 @@ g.to_incidence_matrix()
 g.to_adjacency_list()
 g.to_adjacency_matrix()
 
-GraphPlotter.plot_graph(g)
+GraphPlotter.plot_graph(g, draw_wages = True, draw_arrows = True)

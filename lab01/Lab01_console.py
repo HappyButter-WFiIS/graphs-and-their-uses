@@ -35,6 +35,7 @@ def handle_read_from_file(G: Graph, repr_type: int, file_name: str = "") -> None
             __file__) + "/" + file_name, RepresentationType(repr_type))
     else:
         print("\nInvalid file type have been chosen.")
+        
 
 
 def display_welcome() -> None:
@@ -88,6 +89,7 @@ def display_submenu(G: Graph) -> None:
         operations_choice = input("Pick the option:\n")
 
         if operations_choice == 'b':
+            G.clear_grah()
             return
 
         if operations_choice == '1':
@@ -115,7 +117,10 @@ def load_graph_from_file_menu(G: Graph) -> None:
     
     if representation_type and file_name:
         handle_read_from_file(G, int(representation_type), file_name)
-
+        if not G.repr:
+            print("Reading file failure.")
+            return
+        
         display_submenu(G)
 
 

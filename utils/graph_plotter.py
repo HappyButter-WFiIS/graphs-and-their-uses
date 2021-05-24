@@ -22,7 +22,7 @@ class GraphPlotter:
     ]
 
     @staticmethod
-    def plot_graph(graph: Graph, nodes_color_modes: list = None) -> None:
+    def plot_graph(graph: Graph, draw_wages: bool = False, draw_arrows: bool = False, nodes_color_modes: list = None) -> None:
         """
         Plots graph using Matplotlib.
         If color modes are not passed, the color of each node will be the same.
@@ -56,17 +56,19 @@ class GraphPlotter:
                                       node_positions=node_positions,
                                       digraph=is_digraph)
 
-            GraphPlotter.__draw_wages(num_of_nodes=num_of_nodes,
-                                      source_matrix=source_matrix,
-                                      node_positions=node_positions,
-                                      label_offset=0.25,
-                                      digraph=is_digraph)
+            if draw_wages:
+                GraphPlotter.__draw_wages(num_of_nodes=num_of_nodes,
+                                        source_matrix=source_matrix,
+                                        node_positions=node_positions,
+                                        label_offset=0.25,
+                                        digraph=is_digraph)
 
-            GraphPlotter.__draw_arrows(num_of_nodes=num_of_nodes,
-                                       source_matrix=source_matrix,
-                                       node_positions=node_positions,
-                                       arrow_size=0.05,
-                                       digraph=is_digraph)
+            if draw_arrows:
+                GraphPlotter.__draw_arrows(num_of_nodes=num_of_nodes,
+                                        source_matrix=source_matrix,
+                                        node_positions=node_positions,
+                                        arrow_size=0.05,
+                                        digraph=is_digraph)
 
             GraphPlotter.__draw_nodes(num_of_nodes=num_of_nodes,
                                       ax=ax,

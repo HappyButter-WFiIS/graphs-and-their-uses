@@ -22,5 +22,5 @@ if __name__ == '__main__':
 	except Exception as e:
 		print(e)
 
-	GraphPlotter.plot_graph(g)
+	GraphPlotter.plot_graph(g, draw_wages = True, draw_arrows = True)
     

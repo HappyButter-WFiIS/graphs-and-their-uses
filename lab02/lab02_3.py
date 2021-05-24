@@ -18,4 +18,4 @@ if __name__ == '__main__':
 
     print_sorted_components(G, groups)
     G.to_adjacency_matrix()
-    GraphPlotter.plot_graph(G, groups)
+    GraphPlotter.plot_graph(G, False, False, groups)
