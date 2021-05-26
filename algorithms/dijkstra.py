@@ -1,4 +1,4 @@
-def create_path_list(destination: int, start: int, predecessos: dict) -> dict:
+def create_path_list(destination: int, start: int, predecessos: dict) -> list:
     path = []
     current_node = destination
 
@@ -8,7 +8,7 @@ def create_path_list(destination: int, start: int, predecessos: dict) -> dict:
             current_node = predecessos[current_node]
         except KeyError:
             # raise KeyError
-            # print("Something went wrong!")
+            print(f"d({destination})  = Inf")
             break
 
     path.insert(0, start)
@@ -55,5 +55,5 @@ def find_shortest_path(G: dict, start: int, destination: int, verbose: bool):
     if shortest_distance[destination] != infinity:
         if verbose:
             print("d({})  = {} ==> {}".format(
-                destination, str(shortest_distance[destination]), str(path)), end="")
+                destination, str(shortest_distance[destination]), str(path)), end="\n")
         return shortest_distance

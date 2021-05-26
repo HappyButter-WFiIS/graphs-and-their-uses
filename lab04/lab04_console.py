@@ -150,7 +150,10 @@ class Program:
 
                 elif main_choice == '5':
                     G.to_adjacency_matrix()
-                    johnson_algorithm(G)
+                    try:
+                        johnson_algorithm(G)
+                    except Exception as e:
+                        self.err(str(e))
 
                 elif main_choice == 'p':
                     print_graph(G)

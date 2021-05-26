@@ -3,7 +3,7 @@ from algorithms.bellman_ford import bellman_ford
 from algorithms.dijkstra import find_shortest_path
 from utils.graph_plotter import GraphPlotter
 from utils.Graph import Graph
-from utils.graph_generators import get_graph_with_probability
+from utils.graph_generators import get_graph_with_probability, get_connected_digraph
 
 
 def johnson_algorithm(graph):
@@ -30,7 +30,7 @@ def johnson_algorithm(graph):
         for j in range(len(new_g[i])):
             if g[i][j] is not None:
                 new_g[i][j] = (g[i][j] +
-                    edges[i+1] - edges[j+1]);
+                    edges[i+1] - edges[j+1])
 
     graph.repr.pop()
     for i in range(len(graph.repr)):
@@ -45,11 +45,10 @@ def johnson_algorithm(graph):
                 graph_for_dijkstra.repr[i][j] = new_g[i][j]
 
     for s in range(len(graph_for_dijkstra.repr)):
-        print("\ndla wierzcholka ", end=" ")
-        print(s+1, end=" ")
-        print(": \n", end=" ")
+        print(f"Dla wierzchołka [{s+1}]:")
         for i in range(len(graph_for_dijkstra.repr)):
             find_shortest_path(G=graph_for_dijkstra.get_weighted_adjacency_list(), start=s+1, destination=i + 1, verbose=True)
+        print()
 
     # GraphPlotter.plot_graph(graph_for_dijkstra)
 
