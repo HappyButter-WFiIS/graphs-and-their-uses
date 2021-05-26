@@ -104,9 +104,9 @@ def gen_random_conn_graph_weighted(size: int) -> list:
 
         for i in range(size):  
             for j in range(size):  # making matrix
-                if (j == i):
+                if j == i:
                     G[i][j] = 0  # symetric
-                if (j < i):
+                if j < i:
                     G[i][j] = G[j][i]
         if isConnected(G):
             return G
@@ -186,7 +186,7 @@ def get_connected_digraph(num_of_nodes: int,
     """
     G = DirectedGraph()
 	
-    iter_limit = 100 
+    iter_limit = 100
     result = False
     while not result and iter_limit > 0:
         iter_limit -= 1
@@ -195,5 +195,9 @@ def get_connected_digraph(num_of_nodes: int,
         G.load_data(data=x, representation_type=RepresentationType.ADJACENCY_MATRIX)
         comp = kosaraju(G)
         result = all(elem == comp[0] for elem in comp)
+    
+    if iter_limit == 0:
+        G.clear_grah()
+        print("Unable to find matching graph. Try again.")
     
     return G
