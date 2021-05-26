@@ -67,7 +67,7 @@ def kosaraju(G: Graph) -> list:
             for x in group:
                 groups[x] = index
                 
-            print_group(group, index)
+            # print_group(group, index)
             group = []    
             index += 1
 

@@ -42,29 +42,52 @@ class Program:
     def __init__(self):
         self.console = Console()
         self.options = {
-            "1": "Random directed graph",
-            "2": "Find strongly consistent components (Kosaraju)",
+            "1": "Generate random directed graph",
+            "2": "Find strongly consistent components (Kosaraju algorithm)",
             "3": "Strongly consistent digraph",
-            "4": "Shortest paths (Bellman-Ford)",
-            "5": "All distances (Johnson)",
+            "4": "Shortest paths (Bellman-Ford algorithm)",
+            "5": "All distances (Johnson algorithm)",
             "p": "Print graph",
             "t": "Plot graph",
             "q": "Quit",
+        }
+        self.plotting_options = {
+            "1": "All",
+            "2": "All without groups",
+            "3": "Groups without wages",
+            "4": "Edges only",
+            "b": "Go back"
         }
 
     def newline(self):
         self.console.print()
 
     def err(self, err_msg=""):
-        self.console.print(f"[bold red]Error[/bold red] {err_msg}.")
+        self.console.print(f"[bold red]Error[/bold red]: {err_msg}.")
 
     def print_options(self) -> None:
+        self.console.print(f"Available options:")
         for option in self.options:
-            self.console.print(f"[[bold green]{option}[/bold green]]: {self.options[option]}")
+            self.console.print(f"[[bold green]{option}[/bold green]] {self.options[option]}")
+
+    def select_plotting_type(self) -> str:
+        while True:
+            print("How should the graph be plotted")
+            for option in self.plotting_options:
+                self.console.print(f"[[bold blue]{option}[/bold blue]] {self.plotting_options[option]}")
+            try:
+                choice = input("What would you like to do? ")
+                if choice in self.plotting_options.keys():
+                    return choice
+                else:
+                    self.err("Unrecognized option, try again.")
+                    self.newline()
+            except:
+                self.err("Something went wrong.")
+                self.newline()
 
     def run(self) -> None:
-        self.console.print("[bold]Hello, fellow user!")
-        self.newline()
+        self.console.print("[bold]Hello, user!")
 
         G = DirectedGraph()
         groups = None
@@ -86,11 +109,14 @@ class Program:
                     groups = None
                     n_nodes = int(input("Number of nodes: "))
                     prob = float(input("Probability (0-1): "))
+                    w_min = int(input("Lowest possible weight: "))
+                    w_max = int(input("Highest possible weight: "))
                     result = get_directed_graph_with_probability(num_of_nodes=n_nodes,
                                                                  probability=prob,
-                                                                 lowest_weight=-5,
-                                                                 highest_weight=10)
+                                                                 lowest_weight=w_min,
+                                                                 highest_weight=w_max)
                     G.load_data(result, RepresentationType.ADJACENCY_MATRIX)
+                    # GraphPlotter.plot_graph(G, draw_wages=True, draw_arrows=True)
 
                 elif main_choice == '2':
                     groups = kosaraju(G)
@@ -102,22 +128,27 @@ class Program:
                     groups = None
                     n_nodes = int(input("Number of nodes: "))
                     prob = float(input("Probability (0-1): "))
-                    G = get_connected_digraph(num_of_nodes=n_nodes,
-                                              probability=prob,
-                                              lowest_weight=-5,
-                                              highest_weight=10)
-                    GraphPlotter.plot_graph(G, draw_wages=True, draw_arrows=True)
+                    w_min = int(input("Lowest possible weight: "))
+                    w_max = int(input("Highest possible weight: "))
+                    try:
+                        G = get_connected_digraph(num_of_nodes=n_nodes,
+                                                  probability=prob,
+                                                  lowest_weight=w_min,
+                                                  highest_weight=w_max)
+                    except RuntimeWarning as e:
+                        self.err(str(e))
+
+                    # GraphPlotter.plot_graph(G, draw_wages=True, draw_arrows=True)
 
                 elif main_choice == '4':
                     start = int(input("Start from: "))
                     try:
                         print(f"\nShortest paths from node [{start}]:")
-                        self.console.print(bellman_ford(G, start))
+                        bellman_ford(G, start)
                     except Exception as e:
-                        print(e)
+                        self.err(str(e))
 
                 elif main_choice == '5':
-                    G = get_connected_digraph(5, 0.2, -5, 10)
                     G.to_adjacency_matrix()
                     johnson_algorithm(G)
 
@@ -125,12 +156,27 @@ class Program:
                     print_graph(G)
 
                 elif main_choice == 't':
-                    GraphPlotter.plot_graph(G, draw_wages=True,
-                                            draw_arrows=True,
-                                            nodes_color_modes=groups)
+                    choice = self.select_plotting_type()
+                    if choice == '1':
+                        GraphPlotter.plot_graph(G, draw_wages=True,
+                                                draw_arrows=True,
+                                                nodes_color_modes=groups)
+                    elif choice == '2':
+                        GraphPlotter.plot_graph(G, draw_wages=True,
+                                                draw_arrows=True,
+                                                nodes_color_modes=None)
+
+                    elif choice == '3':
+                        GraphPlotter.plot_graph(G, draw_wages=False,
+                                                draw_arrows=True,
+                                                nodes_color_modes=groups)
+
+                    elif choice == '4':
+                        GraphPlotter.plot_graph(G, draw_wages=False,
+                                                draw_arrows=True,
+                                                nodes_color_modes=None)
 
                 else:
-
                     self.err("I didn't understand that choice.")
                     self.newline()
         except:

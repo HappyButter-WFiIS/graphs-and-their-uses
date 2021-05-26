@@ -185,8 +185,7 @@ def get_connected_digraph(num_of_nodes: int,
     Returns connected and DIRECTED graph represented by DirectedGraph object.
     """
     G = DirectedGraph()
-	
-    iter_limit = 100 
+    iter_limit = 1000
     result = False
     while not result and iter_limit > 0:
         iter_limit -= 1
@@ -195,5 +194,9 @@ def get_connected_digraph(num_of_nodes: int,
         G.load_data(data=x, representation_type=RepresentationType.ADJACENCY_MATRIX)
         comp = kosaraju(G)
         result = all(elem == comp[0] for elem in comp)
+    
+    if iter_limit == 0:
+        G.clear_grah()
+        raise RuntimeWarning("Unable to find matching graph. Try again.")
     
     return G

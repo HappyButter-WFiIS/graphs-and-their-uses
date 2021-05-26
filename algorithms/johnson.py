@@ -1,4 +1,4 @@
-from utils.DirectedGraph import  RepresentationType
+from utils.DirectedGraph import RepresentationType
 from algorithms.bellman_ford import bellman_ford
 from algorithms.dijkstra import find_shortest_path
 from utils.graph_plotter import GraphPlotter
@@ -45,13 +45,13 @@ def johnson_algorithm(graph):
                 graph_for_dijkstra.repr[i][j] = new_g[i][j]
 
     for s in range(len(graph_for_dijkstra.repr)):
-        print("dla wierzcholka ", end=" ")
+        print("\ndla wierzcholka ", end=" ")
         print(s+1, end=" ")
         print(": \n", end=" ")
         for i in range(len(graph_for_dijkstra.repr)):
             find_shortest_path(G=graph_for_dijkstra.get_weighted_adjacency_list(), start=s+1, destination=i + 1, verbose=True)
 
-    GraphPlotter.plot_graph(graph_for_dijkstra)
+    # GraphPlotter.plot_graph(graph_for_dijkstra)
 
 
 if __name__ == "__main__":
