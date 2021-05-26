@@ -43,19 +43,19 @@ class Program:
         self.console = Console()
         self.options = {
             "1": "Generate random directed graph",
-            "2": "Find strongly consistent components (Kosaraju algorithm)",
-            "3": "Strongly consistent digraph",
-            "4": "Shortest paths (Bellman-Ford algorithm)",
-            "5": "All distances (Johnson algorithm)",
+            "2": "Generate strongly consistent digraph",
+            "3": "Find strongly consistent components (Kosaraju algorithm)",
+            "4": "Find shortest paths from one node to the rest (Bellman-Ford algorithm)",
+            "5": "Find all distances between pairs (Johnson algorithm)",
             "p": "Print graph",
             "t": "Plot graph",
             "q": "Quit",
         }
         self.plotting_options = {
-            "1": "All",
-            "2": "All without groups",
-            "3": "Groups without wages",
-            "4": "Edges only",
+            "1": "Normal (all options on)",
+            "2": "Without groups",
+            "3": "Without wages",
+            "4": "Nodes and edges only",
             "b": "Go back"
         }
 
@@ -106,25 +106,25 @@ class Program:
                     exit_program()
 
                 elif main_choice == '1':
-                    groups = None
-                    n_nodes = int(input("Number of nodes: "))
-                    prob = float(input("Probability (0-1): "))
-                    w_min = int(input("Lowest possible weight: "))
-                    w_max = int(input("Highest possible weight: "))
-                    result = get_directed_graph_with_probability(num_of_nodes=n_nodes,
-                                                                 probability=prob,
-                                                                 lowest_weight=w_min,
-                                                                 highest_weight=w_max)
-                    G.load_data(result, RepresentationType.ADJACENCY_MATRIX)
+                    try:
+                        groups = None
+                        n_nodes = int(input("Number of nodes: "))
+                        prob = float(input("Probability (0-1): "))
+                        w_min = int(input("Lowest possible weight: "))
+                        w_max = int(input("Highest possible weight: "))
+                        result = get_directed_graph_with_probability(num_of_nodes=n_nodes,
+                                                                     probability=prob,
+                                                                     lowest_weight=w_min,
+                                                                     highest_weight=w_max)
+
+
+                        G.load_data(result, RepresentationType.ADJACENCY_MATRIX)
+                        self.console.print("[bold green]Success:[/bold green] Graph generated.")
+                    except:
+                        self.err("Something went wrong")
                     # GraphPlotter.plot_graph(G, draw_wages=True, draw_arrows=True)
 
                 elif main_choice == '2':
-                    groups = kosaraju(G)
-                    GraphPlotter.plot_graph(G, draw_wages=False,
-                                            draw_arrows=True,
-                                            nodes_color_modes=groups)
-
-                elif main_choice == '3':
                     groups = None
                     n_nodes = int(input("Number of nodes: "))
                     prob = float(input("Probability (0-1): "))
@@ -135,12 +135,28 @@ class Program:
                                                   probability=prob,
                                                   lowest_weight=w_min,
                                                   highest_weight=w_max)
-                    except RuntimeWarning as e:
+                        self.console.print("[bold green]Success:[/bold green] Graph generated.")
+                    except RuntimeError as e:
                         self.err(str(e))
+                    except:
+                        self.err("Something went wrong")
 
                     # GraphPlotter.plot_graph(G, draw_wages=True, draw_arrows=True)
 
+                elif main_choice == '3':
+                    if not G.repr:
+                        self.err("Graph not created. Generate it first")
+                        continue
+                    groups = kosaraju(G)
+                    self.console.print("[bold green]Success:[/bold green] Groups successfully found.")
+                    GraphPlotter.plot_graph(G, draw_wages=False,
+                                            draw_arrows=True,
+                                            nodes_color_modes=groups)
+
                 elif main_choice == '4':
+                    if not G.repr:
+                        self.err("Graph not created. Generate it first")
+                        continue
                     start = int(input("Start from: "))
                     try:
                         print(f"\nShortest paths from node [{start}]:")
@@ -149,6 +165,9 @@ class Program:
                         self.err(str(e))
 
                 elif main_choice == '5':
+                    if not G.repr:
+                        self.err("Graph not created. Generate it first")
+                        continue
                     G.to_adjacency_matrix()
                     try:
                         johnson_algorithm(G)
@@ -156,9 +175,15 @@ class Program:
                         self.err(str(e))
 
                 elif main_choice == 'p':
+                    if not G.repr:
+                        self.err("Graph not created. Generate it first")
+                        continue
                     print_graph(G)
 
                 elif main_choice == 't':
+                    if not G.repr:
+                        self.err("Graph not created. Generate it first")
+                        continue
                     choice = self.select_plotting_type()
                     if choice == '1':
                         GraphPlotter.plot_graph(G, draw_wages=True,
@@ -180,10 +205,10 @@ class Program:
                                                 nodes_color_modes=None)
 
                 else:
-                    self.err("I didn't understand that choice.")
+                    self.err("Unrecognized option")
                     self.newline()
         except:
-            self.err("Something went wrong.")
+            self.err("Critical error. Exiting..")
             self.newline()
 
 
