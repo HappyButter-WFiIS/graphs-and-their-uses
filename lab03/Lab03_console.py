@@ -114,7 +114,9 @@ def present_djikstra_algorithm(G: Graph):
         except:
             print(f"Node number has to be chosen from 1 to {max_node}")
             end = -1
-    print(f"---- {find_shortest_path(G.get_weighted_adjacency_list(), start, end, verbose=True)} ----")
+            
+    find_shortest_path(G.get_weighted_adjacency_list(), start, end, verbose=True)
+    print()
 
 
 def present_distance_matrix(G: Graph):
