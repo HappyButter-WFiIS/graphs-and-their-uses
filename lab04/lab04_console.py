@@ -130,10 +130,14 @@ class Program:
                     prob = float(input("Probability (0-1): "))
                     w_min = int(input("Lowest possible weight: "))
                     w_max = int(input("Highest possible weight: "))
-                    G = get_connected_digraph(num_of_nodes=n_nodes,
-                                              probability=prob,
-                                              lowest_weight=w_min,
-                                              highest_weight=w_max)
+                    try:
+                        G = get_connected_digraph(num_of_nodes=n_nodes,
+                                                  probability=prob,
+                                                  lowest_weight=w_min,
+                                                  highest_weight=w_max)
+                    except RuntimeWarning as e:
+                        self.err(str(e))
+
                     # GraphPlotter.plot_graph(G, draw_wages=True, draw_arrows=True)
 
                 elif main_choice == '4':

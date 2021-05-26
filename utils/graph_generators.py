@@ -185,8 +185,7 @@ def get_connected_digraph(num_of_nodes: int,
     Returns connected and DIRECTED graph represented by DirectedGraph object.
     """
     G = DirectedGraph()
-	
-    iter_limit = 100
+    iter_limit = 1000
     result = False
     while not result and iter_limit > 0:
         iter_limit -= 1
@@ -198,6 +197,6 @@ def get_connected_digraph(num_of_nodes: int,
     
     if iter_limit == 0:
         G.clear_grah()
-        print("Unable to find matching graph. Try again.")
+        raise RuntimeWarning("Unable to find matching graph. Try again.")
     
     return G
