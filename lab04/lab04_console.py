@@ -149,7 +149,6 @@ class Program:
                         self.err(str(e))
 
                 elif main_choice == '5':
-                    G = get_connected_digraph(5, 0.2, -5, 10)
                     G.to_adjacency_matrix()
                     johnson_algorithm(G)
 

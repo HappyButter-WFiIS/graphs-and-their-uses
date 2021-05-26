@@ -45,7 +45,7 @@ def johnson_algorithm(graph):
                 graph_for_dijkstra.repr[i][j] = new_g[i][j]
 
     for s in range(len(graph_for_dijkstra.repr)):
-        print("dla wierzcholka ", end=" ")
+        print("\ndla wierzcholka ", end=" ")
         print(s+1, end=" ")
         print(": \n", end=" ")
         for i in range(len(graph_for_dijkstra.repr)):
