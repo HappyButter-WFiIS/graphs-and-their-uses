@@ -55,5 +55,5 @@ def find_shortest_path(G: dict, start: int, destination: int, verbose: bool):
     if shortest_distance[destination] != infinity:
         if verbose:
             print("d({})  = {} ==> {}".format(
-                destination, str(shortest_distance[destination]), str(path)))
+                destination, str(shortest_distance[destination]), str(path)), end="")
         return shortest_distance
