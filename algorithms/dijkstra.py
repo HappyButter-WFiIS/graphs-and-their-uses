@@ -7,7 +7,8 @@ def create_path_list(destination: int, start: int, predecessos: dict) -> dict:
             path.insert(0, current_node)
             current_node = predecessos[current_node]
         except KeyError:
-            print("Something went wrong!")
+            # raise KeyError
+            # print("Something went wrong!")
             break
 
     path.insert(0, start)

@@ -53,7 +53,7 @@ def johnson_algorithm(graph):
         for i in range(len(graph_for_dijkstra.repr)):
             find_shortest_path(G=graph_for_dijkstra.get_weighted_adjacency_list(), start=s+1, destination=i + 1, verbose=True)
 
-    GraphPlotter.plot_graph(graph_for_dijkstra)
+    # GraphPlotter.plot_graph(graph_for_dijkstra)
 
 
 if __name__ == "__main__":
