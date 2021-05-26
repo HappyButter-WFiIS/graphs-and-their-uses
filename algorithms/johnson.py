@@ -1,4 +1,4 @@
-from utils.DirectedGraph import  RepresentationType
+from utils.DirectedGraph import RepresentationType
 from algorithms.bellman_ford import bellman_ford
 from algorithms.dijkstra import find_shortest_path
 from utils.graph_plotter import GraphPlotter
