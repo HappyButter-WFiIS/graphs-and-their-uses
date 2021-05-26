@@ -104,9 +104,9 @@ def gen_random_conn_graph_weighted(size: int) -> list:
 
         for i in range(size):  
             for j in range(size):  # making matrix
-                if (j == i):
+                if j == i:
                     G[i][j] = 0  # symetric
-                if (j < i):
+                if j < i:
                     G[i][j] = G[j][i]
         if isConnected(G):
             return G
