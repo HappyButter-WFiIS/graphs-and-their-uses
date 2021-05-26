@@ -17,6 +17,30 @@ from algorithms.bellman_ford import bellman_ford
 from utils.graph_generators import get_connected_digraph
 from algorithms.johnson import johnson_algorithm
 
+def handle_convert(G: Graph) -> None:
+    """
+    Graph representation type convert handler.
+    """
+    convert_repr_type = ''
+
+    print("\nPick representation type:")
+    print("[1] Adjancency matrix")
+    print("[2] Adjacency list")
+    print("[3] Incidence matrix")
+    convert_repr_type = input()
+
+    if convert_repr_type == '1':
+        G.to_adjacency_matrix()
+        print_graph(G)
+    elif convert_repr_type == '2':
+        G.to_adjacency_list()
+        print_graph(G)
+    elif convert_repr_type == '3':
+        G.to_incidence_matrix()
+        print_graph(G)
+    else:
+        print("\nPut a valid option.")
+
 
 def exit_program() -> None:
     print("[bold]Thanks for playing. Bye!")
@@ -160,7 +184,7 @@ class Program:
                     start = int(input("Start from: "))
                     try:
                         print(f"\nShortest paths from node [{start}]:")
-                        bellman_ford(G, start)
+                        print(bellman_ford(G, start))
                     except Exception as e:
                         self.err(str(e))
 
