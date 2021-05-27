@@ -124,7 +124,10 @@ def randomize(G: Graph, randomizations: int):
     while completed_randomizations < randomizations:
         edges = []
         iterations += 1
+        
         if iterations > 10 * randomizations:
+            print('Limit of randomization attempts has been exhausted after ' + str(iterations) + ' iterations')
+            print('Number of completed randomizations: ' + str(completed_randomizations))
             return
 
         for i in range(len(G.repr)):
@@ -147,6 +150,8 @@ def randomize(G: Graph, randomizations: int):
                 G.repr[a][d] = G.repr[d][a] = 1
                 G.repr[c][b] = G.repr[b][c] = 1
                 completed_randomizations += 1
+    
+    print(str(completed_randomizations) + ' randomizations completed after ' + str(iterations) + ' attempts')
 
 
 def get_directed_graph_with_probability(num_of_nodes: int, probability: float, lowest_weight: int = 0,

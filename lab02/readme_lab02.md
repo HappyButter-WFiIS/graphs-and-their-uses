@@ -147,3 +147,5 @@
  However, if it is not, the proper message is displayed and the program returns to main menu / submenu.
  In case of graphs from file, it is highly recommended to plot graph after upload 
  to check if it was loaded without any errors.
+
+ Program should be started from main folder: python lab02/Lab02_console.py

@@ -343,9 +343,20 @@ class Graph:
 
     def __is_graphical(self) -> bool:
         data = deepcopy(self.repr)
+
+        for item in data:
+            if item < 0:
+                print('Vertex degree cannot be less than 0')
+                return False
+
         for _ in range(len(data)):
             data.sort(reverse=True)
             item = data[0]
+            
+            if item >= len(self.repr):
+                print('Vertex degree cannot be greater than ' + str(len(self.repr) - 1))
+                return False
+                
             data[0] = 0
             for i in range(1, item + 1):
                 data[i] -= 1

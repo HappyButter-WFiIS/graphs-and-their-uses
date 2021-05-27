@@ -229,19 +229,25 @@ def load_graph_from_file_menu() -> None:
     Loading graph from file.
     """
     G = Graph()
-    print("What representation type is in the file?")
-    print("\n[1] Adjancency matrix")
+    print("\nWhat representation type is in the file?")
+    print("[1] Adjancency matrix")
     print("[2] Adjacency list")
-    print("[3] Incidence matrix")
+    print("[3] Incidence matrix\n")
 
     representation_type = input("Pick the type:\n")
 
-    print("Ok. Now put the file name.")
+    print("\nOk. Now put the file name.")
     file_name = input("File name:\n")
-
+    print()
+    
     if representation_type and file_name:
         handle_read_from_file(G, int(representation_type), file_name)
+        if not G.repr:
+            print("Reading file failure.")
+            return
+        
         present_graph_from_file(G)
+
         
         
 if __name__ == '__main__':
