@@ -1,3 +1,11 @@
+!important 
+
+	The program must be run from the main project file - "graphs-and-their-uses"!
+	
+	Example:
+	[graphs-and-their-uses] python lab01/Lab01_console.py
+
+
 The program has 2 main parts:
 1. Reading from a file or generating new graph.
    
