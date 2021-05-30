@@ -1,6 +1,6 @@
 from random import randint
 from copy import deepcopy
-from utils.graph_generators import get_graph_with_probability
+from utils.graph_generators import isConnected
 from utils.Graph import Graph, RepresentationType
 
 
@@ -46,8 +46,17 @@ def euler_cycle(G: Graph) -> str:
 
     copyG.to_adjacency_matrix()
     adj_mat = copyG.repr
+
+    if isConnected(adj_mat) == 0:
+        return str([])
+
     copyG.to_adjacency_list()
     adj_list = copyG.repr
+
+    copyG.to_graphical_sequence()
+    for deg in copyG.repr:
+        if deg % 2 == 1:
+            return str([])
 
     cycle = dfs(adj_mat, adj_list, 0)
     return '[' + ' - '.join(cycle) + ']'
@@ -71,16 +80,3 @@ def generate_euler_graph_sequence(G: Graph, vertices: int) -> bool:
         iteration += 1              
 
     return False
-
-def is_eulerian(G: Graph) -> bool:
-    """
-    Returns True if graphical sequence of given graph
-    consists only even numbers.
-    """
-    copyG = deepcopy(G)
-    copyG.to_graphical_sequence()
-    for deg in copyG.repr:
-        if deg % 2 == 1:
-            return False
-    
-    return True
