@@ -139,7 +139,7 @@ class Program:
                     except RuntimeError as e:
                         self.err(str(e))
                     except:
-                        self.err("Something went wrong")
+                        self.err("Couldn't crate graph")
 
                     # GraphPlotter.plot_graph(G, draw_wages=True, draw_arrows=True)
 
@@ -160,7 +160,7 @@ class Program:
                     start = int(input("Start from: "))
                     try:
                         print(f"\nShortest paths from node [{start}]:")
-                        bellman_ford(G, start)
+                        print(bellman_ford(G, start))
                     except Exception as e:
                         self.err(str(e))
 
