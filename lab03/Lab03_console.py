@@ -124,9 +124,8 @@ def present_distance_matrix(G: Graph):
         raise MissingGraphException
     matrix = G.get_distance_matrix()
     print("----Distance Matrix----")
-
     for line in matrix:
-        print('\t'.join([str(x) for x in line]))
+        print(line)
 
 
 def present_minimal_spanning_tree(G: Graph, main_choice):
@@ -137,14 +136,9 @@ def present_minimal_spanning_tree(G: Graph, main_choice):
     print("[Any other key] Go back.")
     choice = input('Chose algorithm to find a minimal spanning tree.\n')
     if choice == '1':
-        MST = kruskal(G.repr)
+        kruskal(G.repr)
     elif choice == '2':
-        MST = prim(G.repr)
-
-    T = Graph()
-    T.load_data(MST,  RepresentationType.ADJACENCY_MATRIX)
-    GraphPlotter.plot_graph(G,  draw_wages = True)
-    GraphPlotter.plot_graph(T,  draw_wages = True)
+        prim(G.repr)
 
 
 if __name__ == '__main__':
@@ -177,10 +171,10 @@ if __name__ == '__main__':
             elif main_choice == 'p':
                 if not G.repr:
                     raise MissingGraphException
-                GraphPlotter.plot_graph(G, draw_wages=True)
+                GraphPlotter.plot_graph(G)
             elif main_choice == '0':
                 load_graph_from_file_menu(G)
-            elif main_choice != 'q':
+            else:
                 print("I dont know what do you mean :)")
         except MissingGraphException:
             print("First you need to load or generate a graph.")
