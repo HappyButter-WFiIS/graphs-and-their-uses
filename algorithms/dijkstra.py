@@ -15,7 +15,7 @@ def create_path_list(destination: int, start: int, predecessos: dict) -> list:
     return path
 
 
-def find_shortest_path(G: dict, start: int, destination: int, verbose: bool):
+def find_shortest_path(G: dict, start: int, verbose: bool):
     # set variables
     not_reached_nodes = G.copy()
     infinity = float('inf')
@@ -50,10 +50,12 @@ def find_shortest_path(G: dict, start: int, destination: int, verbose: bool):
 
         not_reached_nodes.pop(min_distance_node)
 
-    path = create_path_list(destination, start, predecessors)
+    for dest in range(1, len(G)+1):
 
-    if shortest_distance[destination] != infinity:
-        if verbose:
-            print("d({})  = {} ==> {}".format(
-                destination, str(shortest_distance[destination]), str(path)), end="\n")
-        return shortest_distance
+        path = create_path_list(dest, start, predecessors)
+        if shortest_distance[dest] != infinity:
+            if verbose:
+                print("d({})  = {} ==> {}".format(
+                    dest, str(shortest_distance[dest]), str(path)), end="\n")
+
+    return shortest_distance

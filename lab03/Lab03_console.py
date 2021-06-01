@@ -59,23 +59,12 @@ def load_graph_from_file_menu(G: Graph) -> None:
     """
     Loading graph from file.
     """
-    representation_type = -1
-    while representation_type != 5 and representation_type != 6:
-        print("What representation type is in the file?")
-        print("\n[1] Adjancency matrix")
-        print("[2] Adjacency list")
-        print("[3] Incidence matrix")
 
-        try:
-            representation_type = int(input("Pick the type:\n")) + 4
-        except:
-            representation_type = -1
-
-    print("Ok. Now put the file name.")
+    print("\nInsert the path to your file containing adjacency matrix.")
     file_name = input("File name:\n")
 
     if file_name:
-        handle_read_from_file(G, int(representation_type), file_name)
+        handle_read_from_file(G, 5, file_name)
 
 
 def present_conn_simple_graph_generation(G: Graph):
@@ -86,7 +75,7 @@ def present_conn_simple_graph_generation(G: Graph):
             if size <= 0:
                 raise Exception
         except Exception:
-            print("The size has to be a number greater than 0")
+            print("The size has to be an integer greater than 0")
             size = -1
     G.load_data(data=gen_random_conn_graph_weighted(size),
                 representation_type=RepresentationType.ADJACENCY_MATRIX_WITH_WEIGHTS)
@@ -106,16 +95,8 @@ def present_djikstra_algorithm(G: Graph):
         except:
             print(f"Node number has to be chosen from 1 to {max_node}")
             start = -1
-    while end < 1 or start > max_node:
-        try:
-            end = int(input("Insert number of destination node.\n"))
-            if end < 1 or end > max_node:
-                raise Exception
-        except:
-            print(f"Node number has to be chosen from 1 to {max_node}")
-            end = -1
             
-    find_shortest_path(G.get_weighted_adjacency_list(), start, end, verbose=True)
+    find_shortest_path(G.get_weighted_adjacency_list(), start, verbose=True)
     print()
 
 
@@ -144,43 +125,45 @@ def present_minimal_spanning_tree(G: Graph, main_choice):
 if __name__ == '__main__':
     main_choice = ''
     G = Graph()
-    while main_choice != 'q':
+    while True:
         display_menu()
         main_choice = input("What would you like to do?\n")
-        try:
-            if main_choice == '1':
-                present_conn_simple_graph_generation(G)
-            elif main_choice == '2':
-                present_djikstra_algorithm(G)
-            elif main_choice == '3':
-                present_distance_matrix(G)
-            elif main_choice == '4':
-                if not G.repr:
-                    raise MissingGraphException
-                central_node, dist = get_graph_centre(dist_matrix=G.get_distance_matrix())
-                print(f'The center of the graph is located in the node number {central_node}, distance = {dist}')
-            elif main_choice == '5':
-                if not G.repr:
-                    raise MissingGraphException
-                central_node, dist = get_minimax_centre(dist_matrix=G.get_distance_matrix())
-                print(f'The MinMax center of the graph is located in the node number {central_node}, distance = {dist}')
-            elif main_choice == '6':
-                if not G.repr:
-                    raise MissingGraphException
-                present_minimal_spanning_tree(G, main_choice)
-            elif main_choice == 'p':
-                if not G.repr:
-                    raise MissingGraphException
-                GraphPlotter.plot_graph(G)
-            elif main_choice == '0':
-                load_graph_from_file_menu(G)
-            else:
-                print("I dont know what do you mean :)")
-        except MissingGraphException:
-            print("First you need to load or generate a graph.")
-        except KeyError:
-            print("Check If your data is OK")
-        except:
-            print("Something went wrong. Try again!")
+        # try:
+        if main_choice == '1':
+            present_conn_simple_graph_generation(G)
+        elif main_choice == '2':
+            present_djikstra_algorithm(G)
+        elif main_choice == '3':
+            present_distance_matrix(G)
+        elif main_choice == '4':
+            if not G.repr:
+                raise MissingGraphException
+            central_node = get_graph_centre(dist_matrix=G.get_distance_matrix())
+            print(f'The center of the graph is located in the node number {central_node}')
+        elif main_choice == '5':
+            if not G.repr:
+                raise MissingGraphException
+            central_node = get_minimax_centre(dist_matrix=G.get_distance_matrix())
+            print(f'The MinMax center of the graph is located in the node number {central_node}')
+        elif main_choice == '6':
+            if not G.repr:
+                raise MissingGraphException
+            present_minimal_spanning_tree(G, main_choice)
+        elif main_choice == 'p':
+            if not G.repr:
+                raise MissingGraphException
+            GraphPlotter.plot_graph(G, True)
+        elif main_choice == '0':
+            load_graph_from_file_menu(G)
+        elif main_choice == 'q':
+            break
+        else:
+            print("I dont know what do you mean :)")
+        # except MissingGraphException:
+        #     print("First you need to load or generate a graph.")
+        # except KeyError:
+        #     print("Check If your data is OK")
+        # except:
+        #     print("Something went wrong. Try again!")
 
     print("\nThanks for playing. Bye.")

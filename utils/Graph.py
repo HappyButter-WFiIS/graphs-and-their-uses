@@ -79,11 +79,11 @@ class Graph:
         return True
 
     def __read_file(self, filename: str) -> str:
-        
+
         if not os.path.isfile(filename):
-            print ("File does not exists")
+            print("File does not exists")
             return ''
-        
+
         try:
             file = open(filename, 'r')
             return file.read().split('\n')
@@ -403,7 +403,7 @@ class Graph:
         final_matrix = [[0 for _ in range(size)] for __ in range(size)]
 
         for i in range(size):
-            temp = find_shortest_path(G=self.get_weighted_adjacency_list(), start=i + 1, destination=i + 1,
+            temp = find_shortest_path(G=self.get_weighted_adjacency_list(), start=i + 1,
                                       verbose=False)
             for j in range(i):
                 final_matrix[i][j] = temp[j + 1]
