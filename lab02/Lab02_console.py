@@ -7,7 +7,7 @@ sys.path.append(parentdir)
 from utils.Graph import Graph, RepresentationType
 from utils.graph_plotter import GraphPlotter
 from utils.graph_generators import randomize, get_graph_with_probability
-from algorithms.euler import euler_cycle, generate_euler_graph_sequence, is_eulerian
+from algorithms.euler import euler_cycle, generate_euler_graph_sequence
 from algorithms.components import get_components, print_sorted_components
 from algorithms.hamilton import hamilton
 
@@ -152,7 +152,7 @@ def present_hamiltonian_graphs() -> None:
     G.load_data(get_graph_with_probability(vertices, probability), RepresentationType.ADJACENCY_MATRIX)
     
     cycle = hamilton(G)
-    if cycle == []:
+    if cycle == '[]':
         print("Graph is not hamiltonian")
     else:
         print("Graph is hamiltonian")
@@ -173,18 +173,19 @@ def present_graph_from_file(G: Graph) -> None:
             
             if operations_choice == '1':
                 cycle = hamilton(G)
-                if cycle == []:
+                if cycle == '[]':
                     print('Graph is not Hamiltonian')
                 else:
                     print('Graph is Hamiltonian')
                     print(cycle)
             
             if operations_choice == '2':
-                if is_eulerian(G):
+                cycle = euler_cycle(G)
+                if cycle == '[]':
+                    print('Graph is not Eulerian')
+                else:
                     print('Graph is Eulerian')
                     print(euler_cycle(G))
-                else:
-                    print('Graph is not Eulerian')
                 
             if operations_choice == '3':
                 G.to_adjacency_matrix()
@@ -229,19 +230,25 @@ def load_graph_from_file_menu() -> None:
     Loading graph from file.
     """
     G = Graph()
-    print("What representation type is in the file?")
-    print("\n[1] Adjancency matrix")
+    print("\nWhat representation type is in the file?")
+    print("[1] Adjancency matrix")
     print("[2] Adjacency list")
-    print("[3] Incidence matrix")
+    print("[3] Incidence matrix\n")
 
     representation_type = input("Pick the type:\n")
 
-    print("Ok. Now put the file name.")
+    print("\nOk. Now put the file name.")
     file_name = input("File name:\n")
-
+    print()
+    
     if representation_type and file_name:
         handle_read_from_file(G, int(representation_type), file_name)
+        if not G.repr:
+            print("Reading file failure.")
+            return
+        
         present_graph_from_file(G)
+
         
         
 if __name__ == '__main__':
