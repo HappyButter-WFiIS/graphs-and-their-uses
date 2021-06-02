@@ -106,8 +106,9 @@ def present_distance_matrix(G: Graph):
     matrix = G.get_distance_matrix()
     print("----Distance Matrix----")
     for line in matrix:
-        print(line)
-
+        for elem in line:
+            print(elem, end='\t')
+        print()
 
 def present_minimal_spanning_tree(G: Graph, main_choice):
     if not G.repr:
@@ -117,9 +118,14 @@ def present_minimal_spanning_tree(G: Graph, main_choice):
     print("[Any other key] Go back.")
     choice = input('Chose algorithm to find a minimal spanning tree.\n')
     if choice == '1':
-        kruskal(G.repr)
+        MST = kruskal(G.repr)
     elif choice == '2':
-        prim(G.repr)
+        MST = prim(G.repr)
+    else:
+        return
+    T = Graph()
+    T.load_data(MST, RepresentationType.ADJACENCY_MATRIX)
+    GraphPlotter.plot_graph(T, draw_wages=True)
 
 
 if __name__ == '__main__':
@@ -128,42 +134,44 @@ if __name__ == '__main__':
     while True:
         display_menu()
         main_choice = input("What would you like to do?\n")
-        # try:
-        if main_choice == '1':
-            present_conn_simple_graph_generation(G)
-        elif main_choice == '2':
-            present_djikstra_algorithm(G)
-        elif main_choice == '3':
-            present_distance_matrix(G)
-        elif main_choice == '4':
-            if not G.repr:
-                raise MissingGraphException
-            central_node = get_graph_centre(dist_matrix=G.get_distance_matrix())
-            print(f'The center of the graph is located in the node number {central_node}')
-        elif main_choice == '5':
-            if not G.repr:
-                raise MissingGraphException
-            central_node = get_minimax_centre(dist_matrix=G.get_distance_matrix())
-            print(f'The MinMax center of the graph is located in the node number {central_node}')
-        elif main_choice == '6':
-            if not G.repr:
-                raise MissingGraphException
-            present_minimal_spanning_tree(G, main_choice)
-        elif main_choice == 'p':
-            if not G.repr:
-                raise MissingGraphException
-            GraphPlotter.plot_graph(G, True)
-        elif main_choice == '0':
-            load_graph_from_file_menu(G)
-        elif main_choice == 'q':
-            break
-        else:
-            print("I dont know what do you mean :)")
-        # except MissingGraphException:
-        #     print("First you need to load or generate a graph.")
-        # except KeyError:
-        #     print("Check If your data is OK")
-        # except:
-        #     print("Something went wrong. Try again!")
+        try:
+            if main_choice == '1':
+                present_conn_simple_graph_generation(G)
+            elif main_choice == '2':
+                present_djikstra_algorithm(G)
+            elif main_choice == '3':
+                present_distance_matrix(G)
+            elif main_choice == '4':
+                if not G.repr:
+                    raise MissingGraphException
+                central_node = get_graph_centre(dist_matrix=G.get_distance_matrix())
+                print(f'The center of the graph is located in the node number {central_node[0]}. '
+                      f' Centrum wynosi {central_node[1]}')
+            elif main_choice == '5':
+                if not G.repr:
+                    raise MissingGraphException
+                central_node = get_minimax_centre(dist_matrix=G.get_distance_matrix())
+                print(f'The MinMax center of the graph is located in the node number {central_node[0]}.'
+                      f' Centrum wynosi {central_node[1]}')
+            elif main_choice == '6':
+                if not G.repr:
+                    raise MissingGraphException
+                present_minimal_spanning_tree(G, main_choice)
+            elif main_choice == 'p':
+                if not G.repr:
+                    raise MissingGraphException
+                GraphPlotter.plot_graph(G, True)
+            elif main_choice == '0':
+                load_graph_from_file_menu(G)
+            elif main_choice == 'q':
+                break
+            else:
+                print("I dont know what do you mean :)")
+        except MissingGraphException:
+            print("First you need to load or generate a graph.")
+        except KeyError:
+            print("Check If your data is OK")
+        except:
+            print("Something went wrong. Try again!")
 
     print("\nThanks for playing. Bye.")
