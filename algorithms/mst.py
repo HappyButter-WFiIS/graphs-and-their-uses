@@ -9,7 +9,6 @@ def kruskal(matrix: list) -> list:
     rank = [0 for _ in range(len(matrix))]
     tree_sum = 0
 
-    print(len(result[0]))
 
     for edge in edges:
         a, b = edge[1], edge[2]
