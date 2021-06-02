@@ -146,13 +146,13 @@ if __name__ == '__main__':
                     raise MissingGraphException
                 central_node = get_graph_centre(dist_matrix=G.get_distance_matrix())
                 print(f'The center of the graph is located in the node number {central_node[0]}. '
-                      f' Centrum wynosi {central_node[1]}')
+                      f' Centrum is equal to {central_node[1]}')
             elif main_choice == '5':
                 if not G.repr:
                     raise MissingGraphException
                 central_node = get_minimax_centre(dist_matrix=G.get_distance_matrix())
                 print(f'The MinMax center of the graph is located in the node number {central_node[0]}.'
-                      f' Centrum wynosi {central_node[1]}')
+                      f' Centrum is equal to {central_node[1]}')
             elif main_choice == '6':
                 if not G.repr:
                     raise MissingGraphException
