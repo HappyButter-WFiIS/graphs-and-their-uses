@@ -5,7 +5,7 @@ currentdir = os.path.dirname(os.path.realpath(__file__))
 parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
 
-from random import randint
+from random import random
 from utils.graph_plotter import GraphPlotter
 from utils.Graph import Graph, RepresentationType
 from utils.graph_generators import get_graph_from_points
@@ -15,8 +15,8 @@ if __name__ == '__main__':
     G = Graph()
     points = list()
 
-    for _ in range(50):
-        points.append((randint(-100,100), randint(-100, 100))) 
+    for _ in range(100):
+        points.append((2000*random()-1000, 2000*random()-1000))
     
     G.load_data(get_graph_from_points(points), RepresentationType.ADJACENCY_MATRIX)
 
@@ -30,7 +30,7 @@ if __name__ == '__main__':
 
     path = closest_neighbour(G)
     GraphPlotter.plot_points(points, path)
-    path = simulated_annealing(G, 100, 1000, path)
+    path = simulated_annealing(G, 50, 1000)
     GraphPlotter.plot_points(points, path)
 
 

@@ -30,7 +30,7 @@ def closest_neighbour(G: Graph) -> list:
 
     path_length = find_closest_neighbour_path(0, 0.0, visited, path, G.repr)
 
-    print('--- Closest Neighbour Algorithm ---\n')
+    print('\n--- Closest Neighbour Algorithm ---\n')
     print('Path:')
     print('[' + ' - '.join([str(x + 1) for x in path]) + ']\n')
     print('Length:')
@@ -81,7 +81,13 @@ def simulated_annealing(G: Graph, start_temp: int, iter_max: int, path: list = [
             if lenP > lenPnew or random() < exp(-(lenPnew - lenP)/T):
                 P = Pnew
     
-    print('--- Simulated Annealing Algorithm ---\n')
+    print('\n--- Simulated Annealing Algorithm ---\n')
+
+    if path != []:
+        print('Initial path was given by parameter')
+
+    print('Starting temperature: ' + str(start_temp))
+    print('ITER_MAX: ' + str(iter_max))
     print('Path:')
     print('[' + ' - '.join([str(x + 1) for x in P]) + ']\n')
     print('Length:')

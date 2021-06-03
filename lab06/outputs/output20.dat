@@ -1,0 +1,49 @@
+
+--- Closest Neighbour Algorithm ---
+
+Path:
+[1 - 16 - 11 - 7 - 17 - 3 - 20 - 9 - 14 - 10 - 18 - 2 - 12 - 6 - 8 - 19 - 15 - 13 - 4 - 5 - 1]
+
+Length:
+10721.158614561087
+
+--- Simulated Annealing Algorithm ---
+
+Starting temperature: 50
+ITER_MAX: 100
+Path:
+[1 - 17 - 5 - 3 - 20 - 9 - 2 - 19 - 8 - 16 - 7 - 11 - 13 - 4 - 15 - 6 - 12 - 18 - 10 - 14 - 1]
+
+Length:
+9927.267610822597
+
+--- Simulated Annealing Algorithm ---
+
+Starting temperature: 50
+ITER_MAX: 1000
+Path:
+[1 - 7 - 11 - 16 - 6 - 12 - 8 - 19 - 18 - 10 - 2 - 15 - 4 - 13 - 17 - 5 - 3 - 20 - 9 - 14 - 1]
+
+Length:
+9650.911511405633
+
+--- Simulated Annealing Algorithm ---
+
+Starting temperature: 100
+ITER_MAX: 1000
+Path:
+[1 - 7 - 11 - 16 - 12 - 8 - 19 - 20 - 9 - 14 - 10 - 18 - 2 - 6 - 15 - 4 - 13 - 17 - 3 - 5 - 1]
+
+Length:
+10805.858241324706
+
+--- Simulated Annealing Algorithm ---
+
+Initial path was given by parameter
+Starting temperature: 100
+ITER_MAX: 1000
+Path:
+[1 - 16 - 7 - 17 - 5 - 3 - 20 - 9 - 14 - 10 - 18 - 2 - 19 - 8 - 12 - 6 - 15 - 4 - 13 - 11 - 1]
+
+Length:
+8193.278684577157
