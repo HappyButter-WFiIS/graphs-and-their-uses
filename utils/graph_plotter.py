@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plot
+from matplotlib.path import Path
 import math
+import numpy as np
 from utils.Graph import RepresentationType, Graph
 from utils.DirectedGraph import DirectedGraph
 
@@ -83,6 +85,26 @@ class GraphPlotter:
 
         else:
             print("Incorrect graph type.")
+
+    @staticmethod
+    def plot_points(points: list, path: list) -> None:
+        """
+        Plots points on plane using Matplotlib with specific path linking them
+        """
+        x = [x[0] for x in points]
+        y = [y[1] for y in points]
+
+        plot.plot(x, y, '.', color='black') 
+
+        path_points = []
+        for v in path:
+            path_points.append(points[v])
+            plot.text(points[v][0], points[v][1], str(v + 1), fontsize=8)
+
+        data = np.array(path_points)
+        plot.plot(data[:, 0], data[:, 1])
+
+        plot.show()
 
     @staticmethod
     def __prepare_plot():

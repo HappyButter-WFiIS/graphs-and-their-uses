@@ -1,3 +1,4 @@
+from math import sqrt
 import numpy as np
 import random
 from utils.Graph import RepresentationType, Graph
@@ -205,3 +206,20 @@ def get_connected_digraph(num_of_nodes: int,
         raise RuntimeWarning("Unable to find matching graph. Try again.")
     
     return G
+
+def get_graph_from_points(points: list) -> list:
+    result = list()
+    
+    for i in range(len(points)):
+        l = list()
+        for j in range(len(points)):
+            a = points[i]
+            b = points[j]
+            x = a[0] - b[0]
+            y = a[1] - b[1]
+            l.append(sqrt(x*x + y*y))
+
+        result.append(l)
+    return result
+
+
