@@ -25,31 +25,31 @@ def print_matrix(matrix: np.ndarray, name=None) -> None:
         print()
 
 
-def get_graph_centre(dist_matrix: np.ndarray) -> int:
+def get_graph_centre(dist_matrix: np.ndarray) -> (int, int):
     num_of_nodes = len(dist_matrix)
     sum_distances = [0] * num_of_nodes
     for row in range(num_of_nodes):
         for col in range(num_of_nodes):
             sum_distances[col] += dist_matrix[row][col]
-    return sum_distances.index(min(sum_distances)) + 1
+    return sum_distances.index(min(sum_distances)) + 1, min(sum_distances)
 
 
-def get_minimax_centre(dist_matrix: np.ndarray) -> int:
+def get_minimax_centre(dist_matrix: np.ndarray) -> (int, int):
     num_of_nodes = len(dist_matrix)
     max_distances = [0] * num_of_nodes
     for row in range(num_of_nodes):
         for col in range(num_of_nodes):
             max_distances[col] = max(dist_matrix[row][col], max_distances[col])
-    return max_distances.index(min(max_distances)) + 1
+    return max_distances.index(min(max_distances)) + 1, min(max_distances)
 
 
 def main() -> None:
     distances = init_rand_dist_matrix(8)
     print_matrix(distances, "Rand distance matrix")
-    center_idx = get_graph_centre(distances)
-    print(f"Center of graph is in node {center_idx}")
-    minimax_idx = get_minimax_centre(distances)
-    print(f"Minimax center is in node {minimax_idx}")
+    center_idx, center_dist = get_graph_centre(distances)
+    print(f"Center of graph is in node {center_idx} (distance = {center_dist})")
+    minimax_idx, minimax_dist = get_minimax_centre(distances)
+    print(f"Minimax center is in node {minimax_idx} (distance = {minimax_dist})")
 
 
 if __name__ == "__main__":

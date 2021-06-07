@@ -1,3 +1,4 @@
+from math import sqrt
 import numpy as np
 import random
 from utils.Graph import RepresentationType, Graph
@@ -124,7 +125,10 @@ def randomize(G: Graph, randomizations: int):
     while completed_randomizations < randomizations:
         edges = []
         iterations += 1
+        
         if iterations > 10 * randomizations:
+            print('Limit of randomization attempts has been exhausted after ' + str(iterations) + ' iterations')
+            print('Number of completed randomizations: ' + str(completed_randomizations))
             return
 
         for i in range(len(G.repr)):
@@ -147,6 +151,8 @@ def randomize(G: Graph, randomizations: int):
                 G.repr[a][d] = G.repr[d][a] = 1
                 G.repr[c][b] = G.repr[b][c] = 1
                 completed_randomizations += 1
+    
+    print(str(completed_randomizations) + ' randomizations completed after ' + str(iterations) + ' attempts')
 
 
 def get_directed_graph_with_probability(num_of_nodes: int, probability: float, lowest_weight: int = 0,
@@ -200,3 +206,20 @@ def get_connected_digraph(num_of_nodes: int,
         raise RuntimeWarning("Unable to find matching graph. Try again.")
     
     return G
+
+def get_graph_from_points(points: list) -> list:
+    result = list()
+    
+    for i in range(len(points)):
+        l = list()
+        for j in range(len(points)):
+            a = points[i]
+            b = points[j]
+            x = a[0] - b[0]
+            y = a[1] - b[1]
+            l.append(sqrt(x*x + y*y))
+
+        result.append(l)
+    return result
+
+

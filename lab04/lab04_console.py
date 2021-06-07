@@ -163,7 +163,7 @@ class Program:
                     except RuntimeError as e:
                         self.err(str(e))
                     except:
-                        self.err("Something went wrong")
+                        self.err("Couldn't crate graph")
 
                     # GraphPlotter.plot_graph(G, draw_wages=True, draw_arrows=True)
 

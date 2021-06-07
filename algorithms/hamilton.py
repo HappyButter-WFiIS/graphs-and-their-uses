@@ -31,8 +31,8 @@ def hamilton_inner(graph: List[List[int]], path: List[int], curr_ind: int) -> bo
     return False
  
  
-def hamilton(G: Graph, initial_vertex: int = 0) -> List[int]:
+def hamilton(G: Graph, initial_vertex: int = 0) -> str:
     G.to_adjacency_matrix()
     path = [-1] * (len(G.repr) + 1)
     path[0] = path[-1] = initial_vertex
-    return [(x + 1) for x in path] if hamilton_inner(G.repr, path, 1) else []
+    return '[' + ' - '.join([str(x + 1) for x in path]) + ']' if hamilton_inner(G.repr, path, 1) else str([])

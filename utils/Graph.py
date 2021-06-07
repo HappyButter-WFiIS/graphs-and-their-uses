@@ -79,11 +79,11 @@ class Graph:
         return True
 
     def __read_file(self, filename: str) -> str:
-        
+
         if not os.path.isfile(filename):
-            print ("File does not exists")
+            print("File does not exists")
             return ''
-        
+
         try:
             file = open(filename, 'r')
             return file.read().split('\n')
@@ -343,9 +343,20 @@ class Graph:
 
     def __is_graphical(self) -> bool:
         data = deepcopy(self.repr)
+
+        for item in data:
+            if item < 0:
+                print('Vertex degree cannot be less than 0')
+                return False
+
         for _ in range(len(data)):
             data.sort(reverse=True)
             item = data[0]
+            
+            if item >= len(self.repr):
+                print('Vertex degree cannot be greater than ' + str(len(self.repr) - 1))
+                return False
+                
             data[0] = 0
             for i in range(1, item + 1):
                 data[i] -= 1
@@ -392,7 +403,7 @@ class Graph:
         final_matrix = [[0 for _ in range(size)] for __ in range(size)]
 
         for i in range(size):
-            temp = find_shortest_path(G=self.get_weighted_adjacency_list(), start=i + 1, destination=i + 1,
+            temp = find_shortest_path(G=self.get_weighted_adjacency_list(), start=i + 1,
                                       verbose=False)
             for j in range(i):
                 final_matrix[i][j] = temp[j + 1]
