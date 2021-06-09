@@ -1,8 +1,11 @@
 from math import sqrt
 import numpy as np
 import random
+
+from numpy.lib.utils import source
 from utils.Graph import RepresentationType, Graph
 from utils.DirectedGraph import DirectedGraph
+from utils.FlowNetwork import FlowNetwork
 from array import *
 from algorithms.kosaraju import kosaraju
 
@@ -222,4 +225,78 @@ def get_graph_from_points(points: list) -> list:
         result.append(l)
     return result
 
+
+def get_flow_network(n: int) -> FlowNetwork:
+    """
+    Generate flow network with 1 source node, 1 target node and 
+    n node layers between which contains from 2 to n number of nodes each.
+    """
+    max_flow_value = 11
+    min_flow_value = 1
+    
+    # prepare layers list with its nodes    
+    layers = list()
+    layers.append(list([0]))
+    
+    node_number = 1
+    for i in range(1, n+1):
+        layers.append(list())
+        nodes_number_on_layer = random.randrange(2,n+1)
+        for _ in range(nodes_number_on_layer):
+            layers[i].append(node_number)
+            node_number += 1
+    
+    layers.append(list([node_number]))
+    node_number += 1
+    
+    # create empty adjacency matrix
+    graph = list([None] * node_number for _ in range(node_number))
+    
+    # fill connections from 0 to 1 layer 
+    for i in layers[1]:
+        graph[0][i] = random.randrange(min_flow_value, max_flow_value)
+        
+    # fill connections from n to n+1 layer
+    for i in layers[-2]:
+        graph[i][-1] = random.randrange(min_flow_value, max_flow_value)
+        
+    # fill connections between layers in the middle
+    for i in range(1, n):
+        source_layer = layers[i].copy()
+        target_layer = layers[i+1].copy()
+        diff = len(target_layer) - len(source_layer)
+        
+        if len(target_layer) > len(source_layer):
+            random.shuffle(target_layer)
+            
+            align_source_layer_len = random.choices(source_layer, k=diff)
+            source_layer.extend(align_source_layer_len)    
+        else:
+            random.shuffle(source_layer)
+            
+            align_target_layer_len = random.choices(target_layer, k=diff)
+            target_layer.extend(align_target_layer_len)
+            
+        for j in range(len(target_layer)):
+            graph[source_layer[j]][target_layer[j]] = random.randrange(min_flow_value, max_flow_value)
+            
+    # random 2*n additional edges 
+    randomized_counter = 0
+    while randomized_counter < 2*n:
+        source_node = random.randrange(0, node_number-1)
+        target_node = random.randrange(1, node_number) 
+        
+        # Condidtions:
+        # 1. has no cycle; 
+        # 2. has no such a connection.
+        # 3. has no such a connection in the opposite direction.
+        if not(source_node == target_node) and graph[source_node][target_node] == None and graph[target_node][source_node] == None:
+            graph[source_node][target_node] = random.randrange(min_flow_value, max_flow_value)
+            randomized_counter += 1
+    
+    fn = FlowNetwork()
+    fn.load_flow_network(graph, layers)        
+    
+    return fn
+    
 
