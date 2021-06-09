@@ -1,21 +1,49 @@
+import os, sys
+
+currentdir = os.path.dirname(os.path.realpath(__file__))
+parentdir = os.path.dirname(currentdir)
+sys.path.append(parentdir)
+
 import plotly.graph_objs as go
 import networkx as nx
 from random import randint, random
-from AddEdge import add_edge
+from utils.AddEdge import add_edge
 import numpy as np
+from utils.FlowNetwork import FlowNetwork
 
 
 class FlowNetworkPlotter:
+    """
+    Plots a FlowNetwork object in a friendly layered form.
+    Each plotter remembers the last letwork loaded into it.
+    """
     def __init__(self, node_size=30):
         self.node_size = node_size
         self.graph = None
         self.layers = None
 
-    def load_network(self, graph, layers):
-        self.graph = graph
-        self.layers = layers
+    def load_network(self, network:FlowNetwork) -> None:
+        """
+        Loads a FlowNetwork object, so it could be plotted.
+        """
+        net = network
+        net.to_adjacency_matrix()
+        self.graph = net.repr
+        for i in range(len(self.graph)):
+            for j in range(len(self.graph[i])):
+                if self.graph[i][j] is None:
+                    self.graph[i][j] = 0
+        self.layers = []
+        cur_layer = 0
+        for layer in net.layers:
+            for node in layer:
+                self.layers.append(cur_layer)
+            cur_layer += 1
 
-    def plot(self):
+    def plot(self) -> None:
+        """
+        Opens an interactive plot in the default browser.
+        """
         if self.graph is None or self.layers is None:
             raise Exception("Network not loaded")
 
@@ -73,7 +101,7 @@ class FlowNetworkPlotter:
             edge_x, edge_y = add_edge(
                 start=(x0, y0), end=(x1, y1),
                 edge_x=edge_x, edge_y=edge_y,
-                lengthFrac=.99, arrowPos='end',
+                lengthFrac=.95, arrowPos='end',
                 arrowLength=.04,
                 arrowAngle=30,
                 dotSize=self.node_size
@@ -107,7 +135,7 @@ class FlowNetworkPlotter:
             x=text_x, y=text_y,
             hoverinfo='none',
             text=weights,
-            textposition='top right',
+            textposition='top center',
             textfont=dict(size=15),
             mode='text'
         )
@@ -133,7 +161,7 @@ class FlowNetworkPlotter:
         )
         return node_trace
 
-    def __generate_node_positions(self, layers, rand_offset_factor=.7):
+    def __generate_node_positions(self, layers, rand_offset_factor=.4):
 
         def rand_offset():
             return (random() * randint(0,1) * rand_offset_factor)
