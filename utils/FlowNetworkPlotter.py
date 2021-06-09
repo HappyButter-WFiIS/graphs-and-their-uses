@@ -40,25 +40,44 @@ class FlowNetworkPlotter:
                 self.layers.append(cur_layer)
             cur_layer += 1
 
-    def plot(self) -> None:
+    def plot(self, rand_offset_factor=0.4, edge_labels="weights") -> None:
         """
         Opens an interactive plot in the default browser.
+        Has some configurable parameters.
         """
         if self.graph is None or self.layers is None:
             raise Exception("Network not loaded")
 
         G = nx.convert_matrix.from_numpy_matrix(np.array(self.graph))
-        node_x, node_y = self.__generate_node_positions(self.layers)
+        node_x, node_y = self.__generate_node_positions(self.layers, rand_offset_factor)
 
+        # plot components
         node_trace = self.__plot_nodes(node_x, node_y)
         edge_trace = self.__plot_edges(G, node_x, node_y)
-        text_trace = self.__plot_weights(G, self.graph, node_x, node_y)
 
         plot_data = []
         plot_data.append(edge_trace)
         plot_data.append(node_trace)
-        plot_data.append(text_trace)
+
+        # labels
+        availabe_edge_labels = ["all", "weights", "flow capacity", "empty"]
+        if edge_labels == "all":
+            text_trace = self.__plot_weights(G, self.graph, node_x, node_y)
+            capacity_trace = self.__plot_flow_capacity(G, self.graph, node_x, node_y, textposition="bottom center")
+            plot_data.append(text_trace)
+            plot_data.append(capacity_trace)
+        elif edge_labels == "weights":
+            text_trace = self.__plot_weights(G, self.graph, node_x, node_y)
+            plot_data.append(text_trace)
+        elif edge_labels == "flow capacity":
+            text_trace = self.__plot_flow_capacity(G, self.graph, node_x, node_y)
+            plot_data.append(text_trace)
+        elif edge_labels == "empty":
+            pass
+        else:
+            raise Exception(f"Unrecognised option of edge_labels: \"{edge_labels}\".\nAvailable options are: {availabe_edge_labels}")
         
+        # colours
         node_adjacencies = []
         node_text = []
         for node, adjacencies in enumerate(G.adjacency()):
@@ -70,11 +89,10 @@ class FlowNetworkPlotter:
             else:
                 node_text.append(f'Layer {layer}, node {node}')
             node_adjacencies.append(layer)
-            
-
         node_trace.marker.color = node_adjacencies
         node_trace.text = node_text
 
+        # create figure
         fig = go.Figure(
             data=plot_data,
             layout=go.Layout(
@@ -115,7 +133,7 @@ class FlowNetworkPlotter:
         )
         return edge_trace
 
-    def __plot_weights(self, G, graph, node_x, node_y):
+    def __plot_weights(self, G, graph, node_x, node_y, textposition='top center'):
         text_x = []
         text_y = []
         weights = []
@@ -135,7 +153,33 @@ class FlowNetworkPlotter:
             x=text_x, y=text_y,
             hoverinfo='none',
             text=weights,
-            textposition='top center',
+            textposition=textposition,
+            textfont=dict(size=15),
+            mode='text'
+        )
+        return text_trace
+
+    def __plot_flow_capacity(self, G, graph, node_x, node_y, textposition='top center'):
+        text_x = []
+        text_y = []
+        weights = []
+
+        for edge in G.edges():
+            if self.graph[edge[0]][edge[1]] == 0:
+                edge = edge[1], edge[0]
+            x0 = node_x[edge[0]]
+            y0 = node_y[edge[0]]
+            x1 = node_x[edge[1]]
+            y1 = node_y[edge[1]]
+            text_x.append((x1+x0)/2)
+            text_y.append((y1+y0)/2)
+            weights.append(f"0/{graph[edge[0]][edge[1]]}")
+
+        text_trace = go.Scatter(
+            x=text_x, y=text_y,
+            hoverinfo='none',
+            text=weights,
+            textposition=textposition,
             textfont=dict(size=15),
             mode='text'
         )
@@ -161,7 +205,7 @@ class FlowNetworkPlotter:
         )
         return node_trace
 
-    def __generate_node_positions(self, layers, rand_offset_factor=.4):
+    def __generate_node_positions(self, layers, rand_offset_factor):
 
         def rand_offset():
             return (random() * randint(0,1) * rand_offset_factor)

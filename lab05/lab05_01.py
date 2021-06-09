@@ -13,6 +13,6 @@ print(network)
 
 plotter = FlowNetworkPlotter()
 plotter.load_network(network)
-plotter.plot()
+plotter.plot(rand_offset_factor=0.6)
 
 network.clear_flow_network()
