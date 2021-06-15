@@ -30,24 +30,34 @@
         
         Option allows to find minimal Hamiltonian cycle (approximated) using Algorithm of Simulated Annealing,
         with given parameters (integers): initial temperature and paramter of maximal iterations.
+        Algorithm repeats itself given number of times. In every repeat temperature falls from initial temperature to zero 
+        and then is increased to 80% of initial temperature. Then falls to zero again, increase to 60% of initial temperature and so on, 
+        to achieve the effect of "waterfalls". Maximal iterations is the number of path swapping attempts for each temperature. 
+        Resulted value is the best globally found solution in all iterations. 
+        Computing can take some time when this three parameters are too high, so recommended values are: 
+        Repeats: 1-30 
+        Initial temperature: 30-500 
+        Maximal iterations: 50-1000
         
         Answer is given as:
           - sequence of nodes
           - length of path
           - plot of graph with result path
+          - number of repeats
           - starting temperature
           - number of iterations
             
    [3] Combine two algorithms
    
         Option allows to use simultaneously two algorithms described above.
-        The path is found by Closest Neighbour Algorithm and then this path is used 
+        The path is firstly found by Closest Neighbour Algorithm and then this path is used 
         as inital path for Simulated Annealing Algorithm.
         
         Answer is given as:
           - sequence of nodes
           - length of path
           - plot of graph with result path
+          - number of repeats
           - starting temperature
           - number of iterations
           - message if initial path was given as parameter
