@@ -35,6 +35,7 @@ def closest_neighbour(G: Graph) -> list:
     print('[' + ' - '.join([str(x + 1) for x in path]) + ']\n')
     print('Length:')
     print(path_length)
+    print('-------------------------\n')
 
     return path
 
@@ -45,41 +46,55 @@ def find_path_length(path: list, matrix: list) -> float:
     
     return result
 
-def simulated_annealing(G: Graph, start_temp: int, iter_max: int, path: list = []) -> list:
+def simulated_annealing(G: Graph, start_temp: int, iter_max: int, repeat: int, path: list = []) -> list:
     if len(G.repr) < 5:
         print('Graph is too small for this algorithm!')
         return []
-
+    
     if path == []:
         P = [x for x in range(len(G.repr))]
         P.append(0)
     else:
         P = path
+    
+    step = -start_temp // 5
+    global_best_path = P
+    global_best_len = find_path_length(P, G.repr)
 
-    for i in range(start_temp, 0, -1):
-        T = 0.001*i*i
-        for _ in range(iter_max):
-            Pnew = deepcopy(P)
-            
-            a = 0
-            b = 0
-            c = 0
-            d = 0
+    for counter in range(repeat): #repeats
+        print('Loop: ' + str(counter + 1))
 
-            while a == c or b == d:
-                a = randint(1, len(P) - 3)
-                b = a + 1
+        for step_temp in range(start_temp, 0, step): #waterfalls
+            for i in range(step_temp, 0, -1): #cooling
+                T = 0.001*i*i
 
-                c = randint(1, len(P) - 3)
-                d = c + 1
+                for _ in range(iter_max):
+                    Pnew = deepcopy(P)
+                    
+                    a = 0
+                    b = 0
+                    c = 0
+                    d = 0
 
-            Pnew[b], Pnew[c] = Pnew[c], Pnew[b]
+                    while a == c or b == d:
+                        a = randint(1, len(P) - 3)
+                        b = a + 1
 
-            lenP = find_path_length(P, G.repr)
-            lenPnew = find_path_length(Pnew, G.repr)
+                        c = randint(1, len(P) - 3)
+                        d = c + 1
 
-            if lenP > lenPnew or random() < exp(-(lenPnew - lenP)/T):
-                P = Pnew
+                    Pnew[b], Pnew[c] = Pnew[c], Pnew[b]
+
+                    lenP = find_path_length(P, G.repr)
+                    lenPnew = find_path_length(Pnew, G.repr)
+
+                    if lenP > lenPnew or random() < exp(-(lenPnew - lenP)/T):
+                        P = Pnew
+
+                        if global_best_len > lenPnew:
+                            global_best_path = Pnew
+                            global_best_len = lenPnew
+                    
     
     print('\n--- Simulated Annealing Algorithm ---\n')
 
@@ -88,12 +103,14 @@ def simulated_annealing(G: Graph, start_temp: int, iter_max: int, path: list = [
 
     print('Starting temperature: ' + str(start_temp))
     print('ITER_MAX: ' + str(iter_max))
+    print('Repeats: ' + str(repeat))
     print('Path:')
-    print('[' + ' - '.join([str(x + 1) for x in P]) + ']\n')
+    print('[' + ' - '.join([str(x + 1) for x in global_best_path]) + ']\n')
     print('Length:')
-    print(find_path_length(P, G.repr))
+    print(global_best_len)
+    print('-------------------------\n')
 
-    return P
+    return global_best_path
 
 
 

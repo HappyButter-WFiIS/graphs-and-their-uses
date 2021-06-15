@@ -64,20 +64,24 @@ def find_cycle(G: Graph, points: list) -> None:
             GraphPlotter.plot_points(points, closest_neighbour(G))
 
         if option == '2':
+            print('\nChoose how many times algorithms should be repeated (int)')
+            repeat = int(input('Repeats: '))
             print('\nChoose starting temperature (int)')
             temp = int(input('Temperature: '))
             print('\nChoose number of iterations (int)')
             iter_max = int(input('ITER_MAX: '))
-            path = simulated_annealing(G, temp, iter_max)
+            path = simulated_annealing(G, temp, iter_max, repeat)
             if path != []:
                 GraphPlotter.plot_points(points, path)
 
         if option == '3':
+            print('\nChoose how many times algorithms should be repeated (int)')
+            repeat = int(input('Repeats: '))
             print('\nChoose starting temperature (int)')
             temp = int(input('Temperature: '))
             print('\nChoose number of iterations (int)')
             iter_max = int(input('ITER_MAX: '))
-            path = simulated_annealing(G, temp, iter_max, path=closest_neighbour(G))
+            path = simulated_annealing(G, temp, iter_max, repeat, path=closest_neighbour(G))
             if path != []:
                 GraphPlotter.plot_points(points, path)
 

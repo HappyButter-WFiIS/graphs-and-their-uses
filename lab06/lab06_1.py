@@ -22,7 +22,7 @@ if __name__ == '__main__':
 
     path = closest_neighbour(G)
     GraphPlotter.plot_points(points, path)
-    path = simulated_annealing(G, 100, 1000)
+    path = simulated_annealing(G, 500, 100, 3)
     GraphPlotter.plot_points(points, path)
 
     points = np.loadtxt(os.path.dirname(__file__) + '/inputs/input59.dat', usecols=(0,1))
@@ -30,7 +30,7 @@ if __name__ == '__main__':
 
     path = closest_neighbour(G)
     GraphPlotter.plot_points(points, path)
-    path = simulated_annealing(G, 50, 1000)
+    path = simulated_annealing(G, 500, 100, 10)
     GraphPlotter.plot_points(points, path)
 
 
