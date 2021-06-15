@@ -62,7 +62,8 @@
           - number of iterations
           - message if initial path was given as parameter
         
- - Note: 
+ - Note:
+ 
  It is assumed that input data is correct.
  However, if it is not, the proper message is displayed and the program returns to main menu / submenu.
 
