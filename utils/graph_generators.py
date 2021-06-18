@@ -297,8 +297,8 @@ def get_flow_network(n: int) -> FlowNetwork:
     fn = FlowNetwork()
     fn.load_flow_network(graph, layers)
 
-    fn.source_node = source_node
-    fn.target_node = target_node
+    fn.source_node = 0
+    fn.target_node = node_number-1
 
     return fn
     
