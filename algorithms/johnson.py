@@ -6,7 +6,7 @@ from utils.Graph import Graph
 from utils.graph_generators import get_graph_with_probability, get_connected_digraph
 
 
-def johnson_algorithm(graph: DirectedGraph):
+def johnson_algorithm(graph: DirectedGraph) -> list:
     if graph.repr_type != RepresentationType.ADJACENCY_MATRIX:
         graph.to_adjacency_matrix()
         
@@ -46,10 +46,15 @@ def johnson_algorithm(graph: DirectedGraph):
         for j in range(len(graph.repr[i])):
                 graph_for_dijkstra.repr[i][j] = new_g[i][j]
 
+    dist_matrix = []
     for s in range(len(graph_for_dijkstra.repr)):
         print(f"For node [{s+1}]:")
-        find_shortest_path(G=graph_for_dijkstra.get_weighted_adjacency_list(), start=s+1, verbose=True)
+        from_point = find_shortest_path(G=graph_for_dijkstra.get_weighted_adjacency_list(), start=s+1, verbose=True)
+        dist_matrix.append([])
+        for node in from_point:
+            dist_matrix[s].append(from_point[node])
         print()
+    return dist_matrix
 
     # GraphPlotter.plot_graph(graph_for_dijkstra)
 

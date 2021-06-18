@@ -131,6 +131,11 @@ class Program:
                 continue
             print(f"The distance to node {node} is {length}")
 
+    def print_dist_matrix(self, matrix):
+        for row in matrix:
+            for dist in row:
+                print(f'{dist:4}', end='')
+            print()
 
     def run(self) -> None:
         self.console.print("[bold]Hello, user!")
@@ -216,7 +221,9 @@ class Program:
                         continue
                     G.to_adjacency_matrix()
                     try:
-                        johnson_algorithm(G)
+                        dist_matrix = johnson_algorithm(G)
+                        print("Distance matrix:")
+                        self.print_dist_matrix(dist_matrix)
                     except Exception as e:
                         self.err(str(e))
 
