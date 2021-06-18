@@ -47,7 +47,7 @@ def johnson_algorithm(graph: DirectedGraph):
                 graph_for_dijkstra.repr[i][j] = new_g[i][j]
 
     for s in range(len(graph_for_dijkstra.repr)):
-        print(f"Dla wierzchołka [{s+1}]:")
+        print(f"For node [{s+1}]:")
         find_shortest_path(G=graph_for_dijkstra.get_weighted_adjacency_list(), start=s+1, verbose=True)
         print()
 

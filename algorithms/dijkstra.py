@@ -8,7 +8,7 @@ def create_path_list(destination: int, start: int, predecessos: dict) -> list:
             current_node = predecessos[current_node]
         except KeyError:
             # raise KeyError
-            print(f"d({destination})  = Inf")
+            print(f"[{destination}]: No path (distance = infinity)")
             break
 
     path.insert(0, start)
@@ -55,7 +55,13 @@ def find_shortest_path(G: dict, start: int, verbose: bool):
         path = create_path_list(dest, start, predecessors)
         if shortest_distance[dest] != infinity:
             if verbose:
-                print("d({})  = {} ==> {}".format(
-                    dest, str(shortest_distance[dest]), str(path)), end="\n")
+                if shortest_distance[dest] == 0:
+                    continue
+                print(f"[{dest}]: (distance = {str(shortest_distance[dest])}) ", end='')
+                separator = ""
+                for node in path:
+                    print(f"{separator}{node}", end='')
+                    separator = " -> "
+                print()
 
     return shortest_distance

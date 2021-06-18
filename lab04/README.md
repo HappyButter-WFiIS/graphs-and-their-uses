@@ -1,7 +1,7 @@
 # Lab 4
 
 ## How to use
-[1] Launch the app by executing command: `python3 lab/lab04/lab04_console.py` from the project directory.
+[1] Launch the app by executing command: `python3 lab04/lab04_console.py` from the project directory.
 
 [2] You should see a prompt and a list of available options.
 

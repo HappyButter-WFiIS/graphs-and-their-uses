@@ -3,6 +3,7 @@ import logging
 from rich.console import Console
 from rich import print
 import os, sys
+import math
 
 currentdir = os.path.dirname(os.path.realpath(__file__))
 parentdir = os.path.dirname(currentdir)
@@ -48,18 +49,28 @@ def exit_program() -> None:
 
 def print_graph(G: Graph) -> None:
     """
-    Printing given Graph to console.
+    Printing given Graph to console in readable form.
     """
-    print("\nCurrent graph representation type is: ")
+    print()
+    print("Current graph representation type is: ", end='')
     if G.repr_type == RepresentationType.ADJACENCY_MATRIX:
-        print("Adjacency matrix")
+        print("ADJACENCY MATRIX")
     elif G.repr_type == RepresentationType.ADJACENCY_LIST:
-        print("Adjacency list")
+        print("ADJACENCY LIST")
     elif G.repr_type == RepresentationType.INCIDENCE_MATRIX:
-        print("Incidence matrix")
+        print("INCIDENCE MATRIX")
 
     print()
-    print(G)
+    if G.repr_type == RepresentationType.ADJACENCY_MATRIX:
+        for row in G.repr:
+            for val in row:
+                if val is None:
+                    print('   .', end='')
+                else:
+                    print(f'{val:4}', end='')
+            print()
+    else:
+        print(G.repr)
 
 
 class Program:
@@ -109,6 +120,17 @@ class Program:
             except:
                 self.err("Something went wrong.")
                 self.newline()
+
+    def print_bellman_form_paths(self, paths):
+        for node in paths:
+            length = paths[node]
+            if length == 0:
+                continue
+            if math.isinf(length):
+                print(f"No path to node {node}")
+                continue
+            print(f"The distance to node {node} is {length}")
+
 
     def run(self) -> None:
         self.console.print("[bold]Hello, user!")
@@ -184,7 +206,7 @@ class Program:
                     start = int(input("Start from: "))
                     try:
                         print(f"\nShortest paths from node [{start}]:")
-                        print(bellman_ford(G, start))
+                        self.print_bellman_form_paths(bellman_ford(G, start))
                     except Exception as e:
                         self.err(str(e))
 
