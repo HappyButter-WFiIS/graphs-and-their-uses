@@ -23,7 +23,6 @@ if __name__ == "__main__":
     print(50*'-')
     print("START: s = {0}".format(s))
 
-    for i in range(10):
-        find_shortest_path(G=G.get_weighted_adjacency_list(), start=s, destination=i+1, verbose=True)
+    print(find_shortest_path(G=G.get_weighted_adjacency_list(), start=s, verbose=True))
         
-    print(G.get_weighted_adjacency_list())
+    # print(G.get_weighted_adjacency_list())

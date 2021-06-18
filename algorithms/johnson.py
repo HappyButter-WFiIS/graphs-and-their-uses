@@ -1,4 +1,4 @@
-from utils.DirectedGraph import RepresentationType
+from utils.DirectedGraph import DirectedGraph, RepresentationType
 from algorithms.bellman_ford import bellman_ford
 from algorithms.dijkstra import find_shortest_path
 from utils.graph_plotter import GraphPlotter
@@ -6,7 +6,10 @@ from utils.Graph import Graph
 from utils.graph_generators import get_graph_with_probability, get_connected_digraph
 
 
-def johnson_algorithm(graph):
+def johnson_algorithm(graph: DirectedGraph):
+    if graph.repr_type != RepresentationType.ADJACENCY_MATRIX:
+        graph.to_adjacency_matrix()
+        
     g = graph.repr
 
     # add vertex to graph and add edges of value 0 from this vertex to the rest
@@ -18,7 +21,6 @@ def johnson_algorithm(graph):
         g[i].append(None)
 
     graph.to_adjacency_list()
-    print(bellman_ford(graph, len(g)))
     edges = bellman_ford(graph, len(g))
     edges.pop(len(g))
     graph.to_adjacency_matrix()
@@ -46,8 +48,7 @@ def johnson_algorithm(graph):
 
     for s in range(len(graph_for_dijkstra.repr)):
         print(f"Dla wierzchołka [{s+1}]:")
-        for i in range(len(graph_for_dijkstra.repr)):
-            find_shortest_path(G=graph_for_dijkstra.get_weighted_adjacency_list(), start=s+1, destination=i + 1, verbose=True)
+        find_shortest_path(G=graph_for_dijkstra.get_weighted_adjacency_list(), start=s+1, verbose=True)
         print()
 
     # GraphPlotter.plot_graph(graph_for_dijkstra)
