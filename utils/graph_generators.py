@@ -295,8 +295,11 @@ def get_flow_network(n: int) -> FlowNetwork:
             randomized_counter += 1
     
     fn = FlowNetwork()
-    fn.load_flow_network(graph, layers)        
-    
+    fn.load_flow_network(graph, layers)
+
+    fn.source_node = source_node
+    fn.target_node = target_node
+
     return fn
     
 
