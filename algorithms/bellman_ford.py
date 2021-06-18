@@ -11,6 +11,8 @@ def get_edges_list(G: DirectedGraph) -> list:
 
 def bellman_ford(G: DirectedGraph, start: int) -> dict:
     # init
+    if G.repr_type != RepresentationType.ADJACENCY_LIST:
+        G.to_adjacency_list()
     n = len(G.repr)
     edges = get_edges_list(G)    
     infinity = float('inf')

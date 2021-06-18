@@ -264,7 +264,7 @@ def get_flow_network(n: int) -> FlowNetwork:
     for i in range(1, n):
         source_layer = layers[i].copy()
         target_layer = layers[i+1].copy()
-        diff = len(target_layer) - len(source_layer)
+        diff = abs(len(target_layer) - len(source_layer))
         
         if len(target_layer) > len(source_layer):
             random.shuffle(target_layer)

@@ -13,7 +13,7 @@ from utils.graph_generators import get_connected_digraph
 
 if __name__ == '__main__':
 
-	g = get_connected_digraph(5, 0.2, -5, 10)
+	g = get_connected_digraph(12, 0.2, -5, 10)
 	
 	try: 
 		start = 1
