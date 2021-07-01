@@ -53,4 +53,8 @@ class FlowNetwork(DirectedGraph):
                 self.repr[u][v] -= path_flow
                 self.repr[v][u] += path_flow
                 v = parent[v]
+        k = 0
+        while k < len(self.repr):
+            print(self.repr[k])
+            k = k+1
         return max_flow
