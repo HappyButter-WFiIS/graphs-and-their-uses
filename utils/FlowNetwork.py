@@ -12,6 +12,7 @@ class FlowNetwork(DirectedGraph):
         super().__init__()
         self.source_node = -1
         self.target_node = -1
+        self.flow_matrix = None
 
     def load_flow_network(self, graph: list, layers: list) -> None:
         self.load_data(graph, RepresentationType.ADJACENCY_MATRIX)
@@ -53,4 +54,9 @@ class FlowNetwork(DirectedGraph):
                 self.repr[u][v] -= path_flow
                 self.repr[v][u] += path_flow
                 v = parent[v]
+        k = 0
+        while k < len(self.repr):
+            print(self.repr[k])
+            k = k+1
+        self.flow_matrix = self.repr
         return max_flow

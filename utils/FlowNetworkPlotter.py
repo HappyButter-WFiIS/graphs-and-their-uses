@@ -21,6 +21,7 @@ class FlowNetworkPlotter:
         self.node_size = node_size
         self.graph = None
         self.layers = None
+        self.flow_matrix = None
 
     def load_network(self, network:FlowNetwork) -> None:
         """
@@ -28,6 +29,7 @@ class FlowNetworkPlotter:
         """
         net = network
         net.to_adjacency_matrix()
+        self.flow_matrix = network.flow_matrix
         self.graph = net.repr
         for i in range(len(self.graph)):
             for j in range(len(self.graph[i])):
@@ -173,7 +175,7 @@ class FlowNetworkPlotter:
             y1 = node_y[edge[1]]
             text_x.append((x1+x0)/2)
             text_y.append((y1+y0)/2)
-            weights.append(f"0/{graph[edge[0]][edge[1]]}")
+            weights.append(f"{self.flow_matrix[edge[1]][edge[0]]}/{graph[edge[0]][edge[1]]}")
 
         text_trace = go.Scatter(
             x=text_x, y=text_y,

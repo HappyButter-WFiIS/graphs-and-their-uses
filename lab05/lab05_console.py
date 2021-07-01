@@ -123,6 +123,11 @@ class Program:
                     plotter.load_network(network)
                     network_copy = copy.deepcopy(network)
                     print(network_copy.ford_fulkerson(network_copy.source_node, network_copy.target_node))
+                    network.flow_matrix = network_copy.flow_matrix
+                    plotter = FlowNetworkPlotter()
+                    plotter.load_network(network)
+                    label = "flow capacity"
+                    plotter.plot(rand_offset_factor=0.6, edge_labels=label)
 
                 elif main_choice == '4':
                     if not is_generated:
